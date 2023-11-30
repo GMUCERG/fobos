@@ -1,0 +1,41 @@
+##################################################################################
+#                                                                                #
+#   Copyright 2019 Cryptographic Engineering Research Group (CERG)               #
+#   George Mason University                                                      #
+#   http://cryptography.gmu.edu/fobos                                            #
+#                                                                                #
+#   you may not use this file except in compliance with the License.             #
+#   You may obtain a copy of the License at                                      #
+#                                                                                #
+#       http://www.apache.org/licenses/LICENSE-2.0                               #
+#                                                                                #
+#   Licensed under the Apache License, Version 2.0 (the "License");              #
+#   Unless required by applicable law or agreed to in writing, software          #
+#   distributed under the License is distributed on an "AS IS" BASIS,            #
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.     #
+#   See the License for the specific language governing permissions and          #
+#   limitations under the License.                                               #
+#                                                                                #
+##################################################################################
+## Pmod JD and JC connector for connection to Control
+# ======================== Data in/out from/to Control ===========================
+NET "dio<0>"         LOC = "U11" | IOSTANDARD = "LVCMOS33";   #Bank = 14, Pin name = IO_L19N_T3_A09_D25_VREF_14,  Sch name = JB10 
+NET "dio<1>"         LOC = "V15" | IOSTANDARD = "LVCMOS33";   #Bank = CONFIG, Pin name = IO_L16P_T2_CSI_B_14,     Sch name = JB4
+NET "dio<2>"         LOC = "T9"  | IOSTANDARD = "LVCMOS33";   #Bank = 14, Pin name = IO_L24P_T3_A01_D17_14,       Sch name = JB9
+NET "dio<3>"         LOC = "V11" | IOSTANDARD = "LVCMOS33";   #Bank = 14, Pin name = IO_L21N_T3_DQS_A06_D22_14,   Sch name = JB3
+# ============================= CONTROL SIGNALS ==================================
+#NET "tfd"            LOC = "B13" | IOSTANDARD = "LVCMOS33";   #Bank = 15, Pin name = IO_L1N_T0_AD0N_15,           Sch name = JA1
+#NET "clk_d2c"        LOC = "E17" | IOSTANDARD = "LVCMOS33";   #Bank = 15, Pin name = IO_L16P_T2_A28_15,           Sch name = JA4
+#NET "aux"            LOC = "G13" | IOSTANDARD = "LVCMOS33";   #Bank = 15, Pin name = IO_0_15,                     Sch name = JA7
+NET "clk_c2d"        LOC = "C17" | IOSTANDARD = "LVCMOS33";   #Bank = 15, Pin name = IO_L20N_T3_A19_15,           Sch name = JA8
+NET "handshake_c2d"  LOC = "P15" | IOSTANDARD = "LVCMOS33";   #Bank = 14, Pin name = IO_L13P_T2_MRCC_14,          Sch name = JB2
+NET "handshake_d2c"  LOC = "R16" | IOSTANDARD = "LVCMOS33";   #Bank = CONFIG, Pin name = IO_L15P_T2_DQS_RWR_B_14, Sch name = JB8
+NET "d_rst"          LOC = "G14" | IOSTANDARD = "LVCMOS33";   #Bank = 15, Pin name = IO_L15N_T2_DQS_ADV_B_15,     Sch name = JB1
+NET "io"             LOC = "K16" | IOSTANDARD = "LVCMOS33";   #Bank = 15, Pin name = IO_25_15,                    Sch name = JB7
+NET "clk_c2d" CLOCK_DEDICATED_ROUTE = FALSE;
+####DEBUG
+NET "di_valid_deb"   LOC = "K2"  | IOSTANDARD = "LVCMOS33";   #Bank = 35, Pin name = IO_L23P_T3_35,               Sch name = JC1
+NET "di_ready_deb"   LOC = "E7"  | IOSTANDARD = "LVCMOS33";   #Bank = 35, Pin name = IO_L6P_T0_35,                Sch name = JC2
+NET "do_valid_deb"   LOC = "J3"  | IOSTANDARD = "LVCMOS33";   #Bank = 35, Pin name = IO_L22P_T3_35,               Sch name = JC3
+NET "do_ready_deb"   LOC = "J4"  | IOSTANDARD = "LVCMOS33";   #Bank = 35, Pin name = IO_L21P_T3_DQS_35,           Sch name = JC4
+

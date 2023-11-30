@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name "cerg")(type "KiCad")(uri "${KIPRJMOD}/cerg.kicad_sym")(options "")(descr ""))
+  (lib (name "fobosshield-rescue")(type "Legacy")(uri "${KIPRJMOD}/fobosshield-rescue.lib")(options "")(descr "")(disabled))
+)

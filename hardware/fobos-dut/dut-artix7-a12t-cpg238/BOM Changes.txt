@@ -1,0 +1,49 @@
+Changes to Artix 7 dut BOM
+
+-1 100uF 1210 Capacitor C25
++1 4.7uF 0402 Capacitor C25
+
+-1 2.2uF 0603 Capacitor C15
++1 2.2uF 0805 Capacitor C15
+
+-1 470nF 0402 Capacitor C47
++4 47uF 0603 Capacitor C37, C39, C47, C55 
+
+-1 470nF 0402 Capacitor C48
++1 4.7uF 0402 Capacitor C48
+
+-1 470nF 0402 Capacitor C49
++1 4.7uF 0402 Capacitor C49
+
+-1 4.7uF 0402 Capacitor C29, C36, C37, C38, C39
++2 4.7uF 0402 Capacitor C26, C27
++3 470nF 0402 Capacitor C29, C36, C56
+
++1 100uF 1210 Capacitor C38
+
+-2 47uF 0603 Capacitor C26,C27
+
+-2 47uF 0603 Capacitor C7, C35
++1 47uF 0805 Capacitor C7
++1 470nF 0402 Capacitor C35
+
++2 100nF 0603 Capacitor C57, C58
+
++1 MMBT3904 Transistor Q8
+
++2 SP3003-04ATG U10, U11
+
+-1 SMA EDGE J9
++1 SMA VERTICAL J9
+
+-1 1825910-6 S6
++1 1825910-6 S3
+
++2 10k 0603 resistor R73, R74
+
++2 0.1 0805 resistor R75, R76
+
++2 1k 0603 resistor R77, R78
+
+
+

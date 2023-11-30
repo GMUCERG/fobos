@@ -1,0 +1,72 @@
+.. _dut_cw305-label:
+
+=========================
+NewAE CW305 (Artix7 FPGA)
+=========================
+
+Connection to Basys3 control board
+----------------------------------
+
+The PMOD ports JA and JXADC in the Basys3 control board should be connected to 40-pin port JP3.
+The pin mapping in the NewAE CW305 is as follows: 
+
+.. _tab_basys3-cw305:
+.. table:: NewAE CW305 JP3 pinout
+
+    +----------+----------+----------+----------+
+    |          |  din3    |  do_ready|  rst     |
+    |  NC      |  D16     |  E16     |  F12     |
+    +----------+----------+----------+----------+
+    |  din0    |  din2    |  din1    |  do_valid|
+    |  D15     |  E15     |  E13     |  F15     |
+    +----------+----------+----------+----------+
+    +----------+----------+----------+----------+
+    |  dout1   |  dout3   |  di_ready|  clk     |
+    |  B12     |  A13     |  B15     |  C11     |
+    +----------+----------+----------+----------+
+    |  dout0   |  dout2   |  di_valid|          |
+    |  A12     |  A14     |  A15     |  C12     |
+    +----------+----------+----------+----------+
+
+Make sure to set the DUT interface to INTERFACE_8BIT in your Jupyter notebook using the following command.
+This configures the FOBOS Control to DUT communication.
+
+.. code-block:: py
+
+    ctrl.setDUTInterface(FOBOSCtrl.INTERFACE_8BIT) 
+
+
+When compiling the FOBOS wrapper, choose **cw305_PMOD.xdc** as the constraint file.
+
+Connection to FOBOS Shield control board
+----------------------------------------
+
+When using the FOBOS Shield, simply connect the 20pin ribbon cable to the target connector of the FOBOS Shield and the CW305. 
+Make sure to set the DUT to CW305 and DUT interface to INTERFACE_4BIT in your Jupyter notebook using the following commands.
+This configures the FOBOS Control to DUT communication.
+
+.. code-block:: py
+
+    ctrl.setDUT(FOBOSCtrl.CW305)
+    ctrl.setDUTInterface(FOBOSCtrl.INTERFACE_4BIT) 
+
+
+When compiling the FOBOS wrapper, choose **cw305.xdc** as the constraint file.
+
+Programming the CW305 DUT
+-------------------------
+
+You can program the DUT using the following commands in your Jupyter notebook:
+
+.. code-block:: py
+
+    from foboslib.dut import cw305dut as DUT
+    dut = DUT.DUT()
+    dut.setBitFile("crypto.bit")
+    dut.program()
+
+Power Measurement
+-----------------
+
+To measure the power, you can connect your oscilloscope to test point X4. For more information,
+refer to the manufacturer web-site.

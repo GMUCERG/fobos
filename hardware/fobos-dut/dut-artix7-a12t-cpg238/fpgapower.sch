@@ -1,0 +1,819 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 7 8
+Title "FOBOS Artix-7 a12t DUT - FPGA Power"
+Date ""
+Rev "1.0"
+Comp "Cryptographic Engineering Research Group"
+Comment1 "License: Apache License Version 2.0"
+Comment2 "Copyright © Cryptographic Engineering Research Group"
+Comment3 "Author: Jens-Peter Kaps, Eddie Ferrufino"
+Comment4 "Project: FOBOS Artix-7 a12t DUT"
+$EndDescr
+$Comp
+L cerg:XC7A12T-CPG238 U?
+U 1 1 60D317C1
+P 5400 1550
+AR Path="/5F22D594/60D317C1" Ref="U?"  Part="1" 
+AR Path="/60D2F94F/60D317C1" Ref="U1"  Part="1" 
+F 0 "U1" H 6600 1817 50  0000 C CNN
+F 1 "XC7A12T-CPG238" H 6600 1726 50  0000 C CNN
+F 2 "Package_BGA:Xilinx_CPG238" H 5400 1550 50  0001 C CNN
+F 3 "" H 5400 1550 50  0001 C CNN
+	1    5400 1550
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 60D4173F
+P 1150 1800
+AR Path="/5F3A1954/60D4173F" Ref="C?"  Part="1" 
+AR Path="/60D2F94F/60D4173F" Ref="C38"  Part="1" 
+F 0 "C38" H 1265 1846 50  0000 L CNN
+F 1 "100uF" H 1265 1755 50  0000 L CNN
+F 2 "Capacitor_SMD:C_1210_3225Metric_Pad1.33x2.70mm_HandSolder" H 1188 1650 50  0001 C CNN
+F 3 "~" H 1150 1800 50  0001 C CNN
+F 4 "CAP CER 100UF 6.3V X5R 1210" H 1150 1800 50  0001 C CNN "Description"
+F 5 "JMK325ABJ107MM-P" H 1150 1800 50  0001 C CNN "MPN"
+F 6 "Taiyo Yuden" H 1150 1800 50  0001 C CNN "Manufacturer"
+	1    1150 1800
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 60D41748
+P 1650 1800
+AR Path="/5F3A1954/60D41748" Ref="C?"  Part="1" 
+AR Path="/60D2F94F/60D41748" Ref="C41"  Part="1" 
+F 0 "C41" H 1765 1846 50  0000 L CNN
+F 1 "4.7uF" H 1765 1755 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0402_1005Metric_Pad0.74x0.62mm_HandSolder" H 1688 1650 50  0001 C CNN
+F 3 "~" H 1650 1800 50  0001 C CNN
+F 4 "CAP CER 4.7UF 6.3V X5R 0402" H 1650 1800 50  0001 C CNN "Description"
+F 5 "GRM155R60J475ME87J" H 1650 1800 50  0001 C CNN "MPN"
+F 6 "Murata Electronics" H 1650 1800 50  0001 C CNN "Manufacturer"
+	1    1650 1800
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 60D41751
+P 3700 1800
+AR Path="/5F3A1954/60D41751" Ref="C?"  Part="1" 
+AR Path="/60D2F94F/60D41751" Ref="C42"  Part="1" 
+F 0 "C42" H 3815 1846 50  0000 L CNN
+F 1 ".47uF" H 3815 1755 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0402_1005Metric_Pad0.74x0.62mm_HandSolder" H 3738 1650 50  0001 C CNN
+F 3 "~" H 3700 1800 50  0001 C CNN
+F 4 "CAP CER 0.47UF 6.3V X5R 0402" H 3700 1800 50  0001 C CNN "Description"
+F 5 "C0402C474K9PACTU" H 3700 1800 50  0001 C CNN "MPN"
+F 6 "KEMET" H 3700 1800 50  0001 C CNN "Manufacturer"
+	1    3700 1800
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 60D4175A
+P 2650 1800
+AR Path="/5F3A1954/60D4175A" Ref="C?"  Part="1" 
+AR Path="/60D2F94F/60D4175A" Ref="C44"  Part="1" 
+F 0 "C44" H 2765 1846 50  0000 L CNN
+F 1 ".47uF" H 2765 1755 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0402_1005Metric_Pad0.74x0.62mm_HandSolder" H 2688 1650 50  0001 C CNN
+F 3 "~" H 2650 1800 50  0001 C CNN
+F 4 "CAP CER 0.47UF 6.3V X5R 0402" H 2650 1800 50  0001 C CNN "Description"
+F 5 "C0402C474K9PACTU" H 2650 1800 50  0001 C CNN "MPN"
+F 6 "KEMET" H 2650 1800 50  0001 C CNN "Manufacturer"
+	1    2650 1800
+	1    0    0    -1  
+$EndComp
+$Comp
+L cerg:VCCINT #PWR?
+U 1 1 60D41760
+P 1150 1550
+AR Path="/5F3A1954/60D41760" Ref="#PWR?"  Part="1" 
+AR Path="/60D2F94F/60D41760" Ref="#PWR035"  Part="1" 
+F 0 "#PWR035" H 1150 1400 50  0001 C CNN
+F 1 "VCCINT" H 1153 1807 50  0000 C CNN
+F 2 "" H 1150 1550 50  0001 C CNN
+F 3 "" H 1150 1550 50  0001 C CNN
+	1    1150 1550
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 60D41766
+P 1150 2100
+AR Path="/5F3A1954/60D41766" Ref="#PWR?"  Part="1" 
+AR Path="/60D2F94F/60D41766" Ref="#PWR036"  Part="1" 
+F 0 "#PWR036" H 1150 1850 50  0001 C CNN
+F 1 "GND" H 1155 1927 50  0000 C CNN
+F 2 "" H 1150 2100 50  0001 C CNN
+F 3 "" H 1150 2100 50  0001 C CNN
+	1    1150 2100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1150 1650 1150 1600
+Wire Wire Line
+	1650 1650 1650 1600
+Wire Wire Line
+	1650 1600 1150 1600
+Connection ~ 1150 1600
+Wire Wire Line
+	1150 1600 1150 1550
+Wire Wire Line
+	2650 1650 2650 1600
+Wire Wire Line
+	2650 1600 2150 1600
+Connection ~ 1650 1600
+Wire Wire Line
+	2150 1650 2150 1600
+Connection ~ 2150 1600
+Wire Wire Line
+	2150 1600 1650 1600
+Wire Wire Line
+	2650 1950 2650 2000
+Wire Wire Line
+	2650 2000 2150 2000
+Wire Wire Line
+	1150 2000 1150 2100
+Wire Wire Line
+	1150 1950 1150 2000
+Connection ~ 1150 2000
+Wire Wire Line
+	1650 1950 1650 2000
+Connection ~ 1650 2000
+Wire Wire Line
+	1650 2000 1150 2000
+Wire Wire Line
+	2150 1950 2150 2000
+Connection ~ 2150 2000
+Wire Wire Line
+	2150 2000 1650 2000
+$Comp
+L Device:C C?
+U 1 1 60D41785
+P 1150 3850
+AR Path="/5F3A1954/60D41785" Ref="C?"  Part="1" 
+AR Path="/60D2F94F/60D41785" Ref="C39"  Part="1" 
+F 0 "C39" H 1265 3896 50  0000 L CNN
+F 1 "47uF" H 1265 3805 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" H 1188 3700 50  0001 C CNN
+F 3 "~" H 1150 3850 50  0001 C CNN
+F 4 "CAP CER 47UF 6.3V X5R 0603" H 1150 3850 50  0001 C CNN "Description"
+F 5 "06036D476MAT2A" H 1150 3850 50  0001 C CNN "MPN"
+F 6 "AVX Corporation" H 1150 3850 50  0001 C CNN "Manufacturer"
+	1    1150 3850
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 60D4178E
+P 1600 3850
+AR Path="/5F3A1954/60D4178E" Ref="C?"  Part="1" 
+AR Path="/60D2F94F/60D4178E" Ref="C40"  Part="1" 
+F 0 "C40" H 1715 3896 50  0000 L CNN
+F 1 "4.7uF" H 1715 3805 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0402_1005Metric_Pad0.74x0.62mm_HandSolder" H 1638 3700 50  0001 C CNN
+F 3 "~" H 1600 3850 50  0001 C CNN
+F 4 "CAP CER 4.7UF 6.3V X5R 0402" H 1600 3850 50  0001 C CNN "Description"
+F 5 "GRM155R60J475ME87J" H 1600 3850 50  0001 C CNN "MPN"
+F 6 "Murata Electronics" H 1600 3850 50  0001 C CNN "Manufacturer"
+	1    1600 3850
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 60D41797
+P 2150 3850
+AR Path="/5F3A1954/60D41797" Ref="C?"  Part="1" 
+AR Path="/60D2F94F/60D41797" Ref="C43"  Part="1" 
+F 0 "C43" H 2265 3896 50  0000 L CNN
+F 1 ".47uF" H 2265 3805 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0402_1005Metric_Pad0.74x0.62mm_HandSolder" H 2188 3700 50  0001 C CNN
+F 3 "~" H 2150 3850 50  0001 C CNN
+F 4 "CAP CER 0.47UF 6.3V X5R 0402" H 2150 3850 50  0001 C CNN "Description"
+F 5 "C0402C474K9PACTU" H 2150 3850 50  0001 C CNN "MPN"
+F 6 "KEMET" H 2150 3850 50  0001 C CNN "Manufacturer"
+	1    2150 3850
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 60D417A0
+P 2650 3850
+AR Path="/5F3A1954/60D417A0" Ref="C?"  Part="1" 
+AR Path="/60D2F94F/60D417A0" Ref="C45"  Part="1" 
+F 0 "C45" H 2765 3896 50  0000 L CNN
+F 1 ".47uF" H 2765 3805 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0402_1005Metric_Pad0.74x0.62mm_HandSolder" H 2688 3700 50  0001 C CNN
+F 3 "~" H 2650 3850 50  0001 C CNN
+F 4 "CAP CER 0.47UF 6.3V X5R 0402" H 2650 3850 50  0001 C CNN "Description"
+F 5 "C0402C474K9PACTU" H 2650 3850 50  0001 C CNN "MPN"
+F 6 "KEMET" H 2650 3850 50  0001 C CNN "Manufacturer"
+	1    2650 3850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2650 3700 2650 3600
+Wire Wire Line
+	2650 3600 2150 3600
+Wire Wire Line
+	1150 3600 1150 3500
+Wire Wire Line
+	1150 3700 1150 3600
+Connection ~ 1150 3600
+Wire Wire Line
+	1600 3700 1600 3600
+Connection ~ 1600 3600
+Wire Wire Line
+	1600 3600 1150 3600
+Wire Wire Line
+	2150 3700 2150 3600
+Connection ~ 2150 3600
+Wire Wire Line
+	2150 3600 1600 3600
+$Comp
+L power:GND #PWR?
+U 1 1 60D417B1
+P 1150 4150
+AR Path="/5F3A1954/60D417B1" Ref="#PWR?"  Part="1" 
+AR Path="/60D2F94F/60D417B1" Ref="#PWR042"  Part="1" 
+F 0 "#PWR042" H 1150 3900 50  0001 C CNN
+F 1 "GND" H 1155 3977 50  0000 C CNN
+F 2 "" H 1150 4150 50  0001 C CNN
+F 3 "" H 1150 4150 50  0001 C CNN
+	1    1150 4150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1150 4000 1150 4100
+Wire Wire Line
+	1150 4100 1600 4100
+Wire Wire Line
+	2650 4100 2650 4000
+Connection ~ 1150 4100
+Wire Wire Line
+	1150 4100 1150 4150
+Wire Wire Line
+	2150 4000 2150 4100
+Connection ~ 2150 4100
+Wire Wire Line
+	2150 4100 2650 4100
+Wire Wire Line
+	1600 4000 1600 4100
+Connection ~ 1600 4100
+Wire Wire Line
+	1600 4100 2150 4100
+$Comp
+L Device:C C?
+U 1 1 60D417D4
+P 2150 1800
+AR Path="/5F3A1954/60D417D4" Ref="C?"  Part="1" 
+AR Path="/60D2F94F/60D417D4" Ref="C47"  Part="1" 
+F 0 "C47" H 2265 1846 50  0000 L CNN
+F 1 "47uF" H 2265 1755 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" H 2188 1650 50  0001 C CNN
+F 3 "~" H 2150 1800 50  0001 C CNN
+F 4 "CAP CER 47UF 6.3V X5R 0603" H 2150 1800 50  0001 C CNN "Description"
+F 5 "06036D476MAT2A" H 2150 1800 50  0001 C CNN "MPN"
+F 6 "AVX Corporation" H 2150 1800 50  0001 C CNN "Manufacturer"
+	1    2150 1800
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 60D417DD
+P 3200 1800
+AR Path="/5F3A1954/60D417DD" Ref="C?"  Part="1" 
+AR Path="/60D2F94F/60D417DD" Ref="C46"  Part="1" 
+F 0 "C46" H 3315 1846 50  0000 L CNN
+F 1 ".47uF" H 3315 1755 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0402_1005Metric_Pad0.74x0.62mm_HandSolder" H 3238 1650 50  0001 C CNN
+F 3 "~" H 3200 1800 50  0001 C CNN
+F 4 "CAP CER 0.47UF 6.3V X5R 0402" H 3200 1800 50  0001 C CNN "Description"
+F 5 "C0402C474K9PACTU" H 3200 1800 50  0001 C CNN "MPN"
+F 6 "KEMET" H 3200 1800 50  0001 C CNN "Manufacturer"
+	1    3200 1800
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+1V8 #PWR?
+U 1 1 60D41931
+P 1150 3500
+AR Path="/5F3A1954/60D41931" Ref="#PWR?"  Part="1" 
+AR Path="/60D2F94F/60D41931" Ref="#PWR040"  Part="1" 
+F 0 "#PWR040" H 1150 3350 50  0001 C CNN
+F 1 "+1V8" H 1165 3673 50  0000 C CNN
+F 2 "" H 1150 3500 50  0001 C CNN
+F 3 "" H 1150 3500 50  0001 C CNN
+	1    1150 3500
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 60BE7A25
+P 5200 5550
+AR Path="/5F3A1954/60BE7A25" Ref="#PWR?"  Part="1" 
+AR Path="/60D2F94F/60BE7A25" Ref="#PWR051"  Part="1" 
+F 0 "#PWR051" H 5200 5300 50  0001 C CNN
+F 1 "GND" H 5205 5377 50  0000 C CNN
+F 2 "" H 5200 5550 50  0001 C CNN
+F 3 "" H 5200 5550 50  0001 C CNN
+	1    5200 5550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5400 1850 5200 1850
+Wire Wire Line
+	5200 1850 5200 1950
+Wire Wire Line
+	5400 1950 5200 1950
+Connection ~ 5200 1950
+Wire Wire Line
+	5200 1950 5200 2050
+Wire Wire Line
+	5400 2050 5200 2050
+Connection ~ 5200 2050
+Wire Wire Line
+	5200 2050 5200 2150
+Wire Wire Line
+	5400 2150 5200 2150
+Connection ~ 5200 2150
+Wire Wire Line
+	5200 2150 5200 2250
+Wire Wire Line
+	5400 2250 5200 2250
+Connection ~ 5200 2250
+Wire Wire Line
+	5200 2250 5200 2350
+Wire Wire Line
+	5400 2350 5200 2350
+Connection ~ 5200 2350
+Wire Wire Line
+	5200 2350 5200 2450
+Wire Wire Line
+	5400 2450 5200 2450
+Connection ~ 5200 2450
+Wire Wire Line
+	5200 2450 5200 2550
+Wire Wire Line
+	5400 2550 5200 2550
+Connection ~ 5200 2550
+Wire Wire Line
+	5200 2550 5200 2800
+Wire Wire Line
+	5400 2800 5200 2800
+Connection ~ 5200 2800
+Wire Wire Line
+	5200 2800 5200 2900
+Wire Wire Line
+	5400 2900 5200 2900
+Connection ~ 5200 2900
+Wire Wire Line
+	5200 2900 5200 3000
+Wire Wire Line
+	5400 3000 5200 3000
+Connection ~ 5200 3000
+Wire Wire Line
+	5200 3000 5200 3100
+Wire Wire Line
+	5400 3100 5200 3100
+Connection ~ 5200 3100
+Wire Wire Line
+	5200 3100 5200 3200
+Wire Wire Line
+	5400 3200 5200 3200
+Connection ~ 5200 3200
+Wire Wire Line
+	5200 3200 5200 3300
+Wire Wire Line
+	5400 3300 5200 3300
+Connection ~ 5200 3300
+Wire Wire Line
+	5200 3300 5200 3400
+Wire Wire Line
+	5400 3400 5200 3400
+Connection ~ 5200 3400
+Wire Wire Line
+	5200 3400 5200 3500
+Wire Wire Line
+	5400 3500 5200 3500
+Connection ~ 5200 3500
+Wire Wire Line
+	5200 3500 5200 3600
+Wire Wire Line
+	5400 3600 5200 3600
+Connection ~ 5200 3600
+Wire Wire Line
+	5200 3600 5200 3700
+Wire Wire Line
+	5400 3700 5200 3700
+Connection ~ 5200 3700
+Wire Wire Line
+	5200 3700 5200 3800
+Wire Wire Line
+	5400 3800 5200 3800
+Connection ~ 5200 3800
+Wire Wire Line
+	5200 3800 5200 3900
+Wire Wire Line
+	5400 3900 5200 3900
+Connection ~ 5200 3900
+Wire Wire Line
+	5200 3900 5200 4000
+Wire Wire Line
+	5400 4000 5200 4000
+Connection ~ 5200 4000
+Wire Wire Line
+	5200 4000 5200 4100
+Wire Wire Line
+	5400 4100 5200 4100
+Connection ~ 5200 4100
+Wire Wire Line
+	5200 4100 5200 4200
+Wire Wire Line
+	5400 4200 5200 4200
+Connection ~ 5200 4200
+Wire Wire Line
+	5200 4200 5200 4300
+Wire Wire Line
+	5400 4300 5200 4300
+Connection ~ 5200 4300
+Wire Wire Line
+	5200 4300 5200 4400
+Wire Wire Line
+	5400 4400 5200 4400
+Connection ~ 5200 4400
+Wire Wire Line
+	5200 4400 5200 4500
+Wire Wire Line
+	5400 4500 5200 4500
+Connection ~ 5200 4500
+Wire Wire Line
+	5200 4500 5200 4600
+Wire Wire Line
+	5400 4600 5200 4600
+Connection ~ 5200 4600
+Wire Wire Line
+	5200 4600 5200 4700
+Wire Wire Line
+	5400 4700 5200 4700
+Connection ~ 5200 4700
+Wire Wire Line
+	5200 4700 5200 4800
+Wire Wire Line
+	5400 4800 5200 4800
+Connection ~ 5200 4800
+Wire Wire Line
+	5200 4800 5200 4900
+Wire Wire Line
+	5400 4900 5200 4900
+Connection ~ 5200 4900
+Wire Wire Line
+	5200 4900 5200 5000
+Wire Wire Line
+	5400 5000 5200 5000
+Connection ~ 5200 5000
+Wire Wire Line
+	5200 5000 5200 5100
+Wire Wire Line
+	5400 5100 5200 5100
+Connection ~ 5200 5100
+Wire Wire Line
+	5200 5100 5200 5200
+Wire Wire Line
+	5400 5200 5200 5200
+Connection ~ 5200 5200
+Wire Wire Line
+	5200 5200 5200 5300
+Wire Wire Line
+	5400 5300 5200 5300
+Connection ~ 5200 5300
+Wire Wire Line
+	5200 5300 5200 5400
+Wire Wire Line
+	5400 5400 5200 5400
+Connection ~ 5200 5400
+Wire Wire Line
+	5200 5400 5200 5550
+$Comp
+L power:GND #PWR?
+U 1 1 60CAE0A8
+P 8200 5550
+AR Path="/5F3A1954/60CAE0A8" Ref="#PWR?"  Part="1" 
+AR Path="/60D2F94F/60CAE0A8" Ref="#PWR053"  Part="1" 
+F 0 "#PWR053" H 8200 5300 50  0001 C CNN
+F 1 "GND" H 8205 5377 50  0000 C CNN
+F 2 "" H 8200 5550 50  0001 C CNN
+F 3 "" H 8200 5550 50  0001 C CNN
+	1    8200 5550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8000 2800 8200 2800
+Wire Wire Line
+	8200 2800 8200 2900
+Wire Wire Line
+	8000 2900 8200 2900
+Connection ~ 8200 2900
+Wire Wire Line
+	8200 2900 8200 3000
+Wire Wire Line
+	8000 3000 8200 3000
+Connection ~ 8200 3000
+Wire Wire Line
+	8200 3000 8200 3100
+Wire Wire Line
+	8000 3100 8200 3100
+Connection ~ 8200 3100
+Wire Wire Line
+	8200 3100 8200 3200
+Wire Wire Line
+	8000 3200 8200 3200
+Connection ~ 8200 3200
+Wire Wire Line
+	8200 3200 8200 3300
+Wire Wire Line
+	8000 3300 8200 3300
+Connection ~ 8200 3300
+Wire Wire Line
+	8200 3300 8200 3400
+Wire Wire Line
+	8000 3400 8200 3400
+Connection ~ 8200 3400
+Wire Wire Line
+	8200 3400 8200 3500
+Wire Wire Line
+	8000 3500 8200 3500
+Connection ~ 8200 3500
+Wire Wire Line
+	8200 3500 8200 3600
+Wire Wire Line
+	8000 3600 8200 3600
+Connection ~ 8200 3600
+Wire Wire Line
+	8200 3600 8200 3700
+Wire Wire Line
+	8000 3700 8200 3700
+Connection ~ 8200 3700
+Wire Wire Line
+	8200 3700 8200 3800
+Wire Wire Line
+	8000 3800 8200 3800
+Connection ~ 8200 3800
+Wire Wire Line
+	8200 3800 8200 3900
+Wire Wire Line
+	8000 3900 8200 3900
+Connection ~ 8200 3900
+Wire Wire Line
+	8200 3900 8200 4000
+Wire Wire Line
+	8000 4000 8200 4000
+Connection ~ 8200 4000
+Wire Wire Line
+	8200 4000 8200 4100
+Wire Wire Line
+	8000 4100 8200 4100
+Connection ~ 8200 4100
+Wire Wire Line
+	8200 4100 8200 4200
+Wire Wire Line
+	8000 4200 8200 4200
+Connection ~ 8200 4200
+Wire Wire Line
+	8200 4200 8200 4300
+Wire Wire Line
+	8000 4300 8200 4300
+Connection ~ 8200 4300
+Wire Wire Line
+	8200 4300 8200 4400
+Wire Wire Line
+	8000 4400 8200 4400
+Connection ~ 8200 4400
+Wire Wire Line
+	8200 4400 8200 4500
+Wire Wire Line
+	8000 4500 8200 4500
+Connection ~ 8200 4500
+Wire Wire Line
+	8200 4500 8200 4600
+Wire Wire Line
+	8000 4600 8200 4600
+Connection ~ 8200 4600
+Wire Wire Line
+	8200 4600 8200 4700
+Wire Wire Line
+	8000 4700 8200 4700
+Connection ~ 8200 4700
+Wire Wire Line
+	8200 4700 8200 4800
+Wire Wire Line
+	8000 4800 8200 4800
+Connection ~ 8200 4800
+Wire Wire Line
+	8200 4800 8200 4900
+Wire Wire Line
+	8000 4900 8200 4900
+Connection ~ 8200 4900
+Wire Wire Line
+	8200 4900 8200 5000
+Wire Wire Line
+	8000 5000 8200 5000
+Connection ~ 8200 5000
+Wire Wire Line
+	8200 5000 8200 5100
+Wire Wire Line
+	8000 5100 8200 5100
+Connection ~ 8200 5100
+Wire Wire Line
+	8200 5100 8200 5200
+Wire Wire Line
+	8000 5200 8200 5200
+Connection ~ 8200 5200
+Wire Wire Line
+	8200 5200 8200 5300
+Wire Wire Line
+	8000 5300 8200 5300
+Connection ~ 8200 5300
+Wire Wire Line
+	8200 5300 8200 5400
+Wire Wire Line
+	8000 5400 8200 5400
+Connection ~ 8200 5400
+Wire Wire Line
+	8200 5400 8200 5550
+$Comp
+L cerg:VCCINT #PWR?
+U 1 1 60DB2DE8
+P 8200 1450
+AR Path="/5F3A1954/60DB2DE8" Ref="#PWR?"  Part="1" 
+AR Path="/60D2F94F/60DB2DE8" Ref="#PWR052"  Part="1" 
+F 0 "#PWR052" H 8200 1300 50  0001 C CNN
+F 1 "VCCINT" H 8203 1707 50  0000 C CNN
+F 2 "" H 8200 1450 50  0001 C CNN
+F 3 "" H 8200 1450 50  0001 C CNN
+	1    8200 1450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8000 2300 8200 2300
+Wire Wire Line
+	8000 1550 8200 1550
+Connection ~ 8200 1550
+Wire Wire Line
+	8200 1550 8200 1450
+Wire Wire Line
+	8000 1650 8200 1650
+Connection ~ 8200 1650
+Wire Wire Line
+	8200 1650 8200 1550
+Wire Wire Line
+	8000 1750 8200 1750
+Connection ~ 8200 1750
+Wire Wire Line
+	8200 1750 8200 1650
+Wire Wire Line
+	8000 1850 8200 1850
+Connection ~ 8200 1850
+Wire Wire Line
+	8200 1850 8200 1750
+Wire Wire Line
+	8000 1950 8200 1950
+Connection ~ 8200 1950
+Wire Wire Line
+	8200 1950 8200 1850
+Wire Wire Line
+	8000 2050 8200 2050
+Wire Wire Line
+	8200 1950 8200 2050
+Connection ~ 8200 2050
+Wire Wire Line
+	8000 2200 8200 2200
+Wire Wire Line
+	8200 2050 8200 2200
+Connection ~ 8200 2200
+Wire Wire Line
+	8200 2200 8200 2300
+$Comp
+L power:+1V8 #PWR?
+U 1 1 60E199F4
+P 5200 1450
+AR Path="/5F3A1954/60E199F4" Ref="#PWR?"  Part="1" 
+AR Path="/60D2F94F/60E199F4" Ref="#PWR045"  Part="1" 
+F 0 "#PWR045" H 5200 1300 50  0001 C CNN
+F 1 "+1V8" H 5215 1623 50  0000 C CNN
+F 2 "" H 5200 1450 50  0001 C CNN
+F 3 "" H 5200 1450 50  0001 C CNN
+	1    5200 1450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5400 1550 5200 1550
+Wire Wire Line
+	5200 1550 5200 1450
+Wire Wire Line
+	5400 1650 5200 1650
+Wire Wire Line
+	5200 1650 5200 1550
+Connection ~ 5200 1550
+Wire Wire Line
+	3700 1650 3700 1600
+Wire Wire Line
+	3700 1600 3200 1600
+Connection ~ 2650 1600
+Wire Wire Line
+	3200 1650 3200 1600
+Connection ~ 3200 1600
+Wire Wire Line
+	3200 1600 2650 1600
+Wire Wire Line
+	3700 1950 3700 2000
+Wire Wire Line
+	3700 2000 3200 2000
+Connection ~ 2650 2000
+Wire Wire Line
+	3200 1950 3200 2000
+Connection ~ 3200 2000
+Wire Wire Line
+	3200 2000 2650 2000
+Text Notes 1650 1500 0    50   ~ 0
+VCC INT Pins\nG10, H10, J10, L10, M10, N10, N11, M11
+$Comp
+L Device:C C?
+U 1 1 60FEDEDB
+P 1150 2850
+AR Path="/5F3A1954/60FEDEDB" Ref="C?"  Part="1" 
+AR Path="/60D2F94F/60FEDEDB" Ref="C55"  Part="1" 
+F 0 "C55" H 1265 2896 50  0000 L CNN
+F 1 "47uF" H 1265 2805 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" H 1188 2700 50  0001 C CNN
+F 3 "~" H 1150 2850 50  0001 C CNN
+F 4 "CAP CER 47UF 6.3V X5R 0603" H 1150 2850 50  0001 C CNN "Description"
+F 5 "06036D476MAT2A" H 1150 2850 50  0001 C CNN "MPN"
+F 6 "AVX Corporation" H 1150 2850 50  0001 C CNN "Manufacturer"
+	1    1150 2850
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 60FEE416
+P 1650 2850
+AR Path="/5F3A1954/60FEE416" Ref="C?"  Part="1" 
+AR Path="/60D2F94F/60FEE416" Ref="C56"  Part="1" 
+F 0 "C56" H 1765 2896 50  0000 L CNN
+F 1 ".47uF" H 1765 2805 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0402_1005Metric_Pad0.74x0.62mm_HandSolder" H 1688 2700 50  0001 C CNN
+F 3 "~" H 1650 2850 50  0001 C CNN
+F 4 "CAP CER 0.47UF 6.3V X5R 0402" H 1650 2850 50  0001 C CNN "Description"
+F 5 "C0402C474K9PACTU" H 1650 2850 50  0001 C CNN "MPN"
+F 6 "KEMET" H 1650 2850 50  0001 C CNN "Manufacturer"
+	1    1650 2850
+	1    0    0    -1  
+$EndComp
+$Comp
+L cerg:VCCINT #PWR?
+U 1 1 60FEE898
+P 1150 2650
+AR Path="/5F3A1954/60FEE898" Ref="#PWR?"  Part="1" 
+AR Path="/60D2F94F/60FEE898" Ref="#PWR058"  Part="1" 
+F 0 "#PWR058" H 1150 2500 50  0001 C CNN
+F 1 "VCCINT" H 1153 2907 50  0000 C CNN
+F 2 "" H 1150 2650 50  0001 C CNN
+F 3 "" H 1150 2650 50  0001 C CNN
+	1    1150 2650
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 60FEED49
+P 1150 3050
+AR Path="/5F3A1954/60FEED49" Ref="#PWR?"  Part="1" 
+AR Path="/60D2F94F/60FEED49" Ref="#PWR059"  Part="1" 
+F 0 "#PWR059" H 1150 2800 50  0001 C CNN
+F 1 "GND" H 1155 2877 50  0000 C CNN
+F 2 "" H 1150 3050 50  0001 C CNN
+F 3 "" H 1150 3050 50  0001 C CNN
+	1    1150 3050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1150 3050 1150 3000
+Wire Wire Line
+	1650 3000 1150 3000
+Connection ~ 1150 3000
+Wire Wire Line
+	1650 2700 1150 2700
+Wire Wire Line
+	1150 2650 1150 2700
+Connection ~ 1150 2700
+Text Notes 1650 2600 0    50   ~ 0
+VCC BRAM Pins\nN11, M11\n
+Text Notes 1650 3500 0    50   ~ 0
+VCCAUX Pins\nH13, J13
+$EndSCHEMATC

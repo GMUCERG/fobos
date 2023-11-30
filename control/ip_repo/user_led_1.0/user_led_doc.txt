@@ -1,0 +1,43 @@
+#############################################################################
+#                                                                           #
+#   Copyright 2023 CERG                                                     #
+#                                                                           #
+#   Licensed under the Apache License, Version 2.0 (the "License");         #
+#   you may not use this file except in compliance with the License.        #
+#   You may obtain a copy of the License at                                 #
+#                                                                           #
+#       http://www.apache.org/licenses/LICENSE-2.0                          #
+#                                                                           #
+#   Unless required by applicable law or agreed to in writing, software     #
+#   distributed under the License is distributed on an "AS IS" BASIS,       #
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.#
+#   See the License for the specific language governing permissions and     #
+#   limitations under the License.                                          #
+#                                                                           #
+#############################################################################
+
+User LED IP Register Space:
+---------------------------
+
+Offset Name Function
+0x00     Bits 2,1,and 0 map to PYNQ LEDs LD2, LD1, and LD0 respectively
+
+The other 3 registers are not used.
+
+Other functionality:
+--------------------
+The PYNQ LED LD3 is turned on for 1/6 of a second and then off for 1/6 of a 
+second whenever the trigger signal is high. It shows activity of the DUT.
+
+
+The pynqserver.py lights up PYNQ LED LD2 when the overlay is loaded and turns 
+the LED off when the connection to the PC is closed. As the overlay is loaded 
+each time a new connection the the PC is made, LD2 shows when a user is 
+connected to the PYNQ board.
+
+
+
+
+
+
+

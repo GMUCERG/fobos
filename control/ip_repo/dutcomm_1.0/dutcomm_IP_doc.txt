@@ -1,0 +1,42 @@
+#############################################################################
+#                                                                           #
+#   Copyright 2019 CERG                                                     #
+#                                                                           #
+#   Licensed under the Apache License, Version 2.0 (the "License");         #
+#   you may not use this file except in compliance with the License.        #
+#   You may obtain a copy of the License at                                 #
+#                                                                           #
+#       http://www.apache.org/licenses/LICENSE-2.0                          #
+#                                                                           #
+#   Unless required by applicable law or agreed to in writing, software     #
+#   distributed under the License is distributed on an "AS IS" BASIS,       #
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.#
+#   See the License for the specific language governing permissions and     #
+#   limitations under the License.                                          #
+#                                                                           #
+#############################################################################
+
+DUTCOMM IP Register Space:
+
+0x00 Reserved  
+0x04 Status register. 32 bit.
+     Value indicates the state of the controller FSM
+     --status codes
+     IDLE        x"01"  Idle)
+     C_TX_VALID  x"02"  waiting for tx_valid signal
+     WAIT_READY  x"05"  waiting for di_ready from DUT
+     SND         x"0a"  sending data to DUT
+     WAIT_VALID  x"0f"  waitng for do_valid from DUT
+     RCV         x"15"  receiving data
+     DONE        x"1a"  operation finished
+
+0x08 Interface selection. (read-write). 32 bit.
+     If bit0 = 1, use 8-bit interface.
+     If bit0 = 0, use 4-bit interface.
+
+0x0C Expected output length register. (read-write). 32 bit.
+     Used to set the number of output bytes to be expected from DUT.
+     This is used to generate the tlast signal used to mark the end of
+     the packet.
+
+

@@ -1,0 +1,10 @@
+
+
+OPTION psf_version = 2.1;
+
+BEGIN DRIVER user_led
+	OPTION supported_peripherals = (user_led);
+	OPTION copyfiles = all;
+	OPTION VERSION = 1.0;
+	OPTION NAME = user_led;
+END DRIVER

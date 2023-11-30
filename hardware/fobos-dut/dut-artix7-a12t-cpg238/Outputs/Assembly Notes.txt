@@ -1,0 +1,9 @@
+The following components are DNP
+R37
+R77
+C48
+C49
+C50
+C51
+C52
+C53

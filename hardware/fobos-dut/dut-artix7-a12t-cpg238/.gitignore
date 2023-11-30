@@ -1,0 +1,20 @@
+# Temporary files
+*.000
+*.bak
+*.bck
+*.kicad_pcb-bak
+*~
+_autosave-*
+*.tmp
+*-cache.lib
+*-rescue.lib
+*-save.pro
+*-save.kicad_pcb
+*-bak
+*-table
+*-cache
+
+# Netlist files (exported from Eeschema)
+*.net
+
+dut-artix7-a12t-backups

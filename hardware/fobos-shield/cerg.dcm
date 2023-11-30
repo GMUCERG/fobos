@@ -1,0 +1,142 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP 1050752001
+D CONN TIP JACK SOLDER RED
+F https://www.digikey.com/en/products/detail/105-0752-001/J109-ND/5887?itemSeq=349572028
+$ENDCMP
+#
+$CMP 1050753001
+D CONN TIP JACK SOLDER BLACK
+F https://www.digikey.com/en/products/detail/105-0753-001/J110-ND/5888?itemSeq=349572030
+$ENDCMP
+#
+$CMP 1825910-6
+D SWITCH TACTILE SPST-NO 0.05A 24V
+K 450-1650-ND FSMJ
+F https://www.te.com/commerce/DocumentDelivery/DDEController?Action=srchrtrv&DocNm=1825910&DocType=Customer+Drawing&DocLang=English
+$ENDCMP
+#
+$CMP 5281
+F https://www.keyelco.com/product.cfm/product_id/14628/stepAccess/2813779
+$ENDCMP
+#
+$CMP 573100D00010G
+D AAVID THERMALLOY - 573100D00010G - HEAT SINK TO-252
+F https://componentsearchengine.com/Datasheets/1/573100D00010G.pdf
+$ENDCMP
+#
+$CMP 575-8
+D CONN TIP JACK SOLDER RED
+F https://www.digikey.com/en/products/detail/keystone-electronics/575-8/318495
+$ENDCMP
+#
+$CMP AD8331
+D Ultralow Noise VGAs with Preamplifier and Programmable Rin
+K Ultralow noise preamplifier
+F http://www.analog.com/media/en/technical-documentation/data-sheets/AD8331_8332_8334.pdf
+$ENDCMP
+#
+$CMP AD9215
+D 10-Bit, 65/80/105 MSPS 3V A/D Converter
+K A/D Converter
+F http://www.analog.com/media/en/technical-documentation/data-sheets/AD9215.pdf
+$ENDCMP
+#
+$CMP CERG-logo
+D CERG Logo
+$ENDCMP
+#
+$CMP IRF7807Z
+D Power MOSFET, 30V, 11A
+K Power MOSFET
+F https://www.infineon.com/dgdl/irf7807z.pdf?fileId=5546d462533600a4015356085b231ce6
+$ENDCMP
+#
+$CMP IS25LP256D-JMLE
+D IC FLASH 256M SPI 133MHZ 16SOIC
+F https://www.digikey.com/en/products/detail/issi-integrated-silicon-solution-inc/IS25LP256D-JMLE/7567432
+$ENDCMP
+#
+$CMP JS202011SCQN
+D SWITCH SLIDE DPDT 300MA 6V
+K 401-2002-1-ND JS
+F https://www.ckswitches.com/media/1422/js.pdf
+$ENDCMP
+#
+$CMP LG_L29K-G2J1-24-Z
+D LED GREEN DIFFUSED 0603 SMD
+K 475-2709-1-ND SMARTLED® 0603
+F https://dammedia.osram.info/media/resource/hires/osram-dam-2493945/LG%20L29K.pdf
+$ENDCMP
+#
+$CMP REE-0505S
+D 200mA Isolated 1W Dual output DC/DC Converter Module, 5V Input Voltage, 5V Output Voltage, SIP7
+K Recom isolated isolation dc-dc converter
+F https://www.mouser.com/datasheet/2/468/REE-958304.pdf
+$ENDCMP
+#
+$CMP SN74LVC1G3157DCK3
+D SPDT Analog IC Switch 2:1 15Ohm
+F https://www.digikey.com/en/products/detail/texas-instruments/SN74LVC1G3157DCK3/10434524
+$ENDCMP
+#
+$CMP SP3003-04ATG
+D ESD Protection Diodes with Low Clamping Voltage, SOT-23-6
+K ESD protection diodes
+F https://m.littelfuse.com/~/media/electronics/datasheets/tvs_diode_arrays/littelfuse_tvs_diode_array_sp3003_datasheet.pdf.pdf
+$ENDCMP
+#
+$CMP SW_DIP_x03
+D 3x DIP Switch, Single Pole Single Throw (SPST) switch, small symbol
+K dip switch
+F https://www.cuidevices.com/product/resource/ds04-254-smt.pdf
+$ENDCMP
+#
+$CMP TPS7A7100_VQFN16_0
+D 1-A, Fast-Transient, Low-Dropout Voltage Regulator
+K LDO, Voltage Regulator
+F http://www.ti.com/lit/ds/symlink/tps7a7100.pdf
+$ENDCMP
+#
+$CMP TPS7A7100_VQFN20
+D 1-A, Fast-Transient, Low-Dropout Voltage Regulator
+K LDO, Voltage Regulator
+F http://www.ti.com/lit/ds/symlink/tps7a7100.pdf
+$ENDCMP
+#
+$CMP TS3A27518EIPWRQ1
+D IC MUX/DEMUX 1X2 24TSSOP
+F https://www.digikey.com/en/products/detail/texas-instruments/TS3A27518EIPWRQ1/2520836
+$ENDCMP
+#
+$CMP TS3A5018DBQR
+F https://www.digikey.com/en/products/detail/texas-instruments/TS3A5018DBQR/705733
+$ENDCMP
+#
+$CMP VCCAUX
+D Power symbol creates a global label with name "VCCAUX"
+K power-flag
+$ENDCMP
+#
+$CMP VCCINT
+D Power symbol creates a global label with name "VCCINT"
+K power-flag
+$ENDCMP
+#
+$CMP VCCIO
+D Power symbol creates a global label with name "VCCIO"
+K power-flag
+$ENDCMP
+#
+$CMP XC7A12T-CSG325
+D Xilinx Artix-7 FPGA, XC7A12T, CSG325
+K Xilinx FPGA Artix-7
+F https://www.xilinx.com/support/documentation/data_sheets/ds180_7Series_Overview.pdf
+$ENDCMP
+#
+$CMP XC7A15T-CSG325
+D Artix 7 T 15 XC7A15T-CSG325
+K FPGA
+$ENDCMP
+#
+#End Doc Library

@@ -1,0 +1,37 @@
+##################################################################################
+#                                                                                #
+#   Copyright 2019 Cryptographic Engineering Research Group (CERG)               #
+#   George Mason University                                                      #
+#   http://cryptography.gmu.edu/fobos                                            #
+#                                                                                #
+#   you may not use this file except in compliance with the License.             #
+#   You may obtain a copy of the License at                                      #
+#                                                                                #
+#       http://www.apache.org/licenses/LICENSE-2.0                               #
+#                                                                                #
+#   Licensed under the Apache License, Version 2.0 (the "License");              #
+#   Unless required by applicable law or agreed to in writing, software          #
+#   distributed under the License is distributed on an "AS IS" BASIS,            #
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.     #
+#   See the License for the specific language governing permissions and          #
+#   limitations under the License.                                               #
+#                                                                                #
+##################################################################################
+## Pmod JD and JC connector for connection from Control
+# ===================== Data in from DUT ===================================
+NET "dio<0>"         LOC = "E12" |IOSTANDARD = "LVCMOS33";   #Bank = 3, Pin name = IO_L51N,   Sch name = JD10
+NET "dio<1>"         LOC = "E11" |IOSTANDARD = "LVCMOS33";   #Bank = 3, Pin name = IO_L42N,   Sch name = JD4
+NET "dio<2>"         LOC = "F12" |IOSTANDARD = "LVCMOS33";   #Bank = 3, Pin name = IO_L51P,   Sch name = JD9
+NET "dio<3>"         LOC = "F11" |IOSTANDARD = "LVCMOS33";   #Bank = 3, Pin name = IO_L42P,   Sch name = JD3
+# ===================== CONTROL SIGNALS ====================================
+NET "clk_c2d"        LOC = "J7"  |IOSTANDARD = "LVCMOS33";   #Bank = 3, Pin name = IO_L47P_M3A0, Sch name = JC8
+NET "handshake_c2d"  LOC = "F10" |IOSTANDARD = "LVCMOS33";   #Bank = 3, Pin name = IO_L40N,       Sch name = JD2
+NET "handshake_d2c"  LOC = "C12" |IOSTANDARD = "LVCMOS33";   #Bank = 3, Pin name = IO_L47N,        Sch name = JD8
+NET "d_rst"          LOC = "G11" |IOSTANDARD = "LVCMOS33";   #Bank = 3, Pin name = IO_L40P,       Sch name = JD1
+NET "io"             LOC = "D12" | IOSTANDARD = "LVCMOS33";   #Bank = 3, Pin name = IO_L47P,      Sch name = JD7
+NET "clk_c2d" CLOCK_DEDICATED_ROUTE = FALSE;
+####DEBUG
+NET "di_valid_deb"         LOC = "T12" |IOSTANDARD = "LVCMOS33";   #Bank = 3, Pin name = IO_L51N,   Sch name = JA1
+NET "di_ready_deb"         LOC = "V12" |IOSTANDARD = "LVCMOS33";   #Bank = 3, Pin name = IO_L42N,   Sch name = JA2
+NET "do_valid_deb"         LOC = "N10" |IOSTANDARD = "LVCMOS33";   #Bank = 3, Pin name = IO_L51P,   Sch name = JA3
+NET "do_ready_deb"         LOC = "P11" |IOSTANDARD = "LVCMOS33";   #Bank = 3, Pin name = IO_L42P,   Sch name = JA4

@@ -1,0 +1,33 @@
+.wy-nav-top{
+  background: #802391;
+}
+.wy-side-nav-search{
+  background-color: #3d0473;
+}
+.wy-side-nav-search>div.version {
+  color: #FFFFFF;
+}
+h1{
+  color: #3d0473;
+}
+h2{
+  color: #802391;
+}
+.highlight{
+  background: #d1d6eb;
+}
+.highlight .c1{
+  color: #802391;
+}
+.highlight .s1{
+  color: #3d0473;
+}
+.highlight .mi{
+  color: #026830;
+}
+.math {
+    text-align: left;
+}
+.eqno {
+    float: right;
+}

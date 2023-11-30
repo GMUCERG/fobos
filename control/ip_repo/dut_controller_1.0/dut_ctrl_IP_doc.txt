@@ -1,0 +1,41 @@
+DUT_Controller IP Register Space
+
+Offset Name Function
+--Trigger module
+0x00     TRIGGER_LENGTH_CYCLES : The time the trigger signal is asserted.
+0x04     TRIGGER_WAIT_CYCLES : The number of clock cycles after which the trigger is asserted (after di_ready goes to zero).
+
+0x08     TRIGGER_MODE (bits 7 - 0): possible values: TRG_NORM | TRG_FULL | TRG_NORM_CLK | TRG_FULL_CLK
+            TRG_NORM (0x00) : normal trigger mode. in this mode the TRIGGER_WAIT_CYCLES and TRIGGER_LENGTH_CYCLES are applied.
+            TRG_FULL (0x01) : Full trigger mode. While DUT is running (between di_ready = 0 and do_valid = 1) the trigger is asserted.
+            TRG_NORM_CLK (0x02) : same as TRG_NORM but the trigger signal is anded with the clock.
+            TRG_FULL_CLK (0x03) : same as TRG_FULL but the trigger signal is anded with the clock.
+
+Timeout Module
+0x0C     TIMOUT  Number of clock cycles (DUT clock) befor timeout module goes to timeout state. 
+0x14     TIMOUT_STATUS (bits 7 - 0) The timeout module FSM state.:
+            C_IDLE     (0x01) State machine is idle.
+            C_STARTED  (0x02) DUT stated but not timedout yet.
+            C_TIMEDOUT (0x04) DUT timedout.
+         Reading this register when its value = C_TIMEDOUT casues the FSM to go to the idle state.
+
+Reset Module
+0x18     TIME_TO_RESET  Number of DUT clock cycles to allow the DUT to run before sending a reset signal.
+0x1C     FORCE_RESET    (bit 0) This bit is directly connected to the dut_rst signal. It also resets the DUTCOMM IP.
+
+Glitch Module
+0x20    CONFIG?
+0x24    GLITCH WAIT 
+0x28    Reserved
+0x2C    Reserved
+0x30    GLITCH PATTERN
+0x34    GLITCH PATTERN
+
+DUT Setting
+0x38    DUT_SELECT
+            DUT_FOBOS (0x00): DUT that follows FOBOS spec
+            DUT_CW305 (0x01): FC_RST is mapped to FD2C_CLK as FC_RST is not wired on DUT_CW305
+            DUT_MTC   (0x02): Microcontroller DUT on FOBOS_MTC adapter speaking I2C
+            DUT_CW308 (0x03): Whatever changes will have to be made for that one
+
+0x3C    WORKING_COUNTER   counts the number of DUT clock cycles that the DUT required processing the last testvector

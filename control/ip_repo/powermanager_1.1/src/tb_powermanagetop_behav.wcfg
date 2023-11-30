@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_powermanagetop_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="tb_powermanagetop" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="17376040000fs"></ZoomStartTime>
+      <ZoomEndTime time="29426040001fs"></ZoomEndTime>
+      <Cursor1Time time="28076040000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="263"></NameColumnWidth>
+      <ValueColumnWidth column_width="115"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="43" />
+   <wvobject type="logic" fp_name="/tb_powermanagetop/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_powermanagetop/clear">
+      <obj_property name="ElementShortName">clear</obj_property>
+      <obj_property name="ObjectShortName">clear</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_powermanagetop/busy">
+      <obj_property name="ElementShortName">busy</obj_property>
+      <obj_property name="ObjectShortName">busy</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_powermanagetop/trigenhw">
+      <obj_property name="ElementShortName">trigenhw</obj_property>
+      <obj_property name="ObjectShortName">trigenhw</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_powermanagetop/trigsw">
+      <obj_property name="ElementShortName">trigsw</obj_property>
+      <obj_property name="ObjectShortName">trigsw</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_powermanagetop/triggedhw">
+      <obj_property name="ElementShortName">triggedhw</obj_property>
+      <obj_property name="ObjectShortName">triggedhw</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_powermanagetop/triggedsw">
+      <obj_property name="ElementShortName">triggedsw</obj_property>
+      <obj_property name="ObjectShortName">triggedsw</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_powermanagetop/cntover">
+      <obj_property name="ElementShortName">cntover</obj_property>
+      <obj_property name="ObjectShortName">cntover</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_powermanagetop/now_volt3v3">
+      <obj_property name="ElementShortName">now_volt3v3[15:0]</obj_property>
+      <obj_property name="ObjectShortName">now_volt3v3[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_powermanagetop/now_cur3v3">
+      <obj_property name="ElementShortName">now_cur3v3[15:0]</obj_property>
+      <obj_property name="ObjectShortName">now_cur3v3[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_powermanagetop/now_volt5v">
+      <obj_property name="ElementShortName">now_volt5v[15:0]</obj_property>
+      <obj_property name="ObjectShortName">now_volt5v[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_powermanagetop/now_cur5v">
+      <obj_property name="ElementShortName">now_cur5v[15:0]</obj_property>
+      <obj_property name="ObjectShortName">now_cur5v[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_powermanagetop/avg_volt3v3">
+      <obj_property name="ElementShortName">avg_volt3v3[15:0]</obj_property>
+      <obj_property name="ObjectShortName">avg_volt3v3[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_powermanagetop/max_volt3v3">
+      <obj_property name="ElementShortName">max_volt3v3[15:0]</obj_property>
+      <obj_property name="ObjectShortName">max_volt3v3[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_powermanagetop/avg_cur3v3">
+      <obj_property name="ElementShortName">avg_cur3v3[15:0]</obj_property>
+      <obj_property name="ObjectShortName">avg_cur3v3[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_powermanagetop/max_cur3v3">
+      <obj_property name="ElementShortName">max_cur3v3[15:0]</obj_property>
+      <obj_property name="ObjectShortName">max_cur3v3[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_powermanagetop/avg_volt5v">
+      <obj_property name="ElementShortName">avg_volt5v[15:0]</obj_property>
+      <obj_property name="ObjectShortName">avg_volt5v[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_powermanagetop/max_volt5v">
+      <obj_property name="ElementShortName">max_volt5v[15:0]</obj_property>
+      <obj_property name="ObjectShortName">max_volt5v[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_powermanagetop/avg_cur5v">
+      <obj_property name="ElementShortName">avg_cur5v[15:0]</obj_property>
+      <obj_property name="ObjectShortName">avg_cur5v[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_powermanagetop/max_cur5v">
+      <obj_property name="ElementShortName">max_cur5v[15:0]</obj_property>
+      <obj_property name="ObjectShortName">max_cur5v[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_powermanagetop/samplcnt">
+      <obj_property name="ElementShortName">samplcnt[19:0]</obj_property>
+      <obj_property name="ObjectShortName">samplcnt[19:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_powermanagetop/trigger">
+      <obj_property name="ElementShortName">trigger</obj_property>
+      <obj_property name="ObjectShortName">trigger</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_powermanagetop/ck_an_n">
+      <obj_property name="ElementShortName">ck_an_n[3:0]</obj_property>
+      <obj_property name="ObjectShortName">ck_an_n[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_powermanagetop/ck_an_p">
+      <obj_property name="ElementShortName">ck_an_p[3:0]</obj_property>
+      <obj_property name="ObjectShortName">ck_an_p[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_powermanagetop/uut/gotvalues">
+      <obj_property name="ElementShortName">gotvalues</obj_property>
+      <obj_property name="ObjectShortName">gotvalues</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_powermanagetop/uut/trigon">
+      <obj_property name="ElementShortName">trigon</obj_property>
+      <obj_property name="ObjectShortName">trigon</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_powermanagetop/uut/valueready">
+      <obj_property name="ElementShortName">valueready</obj_property>
+      <obj_property name="ObjectShortName">valueready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_powermanagetop/uut/adc_value">
+      <obj_property name="ElementShortName">adc_value[15:0]</obj_property>
+      <obj_property name="ObjectShortName">adc_value[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_powermanagetop/uut/ADC/daddr_in">
+      <obj_property name="ElementShortName">daddr_in[6:0]</obj_property>
+      <obj_property name="ObjectShortName">daddr_in[6:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_powermanagetop/uut/ADC/den_in">
+      <obj_property name="ElementShortName">den_in</obj_property>
+      <obj_property name="ObjectShortName">den_in</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_powermanagetop/uut/ADC/drdy_out">
+      <obj_property name="ElementShortName">drdy_out</obj_property>
+      <obj_property name="ObjectShortName">drdy_out</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_powermanagetop/uut/ADC/channel_out">
+      <obj_property name="ElementShortName">channel_out[4:0]</obj_property>
+      <obj_property name="ObjectShortName">channel_out[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_powermanagetop/uut/ADC/eoc_out">
+      <obj_property name="ElementShortName">eoc_out</obj_property>
+      <obj_property name="ObjectShortName">eoc_out</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_powermanagetop/uut/ADC/eos_out">
+      <obj_property name="ElementShortName">eos_out</obj_property>
+      <obj_property name="ObjectShortName">eos_out</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_powermanagetop/uut/avgcirvolt3v3/value">
+      <obj_property name="ElementShortName">value[15:0]</obj_property>
+      <obj_property name="ObjectShortName">value[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_powermanagetop/uut/avgcirvolt3v3/value_vld">
+      <obj_property name="ElementShortName">value_vld</obj_property>
+      <obj_property name="ObjectShortName">value_vld</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_powermanagetop/uut/avgcirvolt3v3/average">
+      <obj_property name="ElementShortName">average[15:0]</obj_property>
+      <obj_property name="ObjectShortName">average[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_powermanagetop/uut/avgcirvolt3v3/clear">
+      <obj_property name="ElementShortName">clear</obj_property>
+      <obj_property name="ObjectShortName">clear</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_powermanagetop/uut/avgcirvolt3v3/done">
+      <obj_property name="ElementShortName">done</obj_property>
+      <obj_property name="ObjectShortName">done</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_powermanagetop/uut/avgcirvolt3v3/cnt">
+      <obj_property name="ElementShortName">cnt[5:0]</obj_property>
+      <obj_property name="ObjectShortName">cnt[5:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_powermanagetop/uut/avgcirvolt3v3/cntk">
+      <obj_property name="ElementShortName">cntk[19:0]</obj_property>
+      <obj_property name="ObjectShortName">cntk[19:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_powermanagetop/uut/avgcirvolt3v3/dividend">
+      <obj_property name="ElementShortName">dividend[33:0]</obj_property>
+      <obj_property name="ObjectShortName">dividend[33:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_powermanagetop/uut/avgcirvolt3v3/quotient">
+      <obj_property name="ElementShortName">quotient[33:0]</obj_property>
+      <obj_property name="ObjectShortName">quotient[33:0]</obj_property>
+   </wvobject>
+</wave_config>

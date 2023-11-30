@@ -1,0 +1,37 @@
+### Module positions - created on 03/03/22 22:46:45 ###
+### Printed by Pcbnew version kicad (5.1.7)-1
+## Unit = inches, Angle = deg.
+## Side : bottom
+# Ref     Val       Package                                           PosX       PosY       Rot  Side
+C25       4.7uF     C_0402_1005Metric_Pad0.74x0.62mm_HandSolder     1.5330    -1.6227  180.0000  bottom
+C26       4.7uF     C_0402_1005Metric_Pad0.74x0.62mm_HandSolder     1.7330    -1.7774  270.0000  bottom
+C27       4.7uF     C_0402_1005Metric_Pad0.74x0.62mm_HandSolder     1.5327    -1.5827  180.0000  bottom
+C28       4.7uF     C_0402_1005Metric_Pad0.74x0.62mm_HandSolder     1.7830    -1.7774  270.0000  bottom
+C29       .47uF     C_0402_1005Metric_Pad0.74x0.62mm_HandSolder     1.5327    -1.5427  180.0000  bottom
+C30       .47uF     C_0402_1005Metric_Pad0.74x0.62mm_HandSolder     1.9630    -1.7774  270.0000  bottom
+C31       .47uF     C_0402_1005Metric_Pad0.74x0.62mm_HandSolder     1.8430    -1.7774  270.0000  bottom
+C32       .47uF     C_0402_1005Metric_Pad0.74x0.62mm_HandSolder     1.5327    -1.5027  180.0000  bottom
+C33       .47uF     C_0402_1005Metric_Pad0.74x0.62mm_HandSolder     1.5330    -1.4627  180.0000  bottom
+C34       .47uF     C_0402_1005Metric_Pad0.74x0.62mm_HandSolder     1.6830    -1.7774  270.0000  bottom
+C35       .47uF     C_0402_1005Metric_Pad0.74x0.62mm_HandSolder     1.5330    -1.4227  180.0000  bottom
+C36       .47uF     C_0402_1005Metric_Pad0.74x0.62mm_HandSolder     1.9030    -1.7774  270.0000  bottom
+C37       47uF      C_0603_1608Metric_Pad1.08x0.95mm_HandSolder     2.0230    -1.7774  270.0000  bottom
+C38       100uF     C_1210_3225Metric_Pad1.33x2.70mm_HandSolder     1.9177    -0.9612   90.0000  bottom
+C39       47uF      C_0603_1608Metric_Pad1.08x0.95mm_HandSolder     2.3827    -1.5777    0.0000  bottom
+C40       4.7uF     C_0402_1005Metric_Pad0.74x0.62mm_HandSolder     2.2327    -1.5854   90.0000  bottom
+C41       4.7uF     C_0402_1005Metric_Pad0.74x0.62mm_HandSolder     2.0927    -1.1454   90.0000  bottom
+C42       .47uF     C_0402_1005Metric_Pad0.74x0.62mm_HandSolder     1.8725    -1.5202    0.0000  bottom
+C43       .47uF     C_0402_1005Metric_Pad0.74x0.62mm_HandSolder     2.1527    -1.5854   90.0000  bottom
+C44       .47uF     C_0402_1005Metric_Pad0.74x0.62mm_HandSolder     2.0527    -1.1454   90.0000  bottom
+C45       .47uF     C_0402_1005Metric_Pad0.74x0.62mm_HandSolder     2.1927    -1.5854   90.0000  bottom
+C46       .47uF     C_0402_1005Metric_Pad0.74x0.62mm_HandSolder     2.0127    -1.1454   90.0000  bottom
+C47       47uF      C_0603_1608Metric_Pad1.08x0.95mm_HandSolder     1.8737    -1.0927  180.0000  bottom
+C48       4.7uF     C_0402_1005Metric_Pad0.74x0.62mm_HandSolder     2.1604    -1.4277    0.0000  bottom
+C49       4.7uF     C_0402_1005Metric_Pad0.74x0.62mm_HandSolder     2.1627    -1.2827    0.0000  bottom
+C50       .47uF     C_0402_1005Metric_Pad0.74x0.62mm_HandSolder     2.1604    -1.3877    0.0000  bottom
+C51       .47uF     C_0402_1005Metric_Pad0.74x0.62mm_HandSolder     2.1604    -1.4677    0.0000  bottom
+C52       .47uF     C_0402_1005Metric_Pad0.74x0.62mm_HandSolder     2.1627    -1.3227    0.0000  bottom
+C53       .47uF     C_0402_1005Metric_Pad0.74x0.62mm_HandSolder     2.1604    -1.5077    0.0000  bottom
+C55       47uF      C_0603_1608Metric_Pad1.08x0.95mm_HandSolder     2.1427    -1.1217   90.0000  bottom
+C56       .47uF     C_0402_1005Metric_Pad0.74x0.62mm_HandSolder     1.9727    -1.1454   90.0000  bottom
+## End

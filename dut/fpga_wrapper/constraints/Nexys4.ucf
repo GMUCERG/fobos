@@ -1,0 +1,44 @@
+##################################################################################
+#                                                                                #
+#   Copyright 2016 Cryptographic Engineering Research Group (CERG)               #
+#   George Mason University                                                      #
+#   http://cryptography.gmu.edu/fobos                                            #
+#                                                                                #
+#   you may not use this file except in compliance with the License.             #
+#   You may obtain a copy of the License at                                      #
+#                                                                                #
+#       http://www.apache.org/licenses/LICENSE-2.0                               #
+#                                                                                #
+#   Licensed under the Apache License, Version 2.0 (the "License");              #
+#   Unless required by applicable law or agreed to in writing, software          #
+#   distributed under the License is distributed on an "AS IS" BASIS,            #
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.     #
+#   See the License for the specific language governing permissions and          #
+#   limitations under the License.                                               #
+#                                                                                #
+##################################################################################
+#======================Nexys4
+### Pmod JD and JC connector for connection from Control
+## ==== JD and JC Connector (Pmod) ====
+## ===================== Data in from Control =============================== 
+NET "din<3>"   LOC = "J3"  | IOSTANDARD = "LVCMOS33";    #Bank = 35, Pin name = IO_L22P_T3_35,                     Sch name = JC3
+NET "din<2>"   LOC = "J2"  | IOSTANDARD = "LVCMOS33";    #Bank = 35, Pin name = IO_L22N_T3_35,                     Sch name = JC9
+NET "din<1>"   LOC = "J4"  | IOSTANDARD = "LVCMOS33";    #Bank = 35, Pin name = IO_L21P_T3_DQS_35,                 Sch name = JC4
+NET "din<0>"   LOC = "G6"  | IOSTANDARD = "LVCMOS33";    #Bank = 35, Pin name = IO_L19P_T3_35,                     Sch name = JC10
+#                                                                                                           
+## ===================== Data out to Control ===============                                                
+NET "dout<0>"  LOC = "F3"  | IOSTANDARD = "LVCMOS33";    #Bank = 35, Pin name = IO_L13N_T2_MRCC_35,	              Sch name = JD10
+NET "dout<1>"  LOC = "G3"  | IOSTANDARD = "LVCMOS33";    #Bank = 35, Pin name = IO_L20N_T3_35,                     Sch name = JD4
+NET "dout<2>"  LOC = "G2"  | IOSTANDARD = "LVCMOS33";    #Bank = 35, Pin name = IO_L15N_T2_DQS_35,	              Sch name = JD9
+NET "dout<3>"  LOC = "G1"  | IOSTANDARD = "LVCMOS33";    #Bank = 35, Pin name = IO_L17N_T2_35,                     Sch name = JD3
+#                                                                                                            
+## ===================== CONTROL SIGNALS ===================                                                 
+NET "do_ready"   LOC = "E7"  | IOSTANDARD = "LVCMOS33";    #Bank = 35, Pin name = IO_L6P_T0_35,                      Sch name = JC2
+NET "do_valid"    LOC = "K1"  | IOSTANDARD = "LVCMOS33";    #Bank = 35, Pin name = IO_L5P_T0_AD13P_35,	              Sch name = JC8
+NET "di_ready"   LOC = "H1"  | IOSTANDARD = "LVCMOS33";    #Bank = 35, Pin name = IO_L17P_T2_35,                     Sch name = JD2
+NET "di_valid"   LOC = "G4"  | IOSTANDARD = "LVCMOS33";    #Bank = 35, Pin name = IO_L20P_T3_35,                     Sch name = JD8
+NET "rst"       LOC = "H4"  | IOSTANDARD = "LVCMOS33";    #Bank = 35, Pin name = IO_L21N_T2_DQS_35,	              Sch name = JD1
+#                                                                                                            
+## ======================== CLOCK SIGNAL ===================                                                 
+NET "clk"       LOC = "K2"  | IOSTANDARD = "LVCMOS33";    #Bank = 35, Pin name = IO_L23P_T3_35,                     Sch name = JC1
+NET "clk" CLOCK_DEDICATED_ROUTE = FALSE;

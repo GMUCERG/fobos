@@ -1,0 +1,12 @@
+*.aux
+*.bbl
+*.toc
+*.dvi
+*.log
+*.blg
+*.swp
+*.backup
+*.out
+.directory
+.DS_Store
+__MACOSX
