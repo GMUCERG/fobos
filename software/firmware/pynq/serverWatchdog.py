@@ -55,7 +55,7 @@ class FobosWatchdog:
         # my_env = os.environ.copy()
         # my_env["XILINX_XRT"] = "/usr"
         # pid = subprocess.Popen(["sudo", self.python3, self.serverBin], env=my_env).pid
-        pid = subprocess.Popen(["sudo", self.python3, self.serverBin]).pid
+        pid = subprocess.Popen(["sudo", "-i", self.python3, self.serverBin]).pid
         print(f'Watchdog: Ran server pid = {pid}')
 
     def killServer(self, pids):

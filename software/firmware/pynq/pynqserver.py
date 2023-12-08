@@ -9,13 +9,13 @@ import numpy as np
 from pynq import Overlay
 from pynq import allocate
 from pynq import Clocks
-sys.path.append('../../')
+from config.pynq_conf import IP, PORT, OVERLAY_FILE, FOBOS_HOME
+sys.path.append(f"{FOBOS_HOME}/software/")
 import foboslib as fb
 # from foboslib.capture.ctrl.fb import fb
 from pynq_drivers.pynqlocal import PYNQCtrl
 from pynq_drivers.openadc2 import OpenADCScope2
 from pynq_drivers.power import PowerManager
-from config.pynq_conf import IP, PORT, OVERLAY_FILE
 
 #import numpy as np
 MSG_LEN_SIZE    = 10
