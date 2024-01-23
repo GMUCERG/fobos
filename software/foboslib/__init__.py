@@ -121,6 +121,8 @@ ERR_SAMPLING_FREQ_INVALID      = 7
 ERR_ADC_GAIN_INVALID           = 8
 ERR_SAMPLES_PER_TRACE_INVALID  = 9
 ERR_DUT_NOT_SUPPORTED          = 10
+ERR_ADC_GAIN_HILO_INVALID      = 11
+ERR_TV_LEN_INVALID             = 12
 ERR_NOT_IMPLEMENTED            = 999
 
 ERR_MSGS = {
@@ -132,7 +134,9 @@ ERR_MSGS = {
     ERR_TRIG_WAIT_INVALID          : 'Trigger wait invalid. Valid range is [0 2**32-1]',
     ERR_SAMPLING_FREQ_INVALID      : 'Sampling frequncy invalid. Valid range is [1 100] MHz',
     ERR_ADC_GAIN_INVALID           : 'ADC gain invalid. Valid range is [0 60]',
+    ERR_ADC_GAIN_HILO_INVALID      : 'ADC gain HiLo value must be 0 or 1',
     ERR_SAMPLES_PER_TRACE_INVALID  : f'Samples per traces invalid. Valid range is [{MIN_SAMPLES_PER_TRACE} {MAX_SAMPLES_PER_TRACE}] and must be divisble by 4',
     ERR_NOT_IMPLEMENTED            : 'opcode not implemented',
-    ERR_DUT_NOT_SUPPORTED          : 'DUT not supported. Allowed values are 0 and 1'
+    ERR_DUT_NOT_SUPPORTED          : 'DUT not supported. Allowed values are 0 and 1',
+    ERR_TV_LEN_INVALID             : 'Test vector length invalid. It should be greater than zero and multiple of 4 bytes'
 }

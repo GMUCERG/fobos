@@ -70,6 +70,19 @@ class OpenADC2(DefaultIP):
         gain_reg = gain_reg & 0xffffff00
         gain_reg = gain_reg | (gain  & 0xff)
         self.mmio.write(self.gain_cfg_reg_offset, gain_reg)
+    
+    def write_hilo(self, hilo):
+        gain_cfg = self.mmio.read(self.gain_cfg_reg_offset)
+        print(f'gain_cfg_reg = {hex(gain_cfg)}')
+        gain_cfg = gain_cfg & 0x7fffffff
+        gain_cfg = gain_cfg | ((hilo << 31) & 0x80000000)
+        self.mmio.write(self.gain_cfg_reg_offset, gain_cfg)
+        print(f'gain_cfg_reg = {hex(gain_cfg)}')
+        
+    def read_hilo(self):
+        gain_cfg = self.mmio.read(self.gain_cfg_reg_offset)
+        print(f'gain_cfg_reg = {hex(gain_cfg)}')
+        return ((self.mmio.read(self.gain_cfg_reg_offset) >> 31) & 0x1)
         
 class OpenADCScope2():
     """
@@ -160,4 +173,13 @@ class OpenADCScope2():
         return status, response
 
     def setHiLo(self, hilo):
-        pass
+        if not hilo in [0, 1]:
+            status = fb.ERR_ADC_GAIN_HILO_INVALID
+            response = fb.ERR_MSGS[status]
+        else:
+            self.adc.write_hilo(hilo)
+            status = fb.SUCCESS
+            response = f'Set ADC gain HiLo = {hilo}'
+        print(f'gain reg set to {self.adc.read_hilo()}')
+        return status, response
+

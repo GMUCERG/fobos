@@ -225,6 +225,7 @@ begin
 	    if S_AXI_ARESETN = '0' then
 	      slv_reg0 <= (others => '0');
 	      slv_reg1 <= (others => '0');
+--	      slv_reg1 <= x"80000000"; -- gain_reg set gain_mode = 1 by default
 	      slv_reg2 <= (others => '0');
 	      slv_reg3 <= (others => '0');
 	    else

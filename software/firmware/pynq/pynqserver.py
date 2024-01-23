@@ -137,6 +137,7 @@ class server():
                     return opcode, param
         if opcode in [fb.PROCESS, fb.PROCESS_GET_TRACE]:
             print(f'tv len = {len(param)}')
+            param = param.rstrip()
         else:
             if not isinstance(param, int):
                 print(f"Integer expected as a parameter for opcode {opcode}")
@@ -205,22 +206,28 @@ class server():
         response = ''
         try:
             if opcode == fb.PROCESS:
-                self.logger.debug(f'action = PROCESS. param = {param}')
-                result = self.ctrl.processData(param)
-                response = result
+                tvLen = len(param)
+                if tvLen != 0 and tvLen % 4 == 0:
+                    self.logger.debug(f'action = PROCESS. param = {param}')
+                    result = self.ctrl.processData(param)
+                    response = result
+                else:
+                    self.logger.error(f'Invalid test vector length: {tvLen}')
+                    status = fb.ERR_TV_LEN_INVALID
+                    response = fb.ERR_MSGS[status]
             elif opcode == fb.PROCESS_GET_TRACE:
-                # self.logger.debug(f'action = PROCESS_GET_TRACE. param = {param}')
-                # self.fobosAcq.arm(self.outputBuffer,int(self.samplesPerTrace/4))
-                # result = self.ctrl.processData(param)
-                # self.fobosAcq.waitForTrace()
-                # trace = self.outputBuffer.view('uint16').tolist()
-                # response = (result, trace[:self.samplesPerTrace],)
-                
-                # print("get trace")
-                self.fobosAcq.arm()
-                result = self.ctrl.processData(param)
-                trace = self.fobosAcq.getTrace()
-                response = (result, trace,)
+                tvLen = len(param)
+                if tvLen != 0 and tvLen % 4 == 0: 
+                    self.logger.debug(f'action = PROCESS. param = {param}')
+                    self.fobosAcq.arm()
+                    result = self.ctrl.processData(param)
+                    trace = self.fobosAcq.getTrace()
+                    response = (result, trace,)
+                    # response = result
+                else:
+                    self.logger.error(f'Invalid test vector length: {tvLen}')
+                    status = fb.ERR_TV_LEN_INVALID
+                    response = fb.ERR_MSGS[status]
             elif opcode == fb.SET_DUT_CLK:
                 self.logger.info(f'CMD: set DUT clk = {param} KHz')
                 status, response = self.ctrl.setDUTClk(param)
@@ -287,19 +294,9 @@ class server():
                 self.logger.info(f'CMD: set ADC gain')
                 status, response = self.fobosAcq.setGain(param)
             elif opcode == fb.SET_ADC_HILO:
-                self.logger.info(f'CMD: set ADC hi/low')
+                self.logger.info(f'CMD: set ADC hi/low,{param}')
                 status, response = self.fobosAcq.setHiLo(param)
             elif opcode == fb.SET_SAMPLES_PER_TRACE:
-                # self.logger.info(f'samples per trace  = {param}')
-                # if param < fb.MIN_SAMPLES_PER_TRACE or param > fb.MAX_SAMPLES_PER_TRACE:
-                #     status = fb.ERR_SAMPLES_PER_TRACE_INVALID
-                #     response = fb.ERR_MSGS[status]
-                # else:
-                #     self.samplesPerTrace = param
-                #     self.outputBuffer.freebuffer()
-                #     self.outputBuffer = allocate(shape=(int(self.samplesPerTrace / 4 + 2),), dtype=np.uint64)
-                #     status = fb.SUCCESS
-                #     response = f'Set SamplesPerTrace = {param}'
                 self.logger.info(f'CMD: samples per trace  = {param}')
                 status, response = self.fobosAcq.setSamplesPerTrace(param)
             # powe manager setting

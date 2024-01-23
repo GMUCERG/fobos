@@ -9,7 +9,7 @@ import time
 from pathlib import Path
 import argparse
 import subprocess
-import pynq_conf
+from config import pynq_conf
 
 EXIT_FILE   = "/tmp/fobos_exit"
 PYTHON_BIN  = "/usr/bin/python3"
@@ -34,7 +34,7 @@ class Fobos_Manager:
         for pid in pids:
             try:
                 self.logger.info(f'Killing server pid={pid}')
-                subprocess.call(['sudo', 'kill', pid])
+                subprocess.call(['sudo', 'kill', '-9', pid])
             except:
                 self.logger.error('Watchdog: Could not kill server')
     
@@ -77,7 +77,7 @@ class Fobos_Manager:
         pids = self._get_server_pid()
         if pids is None:
             print(os.getcwd())
-            os.chdir(pynq_conf.FOBOS_HOME + '/software/firmware/pynq/')
+            os.chdir(fobos_pynq_conf.FOBOS_HOME + '/software/firmware/pynq/')
             # pid = subprocess.Popen(["sudo", "-i", PYTHON_BIN, pynq_conf.FOBOS_HOME + '/software/firmware/pynq/' + SERVER_BIN]).pid
             pid = subprocess.Popen(["sudo", PYTHON_BIN, SERVER_BIN]).pid
             self.logger.info(f'Started FOBOS server. pid={pid}')
