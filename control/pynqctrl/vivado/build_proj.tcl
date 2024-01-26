@@ -160,6 +160,7 @@ set file "$origin_dir/src/constr/pynq_z1_rev2.xdc"
 set file [file normalize $file]
 set file_obj [get_files -of_objects [get_filesets constrs_1] [list "*$file"]]
 set_property -name "file_type" -value "XDC" -objects $file_obj
+set_property -name "is_enabled" -value "0" -objects $file_obj
 
 # Add/Import constrs file and set constrs file properties
 set file "[file normalize "$origin_dir/src/constr/pynq_z1_rev1.xdc"]"
