@@ -2,3 +2,4 @@ fobosworkspace
 sds_trace_data.dat
 .ipynb_checkpoints
 foboslib
+pynq_drivers

@@ -329,12 +329,30 @@ fi
 
 # if its a file or directory raise an error
 if [ -f $foboslib ] || [ -d $foboslib ]; then
-    echo "$foboslibexists but its not a link. Please remove."
+    echo "$foboslib exists but its not a link. Please remove."
     exit 1;
 fi
 
 # now it should be save to create the link
 `ln -s $foboshome/software/foboslib $foboslib`
+
+#--- Linking pynq-drivers
+pynqdrivers=$jupyternotebooks/pynq_drivers
+echo "Linking FOBOS drivers of Pynq to $pynqdrivers"
+
+# remove if it exists as a link
+if [ -L $pynqdrivers ]; then
+   `rm $pynqdrivers` 
+fi
+
+# if its a file or directory raise an error
+if [ -f $pynqdrivers ] || [ -d $pynqdrivers ]; then
+    echo "$pynqdrivers exists but its not a link. Please remove."
+    exit 1;
+fi
+
+# now it should be save to create the link
+`ln -s $foboshome/software/firmware/pynq/pynq_drivers $pynqdrivers`
 
 # write configuration to fobos home in case files were not copied
 outfile=$foboshome/software/firmware/pynq/fobos_pynq.conf
