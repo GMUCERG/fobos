@@ -2,3 +2,4 @@ pynq_controller
 NA
 *.bit
 *.hwh
+build.tcl
