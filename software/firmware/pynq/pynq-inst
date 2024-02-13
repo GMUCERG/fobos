@@ -1,8 +1,8 @@
 #! /bin/bash
 #############################################################################
-#   install-pynq.sh - FOBOS                                                 #
-#   -----------------------                                                 #          
-#   script to install FOBOS components on the Xilinx Pynq Z1                #
+#   pynq-inst - FOBOS                                                       #
+#   -----------------                                                       #          
+#   script to install FOBOS components on the Xilinx Pynq Z1 or Z2          #
 #                                                                           #
 #                                                                           #
 #   Copyright 2023 CERG                                                     #
