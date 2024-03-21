@@ -1,11 +1,16 @@
-.. _dut_basys3-label:
+.. _dut_nexys3-label:
 
 ===============================
 Digilent Nexy3 (Spartan 6 FPGA)
 ===============================
 
-Connection to Basys3 control board
-----------------------------------
+.. warning:: 
+
+    This still needs to be described! The text below is a space holder!
+
+Connection to FOBOS Shield control board
+----------------------------------------
+
 
 The PMOD ports on both boards are used to transfer data. The ports should be connected as follows
 

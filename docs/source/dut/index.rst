@@ -17,9 +17,25 @@ FOBOS supports the following boards as DUT:
 .. toctree::
    :maxdepth: 1
    
+   fbd-a7
    nexys3
    cw305
-   fbd-a7
+
+=========================================
+Using the GMU LWC Hardware API with FOBOS
+=========================================
+
+This section describes how to use a cryptographic hardware implementation that adheres to the GMU LWC Hardware API 
+with FOBOS. As part of FOBOS, we provide a wrapper for the GMU LWC Hardware API and a simple AES implementation that follows this API.
+
+.. toctree::
+   :maxdepth: 1
+
+   lwc_hardware_api
+   fobos_wrapper
+   AES_example
+   DUT_implementation
+
 
 =========================
 DUT Algorithm Development

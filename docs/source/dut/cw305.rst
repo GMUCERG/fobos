@@ -4,44 +4,22 @@
 NewAE CW305 (Artix7 FPGA)
 =========================
 
-Connection to Basys3 control board
-----------------------------------
-
-The PMOD ports JA and JXADC in the Basys3 control board should be connected to 40-pin port JP3.
-The pin mapping in the NewAE CW305 is as follows: 
-
-.. _tab_basys3-cw305:
-.. table:: NewAE CW305 JP3 pinout
-
-    +----------+----------+----------+----------+
-    |          |  din3    |  do_ready|  rst     |
-    |  NC      |  D16     |  E16     |  F12     |
-    +----------+----------+----------+----------+
-    |  din0    |  din2    |  din1    |  do_valid|
-    |  D15     |  E15     |  E13     |  F15     |
-    +----------+----------+----------+----------+
-    +----------+----------+----------+----------+
-    |  dout1   |  dout3   |  di_ready|  clk     |
-    |  B12     |  A13     |  B15     |  C11     |
-    +----------+----------+----------+----------+
-    |  dout0   |  dout2   |  di_valid|          |
-    |  A12     |  A14     |  A15     |  C12     |
-    +----------+----------+----------+----------+
-
-Make sure to set the DUT interface to INTERFACE_8BIT in your Jupyter notebook using the following command.
-This configures the FOBOS Control to DUT communication.
-
-.. code-block:: py
-
-    ctrl.setDUTInterface(FOBOSCtrl.INTERFACE_8BIT) 
-
-
-When compiling the FOBOS wrapper, choose **cw305_PMOD.xdc** as the constraint file.
 
 Connection to FOBOS Shield control board
 ----------------------------------------
 
 When using the FOBOS Shield, simply connect the 20pin ribbon cable to the target connector of the FOBOS Shield and the CW305. 
+Connect an SMA cable to the SMA connector X4 of the CW305 board and to the Measure connector J10 on the FOBOS Shield or to an oscilloscope for measuring changes in power consumption for SCA measurement.
+
+.. _fig_FOBOS-CW305:
+.. figure::  ../figures/FOBOS3-CW305_label.jpg
+   :align:   center
+   :height: 450 px
+
+
+   FODOS 3 Setup with NewAE CW305 DUT
+
+
 Make sure to set the DUT to CW305 and DUT interface to INTERFACE_4BIT in your Jupyter notebook using the following commands.
 This configures the FOBOS Control to DUT communication.
 
@@ -68,5 +46,32 @@ You can program the DUT using the following commands in your Jupyter notebook:
 Power Measurement
 -----------------
 
-To measure the power, you can connect your oscilloscope to test point X4. For more information,
-refer to the manufacturer web-site.
+To measure the power consumption, you have to supply VCC-INT for the CW305 board from the FOBOS Shield. 
+Connect the *Molex-Banana* cable to J25 on the Shield and the Banana sockets on the CW305 board as shown in :numref:`fig_FOBOS-CW305`.
+Keep the source switch SW1 on the CW305 set to the internal power supply for now and switch on the CW305 board.
+
+Enable the variable power supply on the FOBOS Shield and set it to supply 1.0V using the following command.
+
+.. code-block:: py
+
+    ctrl.pwSetVarOn(1.0)    
+
+You can verify the voltage on this variable power supply with the following command.
+
+.. code-block:: py
+
+    ctrl.pwGetVoltVar()
+
+Then you can change the source switch SW1 on the CW305 for the external power supply.
+Verify immediately with the on board Voltage Meter of the CW305 that the Voltage for VCC-INT does not exceed 1.0V.
+If it does, remove the banana plugs immediately.
+
+.. warning:: 
+
+    Do not apply a voltage greater than 1.0V to the banana jacks on the NewAE CW305 board or you might break the FPGA.
+
+.. warning:: 
+
+    Use the variable power supply of the FOBOS shield at your own risk! The FOBOS developers, the Cryptographic Engineering Research Group CERG, and George Mason University are not liable if using the variable power supply causes other circuits to fail. 
+    FOBOS is provided on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied, including, without limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE. 
+

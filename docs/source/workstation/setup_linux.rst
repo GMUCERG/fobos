@@ -15,9 +15,10 @@ Requirements
 Setup Network Sharing (Optional)
 --------------------------------
 
-If your computer has two network interfaces, you can configure one to access the Internet and the other to connect to the Pynq board and maybe other instruments using a non routable IP address range.  We describe here how to do this with Ubuntu 22.04.
+If your computer has two network interfaces, you can configure one to access the Internet and the other to connect to the Pynq board and maybe other instruments using a non routable IP address range. We describe here how to do this with Ubuntu 22.04.
+In the example below, the network interface for the *instruments* network is ``enp2s0`` and the IP address range is ``192.168.2.1 - 192.168.255``.  You can find the names and the network information of your PC with the ``ip a show`` command. 
 
-Create the file ``etc/netplan/20-instruments.yaml`` with the following contents.
+Create the file ``etc/netplan/20-instruments.yaml`` with the following contents and adjust the interface name and the IP address range to your requirements.
 
    .. code-block:: yaml
    
@@ -37,7 +38,7 @@ Edit the file ``/etc/sysclt.conf`` and uncomment ``net.ipv4.ip_forward=1`` to al
     sudo sysctl -p /etc/sysctl.conf
     sudo /etc/init.d/procps restart
 
-Then configure iptables
+Then configure iptables. Adjust the IP address range to match what you used above.
 
    .. code-block:: bash
 
@@ -50,7 +51,7 @@ The last command will ask whether to apply the new rules, answer yes and then ch
 Basic Downloads
 ---------------
 
-Note: The following installation procedure is tested on Linux Ubuntu 22.04.
+Note: The following installation procedure was tested on Linux Ubuntu 22.04.
 
 #. Download FOBOS from the `FOBOS home page <https://cryptography.gmu.edu/fobos/>`_.
 #. Extract the archive into a directory of your choice
@@ -59,12 +60,21 @@ Note: The following installation procedure is tested on Linux Ubuntu 22.04.
    
        tar xvfz fobos-v3.0.tgz
     
-#. Use the following commands to install pip and few necessary Python packages:
+   .. note::
+       You can also clone FOBOS from `Github <https://github.com/GMUCERG/fobos>`_.
+       Then you would skip steps 1 and 2 from above.
+
+#. Use the following commands to install *pip* and *make*:
 
    .. code-block:: bash
    
        sudo apt-get install python3-pip
        sudo apt install make 
+
+#. Enter the fobos directory and install the few necessary Python packages:
+
+   .. code-block:: bash
+
        cd fobos
        sudo pip3 install -r requirements.txt
 
@@ -177,6 +187,8 @@ These installation instructions are based on
 
         sudo systemctl status jupyterhub.service
 
+    You can quit this status display by pressing ``q`` on the keyboard.
+
 Conda Installation
 ------------------
 
@@ -212,7 +224,9 @@ We will use ``conda`` to manage the Python environments.
 
         sudo ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh
 
-#.  Install a default conda environment for all users
+#.  Install a default conda environment for all users. 
+    But first check your version of python by issuing ``python3 --version`` on the command line.
+    If necessary edit the version in the code below.
 
     .. code-block:: bash
 
@@ -240,7 +254,12 @@ Finally we get to install FOBOS to run in the JupyterLab we just created.
 
         sudo apt-get install pandoc texlive-xetex texlive-fonts-recommended 
 
-#.  Install FOBOS into ``/opt/fobos`` by simply moving the whole package.
+#.  Install FOBOS into ``/opt/fobos`` by simply moving the whole directory tree.
+
+    .. code-block:: bash
+
+        sudo mv fobos /opt/
+
 
 #.  Create notebooks folders in all users home directories and 
     copy fobos notebooks into the users notebook directories   
@@ -259,7 +278,7 @@ Install DUT Support
 #.  **Chipwhisperer DUTs**
 
     These installation instructions are based on 
-    `ChipWhisperer Lunix Installatioin <https://chipwhisperer.readthedocs.io/en/latest/linux-install.html>`_.
+    `ChipWhisperer Linux Installation <https://chipwhisperer.readthedocs.io/en/latest/linux-install.html>`_.
     As we only want to program the DUTs we won't install everything.
     
     Create a directory for ChipWhisperer and clone it from git into this location
@@ -280,10 +299,21 @@ Install DUT Support
         sudo udevadm control --reload-rules
         sudo usermod -aG dialout $USER
         sudo usermod -aG plugdev $USER
+
+    Repeat the last two lines for all users that have to access target boards.
+
+    .. warning::
+
+       If you don't have or want a *chipshisperer* group, replace *chipwhisperer* with *plugdev*
+       in the file ``50-newae.rules``. Then don't add the user to the *chipwhisperer* group.
+
+
+    Optional: Add the all users to the chipwhisperer group
+
+    .. code-block:: bash
+
         sudo usermod -aG chipwhisperer $USER
-    
-    If you don't have or want a *chipshisperer* group, replace *chipwhisperer* with *plugdev*
-    in the file ``50-newae.rules``.
+
     Add ChipWhisperer to our JupyterHub package directory and install require packages.
 
     .. code-block:: bash
@@ -303,9 +333,10 @@ Install DUT Support
 
 #.  **Digilent DUTs**
 
-    FPGA boards from Digilent Inc. require the Digilent Adept tools. Download them from 
-    `Digilent Adept Wbsite <https://digilent.com/shop/software/digilent-adept/>`_ for Linux
-    the packages and install them.
+    FPGA boards from Digilent Inc. require the Digilent Adept tools. Download the 
+    latest versions of the following packages for Linux from
+    `Digilent Adept Website <https://digilent.com/shop/software/digilent-adept/>`_ 
+    and install them.
     
     - Adept for Linux Runtime 
     - Adept Utilities 

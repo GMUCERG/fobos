@@ -15,7 +15,7 @@ Connection to FOBOS Shield control board
 ----------------------------------------
 
 When using the FOBOS Shield, simply connect the 20pin ribbon cable to the target connector of the FOBOS Shield and the FBD-A7. 
-Connect an SMA cable to the SMA connector J6 of the FBD-A7 and to the Measure connector J10 on the FOBOS Shield or to an oscilloscope for measuring changes in power consumption for SCA measurement.
+Connect the SMA connector J6 of the FBD-A7 to the Measure connector J10 on the FOBOS Shield or to an oscilloscope for measuring changes in power consumption for SCA measurement.
 
 .. figure::  ../figures/FOBOS3-Artix7-A12_label.jpg
    :align:   center
@@ -40,7 +40,7 @@ Programming the FBD-A7 DUT
 --------------------------
 
 The DUT can only be programmed through the JTAG interface as of now. 
-The capability to program the DUT directly from FOBOS Control or from the SPI flash is still being developed.
+Programming the DUT directly from FOBOS Control or from the SPI flash are still being developed.
 
 ..
     You can program the DUT using the following commands in your Jupyter notebook:

@@ -60,7 +60,19 @@ The `Xilinx XADC <https://docs.xilinx.com/r/en-US/ug480_7Series_XADC/XADC-Overvi
 
 If a higher sample rate is desired, it is possible to use an external oscilloscope to measure the current through the variable voltage supply. To do so, simply close the J28 jumper and connect the oscilloscope to the J23 BNC connector. This enables direct measurement of the CSM voltage which can be used to calculate the current being used.
 
-There is a script for calibrating the voltage and current measurements, which is described in :ref:`control-pynq-setup-label`.
+There is a script for calibrating the voltage and current measurements, which is described in :numref:`power-calibration`.
+
+Using the Variable Power Supply
+===============================
+
+The variably power supply can be programmed to deliver voltages from 0.9V to 3.5V in 0.05V increments. The following commands set the voltage and switches the power supply on, changes the voltage to a new value, and then switches the power supply off again.
+
+.. code-block:: py
+
+    ctrl.pwSetVarOn(1.0)    
+    ctrl.pwOutVarSet(1.15)
+    ctrl.pwSetVarOff()    
+
 
 Measuring Power Supply Voltage
 ==============================
