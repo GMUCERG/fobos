@@ -31,7 +31,6 @@ with FOBOS. As part of FOBOS, we provide a wrapper for the GMU LWC Hardware API 
 .. toctree::
    :maxdepth: 1
 
-   lwc_hardware_api
    fobos_wrapper
    AES_example
    DUT_implementation

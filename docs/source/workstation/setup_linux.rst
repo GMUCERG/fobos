@@ -358,7 +358,7 @@ Go to the `Pico Tech Download page <https://www.picotech.com/downloads>`_ and se
 latest version of PicoScope for your operating system. Follow the instructions on their 
 webpage to install it.
 
-In order for FOBOS to use a PicoSope you also have to install they Pico SDK.   
+In order for FOBOS to use a PicoSope you also have to install the Pico SDK.   
 Create a directory ``sdk`` in your ``/opt/picoscope`` directory and give it your user 
 rights.
 
