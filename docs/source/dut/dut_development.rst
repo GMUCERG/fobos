@@ -1,67 +1,15 @@
-Data flow description
----------------------
+.. _DUT-development:
 
-Test vectors are sent form PC one at a time to the control board which stores them briefly.
-The control board starts sending the test vector to the DUT board through the interface described below.
-The DUT wrapper then puts data in the correct FIFOs (PDI, SDI and RDI).
-Once the DUT wrapper receives the start command from the controller, it de-asserts the function core reset signal and the function core will run and consume the data in the FIFOs. 
-The output of the function core is stored in the DO fifo. 
-Once the DO FIFO accumulates EXPECTED_OUTPUT bytes, the DUT wrapper will send this data to the control board which forwards it to the PC.
-
-
-The DUT Wrapper <–> Function core interface
--------------------------------------------
-The protocol follows a simple AXI stream protocol. The 'valid' signals indicates data from source are valid and 'ready' signals 
-indicates destination is ready to use data. When both 'valid' and 'ready' signals are set to logic 1, data is transferred.
-All the data signals shown in the listing below, are connected to the FIFOs PDI, SDI, RDI and DO.
-
-The function core (victim) is instantiated as follows in the FOBOS_DUT.vhd file.
-
-.. code-block:: vhdl
-
-
-    victim: entity work.victim(behav)
-        -- Choices for W and SW are independently any multiple of 4, defined in generics above
-        generic map  (
-            G_W          => W, -- ! pdi and do width (mulltiple of 4)
-            G_SW         => SW -- ! sdi width (multiple of 4) 
-        )
-        port map(
-            clk => clk,
-            rst => start,  
-            -- data signals
-            pdi_data  => pdi_data,
-            pdi_valid => pdi_valid,
-            pdi_ready => pdi_ready,
-            sdi_data => sdi_data,
-            sdi_valid => sdi_valid,
-            sdi_ready => sdi_ready,
-            do_data => result_data,
-            do_ready => result_ready,
-            do_valid => result_valid
-
-        --  ! if rdi_interface for side-channel protected versions is required,
-        --  ! uncomment the rdi interface
-        --  ,rdi_data => rdi_data,
-        --  rdi_ready => rdi_ready,
-        --  rdi_valid => rdi_valid
-    );
-
-The generic W is the PDI and DO width in bits.
-The generic SW is the SDI width.
-
-
-It is highly recommended that the DUT is tested using the capture/dut/fpga_dut/fobos_dut_tb.vhd test bench and ensure 
-that the output is valid. 
-This testbench needs one test vector to be stored in the file dinFile.txt and generates doutFile.txt output file.
-
+=================
 Dummy DUT Example
------------------
+=================
 
-You can find an example dummy DUT in fobos/capture/dut/example_cores/dummy1.
-This dummy core is used to test FOBOS DUT.
-It simply echos back configurable number of words of the PDI sent in the test vector.
-The dummy core in the listing below, echos seven 8-bit words of the PDI from the test vector received from the DUT wrapper.
+You can find an example dummy DUT in ``/dut/example_cores/dummy1``.
+This dummy core is used to test the FOBOS DUT and is a great starting point for making your own hardware 
+implementation of a cryptographic algorithm compatible with FOBOS.
+
+The dummy core simply echos back configurable number of words of the PDI sent in the test vector.
+Its listing is shown below. It echos four 32-bit words of the PDI from the test vector received from the DUT wrapper.
 
 .. code-block:: vhdl
 
@@ -70,8 +18,8 @@ The dummy core in the listing below, echos seven 8-bit words of the PDI from the
     use ieee.std_logic_unsigned.all;
     entity dummy is
         Generic(
-            N        : integer := 8;
-            NUMWORDS : integer := 7
+            N        : integer := 32;
+            NUMWORDS : integer := 4
         );
         port(clk       : in  STD_LOGIC;
              rst       : in  STD_LOGIC;
@@ -166,10 +114,7 @@ The dummy core in the listing below, echos seven 8-bit words of the PDI from the
 Generating the dummy DUT bitstream
 ----------------------------------
 
-This procedure describes how to generate the bitstream for the dummy DUT. You don't need to perform
-this procedure to run the dummy example since the bitstream is already generated.
-However, this procedure aims to show how to instantiate a function core in FOBOS DUT wrapper.
-
+This procedure describes how to generate the bitstream for the dummy DUT. 
 
 1. Create a project in Vivado (or ISE) and add all vhdl files from fobos/capture/dut/fpga_dut (except half_duplex_du.vhd)
 and fobos/capture/dut/example_cores/dummy1.

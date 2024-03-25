@@ -10,7 +10,7 @@ A DUT (Design Under Test) board must be connected to the control board to run SC
 Setup DUT Board
 ===============
 
-This section describes how to connect the supported DUTs to FOBOS Control and how to modify the DUTs if needed.
+This section describes how to connect the supported DUTs to FOBOS Control and how to modify the DUT Boards if needed.
 FOBOS supports the following boards as DUT:
 
 
@@ -21,36 +21,30 @@ FOBOS supports the following boards as DUT:
    nexys3
    cw305
 
-=========================================
-Using the GMU LWC Hardware API with FOBOS
-=========================================
+===================
+FOBOS DUT Interface
+===================
 
-This section describes how to use a cryptographic hardware implementation that adheres to the GMU LWC Hardware API 
-with FOBOS. As part of FOBOS, we provide a wrapper for the GMU LWC Hardware API and a simple AES implementation that follows this API.
+This section describes how to interface a cryptographic hardware implementation with FOBOS. As part of FOBOS, we provide a wrapper for implementations that follow a simple AXI stream protocol interface such as the GMU LWC Hardware API interface as described in :numref:`lwc_hw_api`.
 
 .. toctree::
    :maxdepth: 1
 
    fobos_wrapper
-   AES_example
-   DUT_implementation
+   gmu_lwc_api
 
 
-=========================
-DUT Algorithm Development
-=========================
+================================================
+Examples for implementing algorithms for the DUT
+================================================
 
-This section describes how to interface the DUT wrapper and the Function Core (victim).
-The  Function Core (a.k.a victim), is the algorithm to be tested. The DUT wrapper is hardware that is instantiated on the same
-FPGA as the function core and used to communication to the control board.
-The function core is user provided. However, the DUT wrapper is included with FOBOS.
-The DUT Wrapper handles communication to the control board and includes FIFOs to store input and output data.
-
-
+This section describes how to compile the provided example *AES* for use with FOBOS, as well as a GMU LWC Hardware API compatible implementation of *ASCON* from the Ascon Team, and the *dummy DUT* that we provide. The dummy DUT is a great starting point for making your own hardware implementation of a cryptographic algorithm compatible with FOBOS.
 
 .. toctree::
    :maxdepth: 1
-   
+
+   AES_example
+   ASCON_example
    dut_development
 
 

@@ -171,7 +171,8 @@ architecture behav of core_wrapper is
     attribute mark_debug of rst: signal is "true";
 
 begin
-    -- BEGING USER CRYPTO  =============================================================================
+    --=============================================
+    -- BEGING USER CRYPTO
     -- Instantiate your core here
     crypto_core : entity work.aes_axi(behav)
     port map(

@@ -1,10 +1,25 @@
+.. _fobos-dut-comms:
+
+=======================
+FOBOS DUT Communication
+=======================
+Test vectors are sent form PC one at a time to the control board which stores them briefly.
+The control board starts sending the test vector to the DUT board through the FOBOS DUT interface.
+The DUT wrapper then puts data in the correct FIFOs (PDI, SDI and RDI).
+Once the DUT wrapper receives the start command from the controller, it de-asserts the function core reset signal and the function core will run and consume the data in the FIFOs. 
+The output of the function core is stored in the DO fifo. 
+Once the DO FIFO accumulates EXPECTED_OUTPUT bytes, the DUT wrapper will send this data to the control board which forwards it to the PC.
+
+
 .. _dut-fobos_wrapper:
 
 =============
 FOBOS Wrapper
 =============
 
-The FOBOS wrapper provides translation from the FOBOS DUT protocol to the GMU LWC Hardware API. A simplified block diagram 
+The FOBOS wrapper provides translation from the FOBOS DUT interface to the Crypto Core Interface which is 
+compatible with the GMU LWC Hardware API interface as described in :numref:`lwc_hw_api`.
+A simplified block diagram 
 of the FOBOS wrapper is shown in :numref:`fig_dut-block`. The 20-pin FOBOS target connector uses a 4-bit bidirectional 
 data bus with FIFO style handshaking. Therefor, the top-level VHDL file of the wrapper is called ``half_duplex_dut.vhd``. 
 It uses the ``half_duplex_interface.vhd`` to convert this into a 4-bit full duplex interface which connects to the 
@@ -26,67 +41,73 @@ FOBOS DUT Protocol or any required Parallel Input Serial Output (PISO) or Serial
 The VHDL code for the FOBOS Wrapper, including PISO, SIPO, FWFT FIFOs, and Trivium is provided in the directory
 ``dut/fpga_wrapper/src_rtl``.
 
-==================
-FOBOS DUT Protocol
-==================
+=====================
+Crypto Core Interface
+=====================
 
-.. _fig_dut-protocol:
-.. figure::  ../figures/dut-protocol.png
-   :align:   center
-   :height: 100 px
+The interface follows a simple AXI stream protocol. The 'valid' signals indicates data from source are valid and 'ready' signals 
+indicates destination is ready to use data. When both 'valid' and 'ready' signals are set to logic 1, data is transferred.
+All the data signals shown in the listing below, are connected to the FIFOs PDI, SDI, RDI and DO.
 
-   FOBOS DUT Protocol
+The function core (victim) is instantiated as follows in the ``core_wrapper.vhd`` file around line 173.
+The example below shows how to instantiate the unprotected implementation of AES that is supplied as an 
+example.
 
-FOBOS uses the simple protocol shown in :numref:`fig_dut-protocol`. 
-An instruction consists of an Opcode and a Destination.
-The Opcode describes in which type of storage should be used. 
-A **C** indicates a FIFO, an **8** a 32-bit register. This is immediately followed by the Destination, i.e., the 
-FIFO or register number. Each instruction is followed by a Parameter. In case of FIFO, the parameter contains the 
-number of bytes of data following. In case of Register, it contains the data to be stored in the selected register.
-:numref:`tab_dut-protocol_instructions` shows the implemented Instructions and the purpose of the associated 
-Parameters.
+.. code-block:: vhdl
 
-.. _tab_dut-protocol_instructions:
-.. table:: FOBOS DUT Protocol Instructions
+    --=============================================
+    -- BEGING USER CRYPTO  
+    -- Instantiate your core here
+    crypto_core : entity work.aes_axi(behav)
+    port map(
+    	clk         => clk,
+    	rst         => not crypto_input_en,
+        -- data signals
+    	pdi_data    => crypto_di0_data,
+    	pdi_valid   => crypto_di0_valid,
+    	pdi_ready   => crypto_di0_ready,
 
-    +--------+-------------+-------------+---------+---------------------------------------+
-    | Opcode | Destination | Storage     | Usage   | Parameter                             |
-    +========+=============+=============+=========+=======================================+
-    | C      | 0           | FIFO_0      | PDI     | length of data in bytes               |
-    +--------+-------------+-------------+---------+---------------------------------------+
-    | C      | 1           | FIFO_1      | SDI     | length of data in bytes               |
-    +--------+-------------+-------------+---------+---------------------------------------+
-    | 8      | 0           | Register 0  | cmd     | Command                               |
-    +--------+-------------+-------------+---------+---------------------------------------+
-    | 8      | 1           | Register 1  | outlen  | length of output in bytes             |
-    +--------+-------------+-------------+---------+---------------------------------------+
-    | 8      | 2           | Register 2  | rndlen  | length of random data in 32-bit words |
-    +--------+-------------+-------------+---------+---------------------------------------+
-    | 8      | 3           | Register 3  |         |                                       |
-    +--------+-------------+-------------+---------+---------------------------------------+
-    | 8      | 4           | Register 4  | seed0   | Part of seed for RNG                  |
-    +--------+-------------+-------------+---------+---------------------------------------+
-    | 8      | 5           | Register 5  | seed1   | Part of seed for RNG                  |
-    +--------+-------------+-------------+---------+---------------------------------------+
-    | 8      | 6           | Register 6  | seed2   | Part of seed for RNG                  |
-    +--------+-------------+-------------+---------+---------------------------------------+
-    | 8      | 7           | Register 7  | seed3   | Part of seed for RNG                  |
-    +--------+-------------+-------------+---------+---------------------------------------+
+        sdi_data    => crypto_di1_data,
+    	sdi_valid   => crypto_di1_valid,
+    	sdi_ready   => crypto_di1_ready,
 
-The FOBOS DUT Protocol implements two commands:
+    	do_data     => crypto_do_data,
+    	do_ready    => crypto_do_ready,
+    	do_valid    => crypto_do_valid
 
-1. Start the cryptographic operation.
-2. Generate *rndlen* 32-bit words of random data and put them into the RDI FIFO.
+        --! if rdi_interface for side-channel protected versions is required, uncomment the rdi interface
+        -- ,rdi_data => crypto_rdi_data,
+        -- rdi_ready => crypto_rdi_ready,
+        -- rdi_valid => crypto_rdi_valid
+    );
+    -- END USER CRYPTO
+    --=============================================
 
-:numref:`fig_testvector` shows an example of a test vector for a block cipher. First 128-bit (16 Bytes) of plaintext are 
-send for FIFO-0, then 128-bit (16 Bytes) of key for FIFO-2, followed by the expected cyphertext length 
-of 128-bit (16 Bytes) and the command to start encryption.
 
-.. _fig_testvector:
-.. figure::  ../figures/testvector.png
-   :align:   center
-   :height: 350 px
 
-   FOBOS Block Cipher Test Vector
+The widths *pw* of PDI "FIFO_0", *sw* of SDI "FIFO_1", *ow* of DO "FIFO_OUT", and *rw* of RDI "FIFO_RDI" 
+as well as their depth in words of WIDTH bits has to be defined in ``core_wrapper_pkg.vhd`` which is shown 
+below.
 
+.. code-block:: vhdl
+
+    package core_wrapper_pkg is
+        -- input fifos
+        constant FIFO_0_WIDTH           : natural := 128    ;
+        constant FIFO_0_LOG2DEPTH       : natural := 1      ;
+        constant FIFO_1_WIDTH           : natural := 128    ;
+        constant FIFO_1_LOG2DEPTH       : natural := 1      ;
+        -- output fifo
+        constant FIFO_OUT_WIDTH         : natural := 128    ;    
+        constant FIFO_OUT_LOG2DEPTH     : natural := 1      ;
+        -- random data
+        constant RAND_WORDS             : natural := 8      ;
+        constant FIFO_RDI_WIDTH         : natural := 64     ;
+        constant FIFO_RDI_LOG2DEPTH     : natural := 3      ;  
+    
+    end core_wrapper_pkg;
+
+It is highly recommended that the DUT is tested using the ``dut/fpga_wrapper/src_tb/core_wrapper_tb.vhd`` test bench and ensure 
+that the output is valid. 
+This testbench needs one test vector to be stored in the file dinFile.txt and generates doutFile.txt output file.
 

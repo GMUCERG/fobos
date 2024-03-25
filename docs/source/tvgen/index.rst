@@ -21,48 +21,18 @@ Once the wrapper prepares the data for the function core, it starts the core whi
 The wrapper accumulates the output into a fourth FIFO called the Data Out (DO) FIFO until the expected number of bytes are stored. 
 Then, the wrapper returns the data to the control board which forwards it back to the PC.
 
-.. figure::  figures/fobos3-block.png
+.. figure::  ../figures/fobos3-block.png
    :align:   center
    :height: 300 px
 
    FOBOS2 block diagram
 
 
-The following is a brief description for the test vector format
+.. toctree::
+   :maxdepth: 1
 
-Supported commands
-==================
+   dut_protocol
 
-- 00C0 # pdi fifo (length in bytes to follow)
-- 00C1 # sdi fifo (length in bytes to follow)
-- 00C2 # rdi fifo (length in bytes to follow)
-- 0081 # store expected output size (expected output size in bytes to follow)
-- 0080 # select command register (command to follow)
-
-
-FOBOS Protocol Example
-----------------------
-
-Here is an example of a signle test vector(split into multiple lines)::
-
-
-    00C0 # pdi fifo (length in bytes to follow)
-    0008 # 8 bytes
-    FFFF # 8 bytes of pdi
-    FFFF
-    FFFF
-    FFFF 
-    00C1 # sdi fifo (length in bytes to follow)
-    000A # 10 bytes
-    0000 # 10 bytes of sdi
-    0000
-    0000
-    0000
-    0000 
-    0081 # store expected output size
-    0008 # 8 bytes of output expected
-    0080 # select command register
-    0001 # "start signal"
 
 
 Using the blockCipherTVGen.py script

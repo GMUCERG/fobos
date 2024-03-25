@@ -48,7 +48,7 @@ Features
    controller/index
    dut/index
    modules/index
-   tvgen
+   tvgen/index
    examples/index
    teaching/index
    api/modules
