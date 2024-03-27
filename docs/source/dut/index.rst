@@ -34,9 +34,9 @@ This section describes how to interface a cryptographic hardware implementation 
    gmu_lwc_api
 
 
-================================================
-Examples for implementing algorithms for the DUT
-================================================
+=================================
+Example Algorithm Implementations
+=================================
 
 This section describes how to compile the provided example *AES* for use with FOBOS, as well as a GMU LWC Hardware API compatible implementation of *ASCON* from the Ascon Team, and the *dummy DUT* that we provide. The dummy DUT is a great starting point for making your own hardware implementation of a cryptographic algorithm compatible with FOBOS.
 
