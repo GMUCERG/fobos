@@ -36,6 +36,11 @@ This configures the FOBOS Control to DUT communication.
 
 When compiling the FOBOS wrapper, choose **fbd-a7.xdc** as the constraint file.
 
+Implementing Cryptographic Algorithms for the FBD-A7 DUT
+--------------------------------------------------------
+
+Follow the instructions in :numref:`algorithm-implementation` and use the constraint file ``FOBOS_Artix7.xdc``.
+
 Programming the FBD-A7 DUT
 --------------------------
 

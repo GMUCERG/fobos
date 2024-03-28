@@ -15,21 +15,127 @@ provided in the directory ``dut/example_cores/AES-128``. The block diagram of th
 
    Block Diagram of the Example AES Implementation
 
+
+
+.. _tab_example-aes:
+.. table:: Example AES-128 Features
+    :align:   center
+
+    +---------------------------------------+----+
+    | Interface                             | AXI|
+    +---------------------------------------+----+
+    | PDI width                             | 128|
+    +---------------------------------------+----+
+    | PDI depth                             |   1|
+    +---------------------------------------+----+
+    | SDI width                             | 128|
+    +---------------------------------------+----+
+    | SDI depth                             |   1|
+    +---------------------------------------+----+
+    | DO width                              | 128|
+    +---------------------------------------+----+
+    | DO depth                              |   1|
+    +---------------------------------------+----+
+    | Rounds per clock cycle                |   1|
+    +---------------------------------------+----+
+    | Clock cycles for encrypting one block |  11|
+    +---------------------------------------+----+
+
+
+-----------------------
+First Steps
+-----------------------
+
+Create a new directory for the AES DUT project.
+Copy all files of the example AES from the ``dut/example_cores/AES-128/vhdl`` directory, all files from the 
+``dut/fpga_wrapper/src_rtl`` directory and the ``dut/fpga_wrapper/src_tb/core_wrapper_tb.vhd`` to this directory.
+Additionally copy the constraint file that matches your DUT from the ``dut/fpga_wrapper/constraints`` directory.
+Only modify the copied files.
+
+.. code-block:: bash
+    :caption: Command line example for copying all relevant files
+
+    mkdir AES-DUT
+    cd !$
+    cp ~/fobos/dut/example_cores/AES-128/vhdl/* .
+    cp ~/fobos/dut/fpga_wrapper/src_rtl/* .
+    cp ~/fobos/dut/fpga_wrapper/src_tb/core_wrapper_tb.vhd .
+    cp ~/fobos/dut/fpga_wrapper/constraints/FOBOS_Artix7.xdc .
+
+
 -----------------------
 AES Top Level Interface
 -----------------------
 
+The top level file of the example AES implementation is ``aes_axi.vhd``. Its interface is shown in :numref:`lst_aes-axi-top`. 
+It features three AXI4-Stream compatible interfaces, one for plaintext (PDI), key (SDI), and ciphertext (DO) as 
+well as a clock and reset input. This interface matches exactly the FOBOS wrapper's interface for the Crypto Core.
+It is a wrapper for the basic AES implementation.
+
+.. _lst_aes-axi-top:
+.. code-block:: vhdl
+    :caption: Entity declaration of the example AES AXI wrapper
+
+    entity aes_axi is
+        Port ( clk       : in  STD_LOGIC;
+               rst       : in  STD_LOGIC;
+               pdi_data  : in  STD_LOGIC_VECTOR (127 downto 0);
+               pdi_valid : in  STD_LOGIC;
+               pdi_ready : out STD_LOGIC;
+               sdi_data  : in  STD_LOGIC_VECTOR (127 downto 0);
+               sdi_valid : in  STD_LOGIC;
+               sdi_ready : out STD_LOGIC;
+               do_data   : out STD_LOGIC_VECTOR (127 downto 0);
+               do_valid  : out STD_LOGIC;
+               do_ready  : in  STD_LOGIC
+    			  );
+    end aes_axi;
+
+The file ``aes_axi`` translates the very simple interface of the basic AES implementation which uses **out-of-band 
+signaling**. It is shown in :numref:`lst_aes-non-pipe`. It expects 
+one block of plaintext or 128-bit, and one 128-bit key on the input and produces 128-bit ciphertext. It has a clock 
+signal and is idle until *start* is applied. Once the output is ready, it asserts the *done* signal. As *start* and 
+*done* are explicit signals and not part of the data_in, key_in, or data_out signals, we call then out-of-band. 
+On the other hand, **in-band signaling**, as used by the LWC Hardware API (see :numref:`lwc_hw_api`) requires 
+a comprehensive protocol of commands and parameters being sent and received via PDI, SDI, and DO.
+
+.. _lst_aes-non-pipe:
+.. code-block:: vhdl
+    :caption: Entity declaration of the basic AES with out-of-band signaling
+
+    entity aes_non_pipe is
+    port (	
+        clock    : in  std_logic ;
+        start    : in  std_logic ;
+        data_in  : in  std_logic_vector (0 to 127);
+        key_in   : in  std_logic_vector (0 to 127);
+        data_out : out std_logic_vector (0 to 127);	
+        done     : out std_logic
+    );
+    
+    end aes_non_pipe;
+
+It is therefore easily possible to adjust the file ``aes_axi`` to other block cipher implementations which use 
+such simple out-of-band signaling. 
+
+.. note::
+    FOBOS is not concerned with what data is transmitted to PDI, SDI, or comes from DO, i.e., whether  
+    the Crypto Core requires in-band signaling (LWC Hardware API) or not. FOBOS only needs to know which 
+    data goes to which FIFO and how deep the FIFO has to be. FOBOS does not support out-of-band 
+    signaling. If that is required it has to be derived from the AXI protocol as in the example AES, 
+    or the FOBOS protocol has to be adjusted.
 
 
 ---------------------------
 FOBOS Wrapper Configuration
 ---------------------------
 
-The AES example has an AXI-wrapper interface.
-The AES example has to be instantiated as follows in the ``core_wrapper.vhd`` file around line 173.
-These are the default settings for this file.
+The AES example has an AXI interface and has to be instantiated as follows in the ``core_wrapper.vhd`` file around line 173.
+These are the default settings for this file. Note that the reset signal has to be inverted.
 
+.. _lst_aes-wrapper:
 .. code-block:: vhdl
+    :caption: Port Map for example AES in core_wrapper.vhd
 
     --=============================================
     -- BEGING USER CRYPTO  
@@ -64,10 +170,12 @@ The example AES expects one block of plaintext or 128-bit, and one 128-bit key o
 be placed on *FIFO_0* and *FIFO_1* respectively. As the width of PDI and SDI are 128-bit, the width of 
 these FIFOs have to match and they have to be only one word deep.
 The output of this AES is also 128-bit wide, hence *FIFO_OUT* also has to be 128-bit wide and one word deep.
-This has to be defined in ``core_wrapper_pkg.vhd`` which is shown below. This is also the default configuration 
-of this file.
+This has to be defined in ``core_wrapper_pkg.vhd`` which is shown in :numref:`lst_aes-wrapper-pkg`. 
+This is also the default configuration of this file.
 
+.. _lst_aes-wrapper-pkg:
 .. code-block:: vhdl
+    :caption: FIFO definitions for example AES in core_wrapper_pkg.vhd
 
     package core_wrapper_pkg is
         -- input fifos
@@ -89,3 +197,6 @@ of this file.
 ----------------------------
 Generating Bitstream for DUT
 ----------------------------
+
+Create a project in Vivado and add all files that you copied in your project directory e.g., AES-DUT. 
+Some files use the new XXXX standard of VHDL. Add text.
