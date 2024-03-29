@@ -28,6 +28,27 @@ This configures the FOBOS Control to DUT communication.
     ctrl.setDUT(FOBOSCtrl.CW305)
     ctrl.setDUTInterface(FOBOSCtrl.INTERFACE_4BIT) 
 
+Implementing Cryptographic Algorithms for the CW305-A100 DUT
+------------------------------------------------------------
+
+Follow the instructions in :numref:`algorithm-implementation` and use the constraint file ``cw305-a100.xdc``.
+Select the following device in Vivado.
+
+.. _tab_FPGA_CW305-A100:
+.. table:: FPGA Details of CW305-A100
+    :align:   center
+
+    +-----------+------------------+
+    | Family    | Artix-7          |
+    +-----------+------------------+
+    | Package   | ftg256           |
+    +-----------+------------------+
+    | Speed     | -2               |
+    +-----------+------------------+
+    | Part      | xc7a100tftg256-2 |
+    +-----------+------------------+
+
+
 
 When compiling the FOBOS wrapper, choose **cw305.xdc** as the constraint file.
 

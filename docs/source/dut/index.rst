@@ -6,7 +6,7 @@ FOBOS DUT
 
 A DUT (Design Under Test) board must be connected to the control board to run SCA.
 
-.. _dut-board
+.. _dut-board:
 ===============
 Setup DUT Board
 ===============

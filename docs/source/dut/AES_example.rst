@@ -6,7 +6,7 @@ AES Example
 
 As part of FOBOS, we provide a simple AES-128 implementation in VHDL. The VHDL code for this AES implementation is 
 provided in the directory ``dut/example_cores/AES-128``. The block diagram of this implementation is shown in 
-:numref:`fig_AES-block`. 
+:numref:`fig_AES-block` and the technical details in :numref:`tab_example-aes`. 
 
 .. _fig_AES-block:
 .. figure::  ../figures/aes128.png
@@ -18,7 +18,7 @@ provided in the directory ``dut/example_cores/AES-128``. The block diagram of th
 
 
 .. _tab_example-aes:
-.. table:: Example AES-128 Features
+.. table:: Technical Details of the Provided Example AES-128
     :align:   center
 
     +---------------------------------------+----+
@@ -46,21 +46,22 @@ provided in the directory ``dut/example_cores/AES-128``. The block diagram of th
 First Steps
 -----------------------
 
-Create a new directory for the AES DUT project.
+Create a new directory for the AES DUT project for example ``AES-DUT``.
 Copy all files of the example AES from the ``dut/example_cores/AES-128/vhdl`` directory, all files from the 
 ``dut/fpga_wrapper/src_rtl`` directory and the ``dut/fpga_wrapper/src_tb/core_wrapper_tb.vhd`` to this directory.
 Additionally copy the constraint file that matches your DUT from the ``dut/fpga_wrapper/constraints`` directory.
-Only modify the copied files.
+Only modify the copied files. The example below assumes that you have installed FOBOS in ``/opt``
+and that your DUT is the FOBOS FBD-A7.
 
 .. code-block:: bash
     :caption: Command line example for copying all relevant files
 
     mkdir AES-DUT
     cd !$
-    cp ~/fobos/dut/example_cores/AES-128/vhdl/* .
-    cp ~/fobos/dut/fpga_wrapper/src_rtl/* .
-    cp ~/fobos/dut/fpga_wrapper/src_tb/core_wrapper_tb.vhd .
-    cp ~/fobos/dut/fpga_wrapper/constraints/FOBOS_Artix7.xdc .
+    cp /opt/fobos/dut/example_cores/AES-128/vhdl/* .
+    cp /opt/fobos/dut/fpga_wrapper/src_rtl/* .
+    cp /opt/fobos/dut/fpga_wrapper/src_tb/core_wrapper_tb.vhd .
+    cp /opt/fobos/dut/fpga_wrapper/constraints/FOBOS_Artix7.xdc .
 
 
 -----------------------
@@ -198,5 +199,36 @@ This is also the default configuration of this file.
 Generating Bitstream for DUT
 ----------------------------
 
-Create a project in Vivado and add all files that you copied in your project directory e.g., AES-DUT. 
-Some files use the new XXXX standard of VHDL. Add text.
+Create a project in Vivado e.g., ``AES-FBD-A7`` and add all source files that you copied in your project 
+directory e.g., ``AES-DUT`` and the constraint file.
+
+Select the FPGA device that is on your DUT. You can find that information in the DUT descriptions in 
+:numref:`dut-board`.
+
+Make sure that the file ``core_wrapper_tb.vhd`` is only used for Simulation. This can be set in the 
+*Source File Properties* window.
+
+Select the file *half_duplex_dut.vhd* as the top level. **Don't run synthesis yet!**
+
+Some files use the 2008 standard of VHDL. Vivado 2022.1 does not detect this and will create error 
+messages when synthesizing the code. Note: You don't need to use Vivado 2022.1 to implement the DUT, 
+you can use newer versions but they might still create the same error. 
+
+As it is too tedious to set the VHDL revision of all files that use the 2008 standard individually,
+you can type the following command into the TCL Console of Vivado to apply this to all files.
+
+.. code-block:: tcl
+
+    set_property FILE_TYPE {VHDL 2008} [get_files *.vhd]
+
+Now you can run Synthesis followed by Implementation and Generate Bitstream.
+
+The resulting bit file will be in the directory ``~/AES-DUT/AES-FBD-A7/AES-FBD-A7.runs/impl_1`` by
+the name of ``half_duplex_dut.bit``. Copy this file into your Jupyter Notebook directory, maybe under 
+a more descriptive name.
+
+.. code-block:: bash
+    
+    cp ~/AES-DUT/AES-FBD-A7/AES-FBD-A7.runs/impl_1 ~/notebooks/fobos/aes_fbd-a7.bit
+
+

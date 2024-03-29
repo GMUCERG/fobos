@@ -34,12 +34,26 @@ This configures the FOBOS Control to DUT communication.
     ctrl.setDUTInterface(FOBOSCtrl.INTERFACE_4BIT) 
 
 
-When compiling the FOBOS wrapper, choose **fbd-a7.xdc** as the constraint file.
-
 Implementing Cryptographic Algorithms for the FBD-A7 DUT
 --------------------------------------------------------
 
-Follow the instructions in :numref:`algorithm-implementation` and use the constraint file ``FOBOS_Artix7.xdc``.
+Follow the instructions in :numref:`algorithm-implementation` and use the constraint file ``fbd-a7.xdc``.
+Select the following device in Vivado.
+
+.. _tab_FPGA_FBD-A7:
+.. table:: FPGA Details of FBD-A7
+    :align:   center
+
+    +-----------+------------------+
+    | Family    | Artix-7          |
+    +-----------+------------------+
+    | Package   | cpg238           |
+    +-----------+------------------+
+    | Speed     | -1               |
+    +-----------+------------------+
+    | Part      | xc7a12tcpg238-1  |
+    +-----------+------------------+
+
 
 Programming the FBD-A7 DUT
 --------------------------
