@@ -26,15 +26,9 @@ provided in the directory ``dut/example_cores/AES-128``. The block diagram of th
     +---------------------------------------+----+
     | PDI width                             | 128|
     +---------------------------------------+----+
-    | PDI depth                             |   1|
-    +---------------------------------------+----+
     | SDI width                             | 128|
     +---------------------------------------+----+
-    | SDI depth                             |   1|
-    +---------------------------------------+----+
     | DO width                              | 128|
-    +---------------------------------------+----+
-    | DO depth                              |   1|
     +---------------------------------------+----+
     | Rounds per clock cycle                |   1|
     +---------------------------------------+----+
@@ -194,6 +188,11 @@ This is also the default configuration of this file.
     
     end core_wrapper_pkg;
 
+.. note::
+
+    The depth of a FIFO is :math:`2^{FIFO\_x\_LOG2DEPTH}`. For example if FIFO_x_LOG2DEPTH = 2, 
+    the depth of the FIFO is :math:`2^2 = 4`.
+    FIFO_x_LOG2DEPTH has to be equal or larger than 1, i.e. the minimum depth of the FIFO is 2.
 
 ----------------------------
 Generating Bitstream for DUT
