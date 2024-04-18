@@ -173,6 +173,7 @@ For example if your longest test vector is 768 bits long, you compute
 :math:`\lceil{\log_2 \frac{768}{32}}\rceil = \lceil{\log_2 24}\rceil = 5`.
 For our example we pick 4.
 This has to be defined in ``core_wrapper_pkg.vhd`` which is shown in :numref:`lst_ascon-wrapper-pkg`. 
+Set RAND_WORDS to 0 makes sure that no random number generator will be automatically included.
 The values for the Random Data Input (RDI) can be ignored as this is not an SCA protected implementation.
 
 .. _lst_ascon-wrapper-pkg:
@@ -189,7 +190,7 @@ The values for the Random Data Input (RDI) can be ignored as this is not an SCA 
         constant FIFO_OUT_WIDTH         : natural := 32     ;    
         constant FIFO_OUT_LOG2DEPTH     : natural := 4      ;
         -- random data
-        constant RAND_WORDS             : natural := 8      ;
+        constant RAND_WORDS             : natural := 0      ;
         constant FIFO_RDI_WIDTH         : natural := 64     ;
         constant FIFO_RDI_LOG2DEPTH     : natural := 3      ;  
     
