@@ -1,5 +1,5 @@
 ###Make file to re-create the project and synthesize it from sources
-pynq_z1_rev1: _setup_pynq_z1_rev1 _create_project
+pynq_z1_rev1: _setup_pynq_z1_rev1 _create_project_pynq_z1_rev1
 
 pynq_z1_rev2: _setup_pynq_z1_rev2 _create_project
 
@@ -29,6 +29,12 @@ _create_project:
 	cd pynq_controller/pynq_controller.srcs/sources_1/imports/hdl; \
 	rm ctrl_top_wrapper.vhd; \
 	ln -s ../../../../../src/ctrl_top_wrapper.vhd .
+	
+_create_project_pynq_z1_rev1:
+	vivado -mode batch -source build.tcl
+	cd pynq_controller/pynq_controller.srcs/sources_1/imports/hdl; \
+	rm ctrl_top_wrapper.vhd; \
+	ln -s ../../../../../src/ctrl_top_wrapper_shield_v1.vhd ctrl_top_wrapper.vhd
 
 synth: 
 	vivado -mode batch -source synth.tcl
