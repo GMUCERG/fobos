@@ -106,6 +106,10 @@ Dependencies:
 
 Install the latest version of CryptoTVGen::
 
+   sudo /opt/jupyterhub/bin/python3 -m pip install -U 'git+https://github.com/GMUCERG/LWC#subdirectory=software/cryptotvgen&egg=cryptotvgen'
+
+
+
  $ python3 -m pip install -U 'git+https://github.com/GMUCERG/LWC#subdirectory=software/cryptotvgen&egg=cryptotvgen'
 
 To automatically download, extract, and build reference library of all LWC Round 2 candidates from the latest available version of SUPERCOP::
