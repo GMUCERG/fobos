@@ -34,7 +34,7 @@ It uses the ``half_duplex_interface.vhd`` to convert this into a 4-bit full dupl
 
 The Public Data Input (PDI), Secret Data Input (SDI), Random Data Input (RDI) and Data Output (DO) use First Word Fall-Through (FWFT) 
 FIFOs called FIFO_0, FIFO_1, FIFO_OUT, and FIFO_RDI respectively. Their widths and depths can be set in the file 
-``core_wrapper_pkg.vhdl``. Random data is provided by the Trivium stream cipher which can be seeded. 
+``core_wrapper_pkg.vhdl``. Random data is provided by the Trivium :cite:`de_canniere_trivium_2005` stream cipher which can be seeded. 
 For the sake of simplicity, :numref:`fig_dut-block` does not show the registers and control logic required for the 
 FOBOS DUT Protocol or any required Parallel Input Serial Output (PISO) or Serial Input Parallel Output (SIPO) converters.
 
@@ -89,6 +89,9 @@ The widths *pw* of PDI "FIFO_0", *sw* of SDI "FIFO_1", *ow* of DO "FIFO_OUT", an
 as well as their depth in words of WIDTH bits has to be defined in ``core_wrapper_pkg.vhd`` which is shown 
 below.
 
+The default setting for RAND_WORDS is **0**. For values other than 0, a pseudo random number generator (PRNG) 
+on the basis of the stream cipher Trivium will be generated.
+
 .. code-block:: vhdl
 
     package core_wrapper_pkg is
@@ -101,7 +104,7 @@ below.
         constant FIFO_OUT_WIDTH         : natural := 128    ;    
         constant FIFO_OUT_LOG2DEPTH     : natural := 1      ;
         -- random data
-        constant RAND_WORDS             : natural := 8      ;
+        constant RAND_WORDS             : natural := 0      ;
         constant FIFO_RDI_WIDTH         : natural := 64     ;
         constant FIFO_RDI_LOG2DEPTH     : natural := 3      ;  
     

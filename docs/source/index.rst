@@ -54,6 +54,7 @@ Features
    api/modules
    reference_doc
    license
+   bibliography
 
 
 .. Download Document

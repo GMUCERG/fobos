@@ -23,34 +23,48 @@ Parameters.
 .. _tab_dut-protocol_instructions:
 .. table:: FOBOS DUT Protocol Instructions
 
-    +--------+-------------+-------------+---------+---------------------------------------+
-    | Opcode | Destination | Storage     | Usage   | Parameter                             |
-    +========+=============+=============+=========+=======================================+
-    | C      | 0           | FIFO_0      | PDI     | length of data in bytes               |
-    +--------+-------------+-------------+---------+---------------------------------------+
-    | C      | 1           | FIFO_1      | SDI     | length of data in bytes               |
-    +--------+-------------+-------------+---------+---------------------------------------+
-    | 8      | 0           | Register 0  | cmd     | Command                               |
-    +--------+-------------+-------------+---------+---------------------------------------+
-    | 8      | 1           | Register 1  | outlen  | length of output in bytes             |
-    +--------+-------------+-------------+---------+---------------------------------------+
-    | 8      | 2           | Register 2  | rndlen  | length of random data in 32-bit words |
-    +--------+-------------+-------------+---------+---------------------------------------+
-    | 8      | 3           | Register 3  |         |                                       |
-    +--------+-------------+-------------+---------+---------------------------------------+
-    | 8      | 4           | Register 4  | seed0   | Part of seed for RNG                  |
-    +--------+-------------+-------------+---------+---------------------------------------+
-    | 8      | 5           | Register 5  | seed1   | Part of seed for RNG                  |
-    +--------+-------------+-------------+---------+---------------------------------------+
-    | 8      | 6           | Register 6  | seed2   | Part of seed for RNG                  |
-    +--------+-------------+-------------+---------+---------------------------------------+
-    | 8      | 7           | Register 7  | seed3   | Part of seed for RNG                  |
-    +--------+-------------+-------------+---------+---------------------------------------+
+    +--------+-------------+-------------+-------------------+---------------------------------------+
+    | Opcode | Destination | Storage     | Usage             | Parameter                             |
+    +========+=============+=============+===================+=======================================+
+    | C      | 0           | FIFO_0      | PDI               | length of data in bytes               |
+    +--------+-------------+-------------+-------------------+---------------------------------------+
+    | C      | 1           | FIFO_1      | SDI               | length of data in bytes               |
+    +--------+-------------+-------------+-------------------+---------------------------------------+
+    | C      | 2           | FIFO_2      | AD  (optional)    | length of data in bytes               |
+    +--------+-------------+-------------+-------------------+---------------------------------------+
+    | C      | 3           | FIFO_3      | Nonce (optional)  | length of data in bytes               |
+    +--------+-------------+-------------+-------------------+---------------------------------------+
+    | 8      | 0           | Register 0  | cmd               | Command                               |
+    +--------+-------------+-------------+-------------------+---------------------------------------+
+    | 8      | 1           | Register 1  | outlen            | length of output in bytes             |
+    +--------+-------------+-------------+-------------------+---------------------------------------+
+    | 8      | 2           | Register 2  | rndlen            | length of random data in 32-bit words |
+    +--------+-------------+-------------+-------------------+---------------------------------------+
+    | 8      | 3           | Register 3  | user bits         | User definable bits                   |
+    +--------+-------------+-------------+-------------------+---------------------------------------+
+    | 8      | 4           | Register 4  | seed0             | Part of seed for RNG                  |
+    +--------+-------------+-------------+-------------------+---------------------------------------+
+    | 8      | 5           | Register 5  | seed1             | Part of seed for RNG                  |
+    +--------+-------------+-------------+-------------------+---------------------------------------+
+    | 8      | 6           | Register 6  | seed2             | Part of seed for RNG                  |
+    +--------+-------------+-------------+-------------------+---------------------------------------+
+    | 8      | 7           | Register 7  | seed3             | Part of seed for RNG                  |
+    +--------+-------------+-------------+-------------------+---------------------------------------+
 
-The FOBOS DUT Protocol implements two commands:
+FIFOs 2 and 3, typically used for Associated Data (AD) and Nonce respectively, are optional as they are not used 
+by all cryptographic functions. Additionally, the GMU LWC Hardware API for AEAD ciphers does not require these 
+FIFOs as both, AD and Nonce, are part of the test vector transmitted to PDI.
+
+The FOBOS DUT Protocol implements the following commands:
 
 1. Start the cryptographic operation.
 2. Generate *rndlen* 32-bit words of random data and put them into the RDI FIFO.
+3. Reset the Pseudo Random Number Generator (RNG). It will start generating pseudo random numbers again 
+   starting from its seed.
+
+The RNG is seeded from the seed provided in registers 4-7. The default value of these registers is
+``0x01234567_01234567_01234567_01234567``.
+
 
 :numref:`fig_testvector` shows an example of a test vector for a block cipher. First 128-bit (16 Bytes) of plaintext are 
 send for FIFO-0, then 128-bit (16 Bytes) of key for FIFO-2, followed by the expected cyphertext length 
