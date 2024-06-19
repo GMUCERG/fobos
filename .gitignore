@@ -26,7 +26,6 @@ _impact.cmd
 *.jou
 *.str
 *.kicad_prl
-*.kicad_pro
 build_proj_modified.tcl
 .ipynb_checkpoints/
 #Sigasi files
