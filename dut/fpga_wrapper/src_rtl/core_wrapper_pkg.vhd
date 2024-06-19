@@ -28,7 +28,7 @@ package core_wrapper_pkg is
     constant FIFO_OUT_WIDTH         : natural := 128    ;    
     constant FIFO_OUT_LOG2DEPTH     : natural := 1      ;
     -- random data
-    constant RAND_WORDS             : natural := 8      ;
+    constant RAND_WORDS             : natural := 0      ;
     constant FIFO_RDI_WIDTH         : natural := 64     ;
     constant FIFO_RDI_LOG2DEPTH     : natural := 3      ;  
 

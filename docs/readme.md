@@ -5,6 +5,7 @@
 sudo apt-get install python3-pip
 sudo pip3 install sphinx
 sudo pip3 install sphinx_rtd_theme
+sudo pip3 install sphinxcontrib-bibtex
 ```
 
 ## Re-Generate API Documentation Setup
