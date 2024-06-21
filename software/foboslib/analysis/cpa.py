@@ -1,6 +1,6 @@
 #############################################################################
 #                                                                           #
-#   Copyright 2019 CERG                                                     #
+#   Copyright 2024 CERG                                                     #
 #                                                                           #
 #   Licensed under the Apache License, Version 2.0 (the "License");         #
 #   you may not use this file except in compliance with the License.        #
@@ -16,12 +16,13 @@
 #                                                                           #
 #############################################################################
 
+
 import os
 import json
 import numpy as np
 import scipy.stats.stats as statModule
-# import postprocess
-# import traceset
+#scipy.stats.stats is deprecated
+
 
 
 class CPA():
@@ -35,15 +36,24 @@ class CPA():
     """
 
     def correlation_pearson(self, measuredData, modeledData):
-        corrMatrix = np.zeros(0)
+        corrMatrix = np.zeros(0) 
+        #Use reshape instead of empty, 
         corrMatrix = np.empty((modeledData.shape[1], measuredData.shape[1]))
+        #Dumps matrix with dimensions: (number of model data columns) X (number of measured data columns) into zeros matrix
+        
+        print("shape of Measured data: {}".format(np.shape(measuredData)))
+        
         for i in range(modeledData.shape[1]):
-            colH = modeledData[:, i]
+            # for num of columns in modeled data:
+            colH = modeledData[:, i] # turns modeled data columns into rows
             for j in range(measuredData.shape[1]):
-                colM = measuredData[:, j]
+                colM = measuredData[:, j] #turns measured data columns into rows
                 c, p = statModule.pearsonr(colH, colM)
+                #compares each row 
                 corrMatrix[i, j] = c
-        return corrMatrix
+        return corrMatrix #returns correlation matrix with of dimensions: (number of model data columns) X (number of measured data columns) using pearsons equation when comparing each column of the origional correlation matrix
+
+          
 
     def plotCorr(self, C, correctIndex, fileName=None, show='no', plotSize=(10,8),
                  plotFontSize=18):
@@ -67,15 +77,27 @@ class CPA():
             plt.show()
         plt.close('all')
 
+    
+
+    import numpy as np
 
     def findCorrectKey(self, C):
+        #  absolute values of the correlation matrix 
         C = np.abs(C)
+        # Calculating the maximum correlation for each key (column) by finding the maximum value along each column
         maxCorrs = np.amax(C, 0)
+        # Finding the index (key) corresponding to the maximum correlation for each key
         maxKeyIndexes = np.argmax(C, 0)
+        # Identifying the key with the maximum correlation across all keys
         maxKeyIndex = maxKeyIndexes[np.argmax(maxCorrs)]
+        # Determining the highest correlation value
         maxCorr = np.max(maxCorrs)
+        # Finding the corresponding time index associated with the highest correlation value
         maxCorrTime = np.argmax(maxCorrs)
         return maxKeyIndex, maxCorr, maxCorrTime
+
+    
+
 
     def plotMTDGraph(self, correctTime, correctKeyIndex, measuredPower,
                      hypotheticalPower, numTraces=None, stride=1,
@@ -110,59 +132,57 @@ class CPA():
         if show == 'yes':
             plt.show()
 
-    def plotMTDGraph2(self, correctTime, correctKeyIndex, measuredPower,
-                      hypotheticalPower, numTraces=None, stride=1,
-                      fileName=None, show='no', plotSize=(10,8), plotFontSize=18):
-        print('    Plotting MTD graph.')
+
+    
+
+    def plotMTDGraph2Test(self, correctTime, correctKeyIndex, measuredPower,
+                  hypotheticalPower, numTraces=None, stride=1,
+                  fileName=None, show='no'):
+        print('  NOT  Plotting MTD graph.')
         if numTraces is None:
             numTraces = measuredPower.shape[0]
         numKeys = hypotheticalPower.shape[1]
         corrData = np.zeros((numKeys, int(numTraces / stride)))
         interestingPower = measuredPower[:, correctTime].reshape(measuredPower.shape[0], 1)
         index = 0
+        
+        last_intersection = []  # Empty list for intersections 
+        
         for i in range(stride, numTraces, stride):
-            # if i % 100 == 0:
-            # print("    Plotting MDT. step={}".format(i))
+            # Pearson correlation coefficient
             C = self.correlation_pearson(interestingPower[0:i, :], hypotheticalPower[0:i, :])
-            # print(C.shape)
+            # Reshape correlation data and store in corrData array
             corrData[:, index] = C.reshape(numKeys)
             index += 1
-        # get only highest and lowest values
-        # print(corrData.shape)
-        # print(corrData)
-        import matplotlib.pyplot as plt
-        fig = plt.figure()
-        fig.patch.set_facecolor('white')
-        plt.figure(figsize=plotSize)
-        plt.rcParams.update({'font.size':plotFontSize})
-        plt.clf()
-        plt.margins(0)
-        # plot this first
-        plt.plot(corrData[correctKeyIndex, :-1], 'r', linewidth=0.5) # remove last element(to fix a bug)
-        # remove the correct key
-        corrData[correctKeyIndex, :] = 0  # zero all elements in row so they are
-        # min nor max
-        # for i in range(dataToPlot.shape[0]):
-        #     row = dataToPlot[i,:]
-        #     plt.plot(row, '#aaaaaa', linewidth = 0.5)
+        
+        # copy corrVals since corrData converts same data in memory to all 0s
+        corrVals= corrData[correctKeyIndex, : -1].copy()
+        
+        # Zero out the correct key in corrData to avoid problems
+        corrData[correctKeyIndex, :] = 0
+           
         highVals = np.nanmax(corrData, axis=0)
         lowVals = np.nanmin(corrData, axis=0)
-        # print(highVals.shape)
-        # print(highVals)
-        plt.plot(highVals[:-1], 'b', linewidth=0.5)
-        plt.plot(lowVals[:-1], 'b', linewidth=0.5)
+        
+        # loop through points of red line and see if intersections with blue or green
+        for i in range(len(corrData[correctKeyIndex, :-1]) - 1):
+            # Check red line intersect blue line (high vals)  # Check red line intersect green line (low vals)
+            # print(i, corrVals[i+1], highVals[i+1], lowVals[i+1])
+            if (corrVals[i+1] > highVals[i+1] and corrVals[i] < highVals[i]) or \
+               (corrVals[i+1] < lowVals[i+1] and corrVals[i] > lowVals[i]):
+               # print("Intersection found", i, corrVals[i+1], highVals[i+1], lowVals[i+1])
+                
+                # Collects last intersection as the trace x stride 
+                last_intersection.append((i+1)*stride)
+                
+        intersection = last_intersection[-1]
+        
+        with open('intersections.txt', 'a') as f:
+            f.write(str(intersection)+',')
+        return intersection # Return the last intersection found
 
-        if stride != 1:
-            plt.xlabel("Trace No. x {}".format(stride))
-        else:
-            plt.xlabel("Trace No.")
-        plt.ylabel("Correlation (Pearson's r)")
-        if fileName is not None:
-            plt.savefig(fileName,facecolor=fig.get_facecolor())
-        if show == 'yes':
-            plt.show()
-        plt.close('all')
 
+    
     def doCPA(self, measuredPower, hypotheticalPower, numTraces,
               analysisDir, MTDStride, numKeys=16, plot=True, plotSize=(10,8),
               plotFontSize=18):
@@ -174,18 +194,24 @@ class CPA():
             # print("C=")
             # print(C.shape)
             # self.printHexMatrix(C, dtype='float')
+            
+            # three lines above is commented originally
             maxKeyIndex, maxCorr, maxCorrTime = self.findCorrectKey(C)
             corrFile = os.path.join(analysisDir, 'correlation' +f'{byteNum:02d}')
             mtdFile = os.path.join(analysisDir, 'MTD' + f'{byteNum:02d}')
           
             print("subkey number = {}, subkey value = {}, correlation = {}, at sample = {}".format(byteNum, hex(maxKeyIndex), maxCorr, maxCorrTime))
-            if plot:
+            if plot: #do this, if plot mtd do this
                 self.plotCorr(C, maxKeyIndex, fileName=corrFile, plotSize=plotSize,
                               plotFontSize=plotFontSize)
-                self.plotMTDGraph2(maxCorrTime, maxKeyIndex, measuredPower,
+                # self.plotMTDGraph2Test(maxCorrTime, maxKeyIndex, measuredPower,
+                #                 hypotheticalPower[byteNum],
+                #                 stride=MTDStride, fileName=mtdFile, show='no',
+                #                 plotSize=plotSize, plotFontSize=plotFontSize)
+                self.plotMTDGraph2Test(maxCorrTime, maxKeyIndex, measuredPower,
                                 hypotheticalPower[byteNum],
-                                stride=MTDStride, fileName=mtdFile, show='no',
-                                plotSize=plotSize, plotFontSize=plotFontSize)
+                                stride=MTDStride, fileName=mtdFile, show='no')
+                                # plotSize=plotSize, plotFontSize=plotFontSize)
             correctKey.append(format(maxKeyIndex, '02x'))
             topKeysFile = os.path.join(analysisDir, 'topKeys-' + f'{byteNum:02d}' + '.json')
             self.getTopNKeys(C, fileName=topKeysFile)
@@ -205,6 +231,7 @@ class CPA():
                     sys.stdout.write("0x" + format(int(A[i, j]), '02x') + "\t")
             sys.stdout.write("\n")
 
+    
     def loadTextMatrix(self, fileName, numCols=16):
             """
             file format: hex values delimited by spaces
@@ -236,6 +263,7 @@ class CPA():
             t = maxKeyTimes[i]
             c = corrVal[i]
             k = keyIndex[i]
+            #Changed from hex to int
             l.append({'key' : int(k) , 'correlation_absolute' : c, 'time' : int(t)})
         if fileName is not None:
             f = open(fileName, 'w')
@@ -274,6 +302,7 @@ def main():
                   analysisDir=ANALYSIS_DIR,
                   MTDStride=MTD_STRIDE)
 
+    
     np.savetxt("C.txt", C)
 
 
