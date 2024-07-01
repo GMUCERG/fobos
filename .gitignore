@@ -46,3 +46,5 @@ __pycache__
 projects/
 *.bit
 *.hwh
+*.vdi
+software/notebooks/basic/fobosworkspace

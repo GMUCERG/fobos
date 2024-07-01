@@ -27,6 +27,7 @@ class DUT:
 
     def __init__(self):
         self.bitFile = ""
+        self.deviceID = "CW305"
         
     def setBitFile(self, bitFile):
         self.bitFile = bitFile
