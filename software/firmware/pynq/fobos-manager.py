@@ -9,7 +9,7 @@ import time
 from pathlib import Path
 import argparse
 import subprocess
-from config import pynq_conf
+from pynq_drivers.config import pynq_conf
 
 EXIT_FILE   = "/tmp/fobos_exit"
 PYTHON_BIN  = "/usr/bin/python3"

@@ -9,7 +9,7 @@ import numpy as np
 from pynq import Overlay
 from pynq import allocate
 from pynq import Clocks
-from config.pynq_conf import IP, PORT, OVERLAY_FILE, FOBOS_HOME
+from pynq_drivers.config.pynq_conf import IP, PORT, OVERLAY_FILE, FOBOS_HOME
 sys.path.append(f"{FOBOS_HOME}/software/")
 import foboslib as fb
 # from foboslib.capture.ctrl.fb import fb

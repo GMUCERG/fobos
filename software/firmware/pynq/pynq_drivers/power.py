@@ -28,8 +28,8 @@ import pandas as pd
 import time
 
 # import conf from parent folder
-sys.path.append('../config/')
-from config.pynq_conf import FOBOS_HOME, BOARD
+#sys.path.append('../config/')
+from pynq_drivers.config.pynq_conf import FOBOS_HOME, BOARD
 class PowerDriver(DefaultIP):
     """
     Power is the Python driver for the FOBOS Power module
@@ -106,7 +106,7 @@ class PowerDriver(DefaultIP):
                 1.65, 1.6, 1.55, 1.5, 1.45, 1.4, 1.35, 1.3, 1.25, 1.2, 1.15, 1.1, 1.05, 1, 0.95, 0.9]
 
     enCalibration = True
-    calibration_file = "{}/software/firmware/pynq/config/power_conf.csv".format(FOBOS_HOME)
+    calibration_file = "{}/software/firmware/pynq/pynq_drivers/config/power_conf.csv".format(FOBOS_HOME)
     
     callcurroffs = [250, 540, 250]
     

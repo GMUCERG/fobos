@@ -365,7 +365,7 @@ fi
 outfile=$foboshome/software/firmware/pynq/fobos_pynq.conf
 writeconfig
 # generate python config and write to fobos home
-outfile=$foboshome/software/firmware/pynq/config/pynq_conf.py
+outfile=$foboshome/software/firmware/pynq/pynq_drivers/config/pynq_conf.py
 writepythonconfig
 
 echo ""

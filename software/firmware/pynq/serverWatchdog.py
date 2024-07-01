@@ -2,7 +2,7 @@ import os
 import signal
 import time
 import subprocess
-import config.pynq_conf as conf
+import pynq_drivers.config.pynq_conf as conf
 
 class FobosWatchdog:
     """
