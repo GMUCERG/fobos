@@ -5,6 +5,26 @@ Flexible Open-source workBench fOr Side-channel analysis (FOBOS) is an "acquisit
 
 FOBOS splits the Side Channel Analysis (SCA) setup into a control board, a DUT, and the SCA workstation. The firmware for the control board can be found in the folder `control`. The hardware description language files required to adapt a cryptographic algorithm to a particular FOBOS DUT are in the folder `DUT`. The `hardware` folder on the other hand contains circuit board design files for FOBOS boards such as the FOBOS Shield and several FOBOS DUTs. The `software` folder contains the scripts to run FOBOS. These python scripts run partially on the SCA workstation within a Jupyter notebook and partially on the Pynq DUT. The `docs` folder contains the FOBOS documentation.
 
+Please cite as: 
+```bibtex
+@inproceedings{fobos3,
+author = {Ferrufino, Eduardo and Beckwith, Luke and Abdulgadir, Abubakr and Kaps, Jens-Peter},
+title = {FOBOS 3: An Open-Source Platform for Side-Channel Analysis and Benchmarking},
+year = {2023},
+isbn = {9798400702624},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3605769.3623987},
+doi = {10.1145/3605769.3623987},
+pages = {5–14},
+keywords = {hardware security, lightweight cryptography, side-channel analysis, benchmarking},
+location = {, Copenhagen, Denmark, },
+series = {ASHES '23}
+}
+```
+
+  
+
 FOBOS Control Board
 -------------------
 * `control`
@@ -51,6 +71,7 @@ Documentation
 
 * `docs` 
   Contains the sources for the Sphinx based documentation of FOBOS and the makefile to compile it.
+  You can also read it at https://cryptography.gmu.edu/documentation/fobos3/index.html
   
 License
 -------
