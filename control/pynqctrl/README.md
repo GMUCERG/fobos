@@ -1,29 +1,28 @@
 # Requirements
 
-Vivado 2020.2 is required to build the project. It must be on the PATH, i.e. it can be invoked directrly from the shell.
+Vivado 2022.1 is required to build the project. It must be on the PATH, i.e. it can be invoked directrly from the shell.
 
 # Build the project from source
 
 Using a command line:
 
-1. `cd fobos/sources/pynq_controller/vivado/`.
-2. `make create_project`
+1. `cd fobos/sources/pynqctrl/vivado/`.
+2. `make pynq_z2_rev1`
 3. `make synth`
 4. Go and make yourself a cup of coffee or tea, this is going to take a while
 5. When Vivado is done, you will have the files `pynq_ctrl.bit` and `pynq_ctrl.hwh` in this directory.
 
+Select the make option based on your Pynq board and the revision of the FOBOS shield
+The possible build targets are: `pynq_z1_rev1`, `pynq_z1_rev2`, `pynq_z2_rev1` 
 
 # Preparing the control board
 
 1. Copy the `fobos/software directory to the /home/xilinx/ directory on the Pynq board using scp or sftp.
-1. Copy the files `pynq_ctrl.bit` and `pynq_ctrl.hwh` from fobos/sources/pynq_controller/vivado to your Pynq board into the /home/xilinx/fobos/software/ directory.  
-1. Use ssh to get a comand prompt on the Pynq board, change directory to the fobos/software directory and run the script `sudo ./install-pynq.sh`. It will ask you several questions about your Pynq setup, install the necessary files, and start the pynqserver.
+1. Copy the files `pynq_ctrl.bit` and `pynq_ctrl.hwh` from fobos/sources/pynqctrl/vivado to your Pynq board into the /home/xilinx/fobos/software/firmware/pynq directory.  
+1. Use ssh to get a comand prompt on the Pynq board, change directory to the fobos/software/firmware/pynq/ directory and run the script `sudo ./install-pynq.sh`. It will ask you several questions about your Pynq setup, install the necessary files, and start the pynqserver.
 
 # Modifying the Pynq board
-On the Pynq board, the 200 Ohm resistor R88 in the line IO29 of the ADC clock has to be removed and replaced with a blob of solder. The resistor attenuates the ADC clock signal too much.
-
-<img src="figures/pynq-modifications-shield-rev2.jpg" alt="drawing" width="400"/>
-
+Read the documentation in the fobos/docs directory for this.
 
 # Test Run
 **This section needs updating**
@@ -42,10 +41,10 @@ A lock file is created on the SCA Workstation each time a user tries to access t
 1. To modify existing IPs by right-click on the IP in the block design and select `Edit in IP Packager`
 1. When all changes are done run Synthesis and then Generate Bitstream
 1. Exit Vivado
-1. Copy the generated bit file and hwh file into the `fobos/sources/pynq_controller/vivado/` directory 
+1. Copy the generated bit file and hwh file into the `fobos/control/pynqctrl/vivado/` directory 
    `cp pynq_controller/pynq_controller.gen/sources_1/bd/ctrl_top/hw_handoff/ctrl_top.hwh pynq_ctrl.hwh`
    `cp pynq_controller/pynq_controller.runs/impl_1/ctrl_top_wrapper.bit pynq_ctrl.bit`
-1. Then copy these files to the Pynq board `/home/xilinx/fobos/software` directory for testing.
+1. Then copy these files to the Pynq board `/home/xilinx/fobos/software/firmware/pynq/` directory for testing.
 1. Once everything works follow the instructions for *Committing updated project into GIT*
 
 

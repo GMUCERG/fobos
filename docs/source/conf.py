@@ -20,12 +20,12 @@ typehints_defaults = 'comma'
 # -- Project information -----------------------------------------------------
 
 project = 'FOBOS User Guide'
-copyright = '2023, Cryptographic Engineering Research Group (CERG)'
+copyright = '2024, Cryptographic Engineering Research Group (CERG)'
 author = 'Abubakr Abdulgadir, Luke Beckwith, Eduardo Ferrufino, and Jens-Peter Kaps'
 
 # The full version, including alpha/beta/rc tags
-release = '3.0'
-version = '3.0'
+release = '3.0.1'
+version = '3.0.1'
 
 
 # -- General configuration ---------------------------------------------------
@@ -99,7 +99,7 @@ html_css_files = [
 latex_elements = {
     'preamble': r'\usepackage{cergdoc}',
     'maketitle': r'''\topicpic{fobos-slide}
-        \subtitle{FOBOS v3.0, User Guide}
+        \subtitle{FOBOS v3.0.1, User Guide}
         \cergmaketitle{}''',
 }
 latex_additional_files = ["cergdoc.sty",

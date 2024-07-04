@@ -3,7 +3,7 @@ FOBOS-Software
 
   * `foboslib` contains all common FOBOS functions.
   * `notebooks` contains Jupyter notebooks that run within Jupyter Lab on the SCA workstation.
-  * `examples` contains command line examples that run on the SCA workstation.
+  * `lwc_tools` contains tools to make the GMU LWC Hardware API compatible with FOBOS.
   * `firmware` contains software that runs on FOBOS Control.
 
 Installation on Pynq Board

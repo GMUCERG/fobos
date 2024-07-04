@@ -39,15 +39,6 @@ The main components of the FOBOS 3 platform are as follows:
    using a modified Digilent Nexys 3 board featuring a Xilinx Spartan-6
    FPGA, the NewAE CW305 Artix-7 target board, and our upcoming FOBOS Artix-7-based DUT.
 
-New in Version 3
-================
-- FOBOS Shield which provides 100 MS/s ADC for SCA measurements and current sense monitors
-  for power consumption measurements. This removes the need for an oscilloscope and 
-  enables benchmarking of power and energy consumption of the DUT.
-- Digilent Pynq as control board provides fast data aquisition and communication with the 
-  DUT through 1G Ethernet interface.
-- JupyterLab front end to control FOBOS. This also enables remote access.
-
 Feature Overview
 ================
 
@@ -56,8 +47,8 @@ Feature Overview
   according to the CAESAR and LWC Hardware APIs.
 - Separate control and DUT boards allowing easy addition of new DUTs.
 - Uses commercial over-the-shelf boards when possible to reduce cost.
-- Digilent Basys3 and Digilent Pynq-Z1 control boards.
-- DUT support includes Digilent Nexys3 board (Xilinx Spartan6) and NewAE CW305
+- Digilent Pynq-Z1 and TUL Pynq-Z2 control boards.
+- DUT support includes Digilent Nexys3 board (Xilinx Spartan6), FOBOS FBD-A7 and NewAE CW305
   (Xilinx Artix7 boards).
 - Adjustable DUT clock.
 - DUT clock synchronized with ADC clock.
@@ -65,5 +56,30 @@ Feature Overview
 - Supports fast USB3-based oscilloscopes (Picoscope).
 - Software to perform Correlation Power Analysis (CPA).
 - Leakage assessment using t-test. 
+
+Changelog
+=========
+
+**Version 3.0.1**
+
+- Substantial documentation updates and improvements
+- Power calibration works again (was working on beta versions of FOBOS 3)
+- MTDs of each key byte are now written into a file, they don't have to be guessed from graphs anymore
+- Updated fobosTVGen to handle more FIFOs
+- XILINX_XRT environment variable on Pynq was not set correctly
+- Pynq install script now detects which Pynq board it is running on
+- FOBOS can now set fixed amplification on the amplifier of the FOBOS Shield using ADC_hilo
+- Improved Makefile for building the Pynq overlay for Pynq-Z1 and Pynq-Z2, and different revisions of the FOBOS Shield
+
+**Version 3**
+
+- Completely new version of FOBOS with major changes
+- FOBOS Shield which provides 100 MS/s ADC for SCA measurements and current sense monitors
+  for power consumption measurements. This removes the need for an oscilloscope and 
+  enables benchmarking of power and energy consumption of the DUT.
+- Digilent Pynq-Z1 and TUL Pynq-Z2 control boards provide fast data aquisition and communication with the 
+  DUT through 1G Ethernet interface.
+- JupyterLab front end to control FOBOS. This also enables remote access.
+
 
 

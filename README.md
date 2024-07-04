@@ -28,7 +28,7 @@ series = {ASHES '23}
 FOBOS Control Board
 -------------------
 * `control`
-   VHDL sources for configuring the FOBOS Control Boards. Requires Xilinx Vivado 2020.2.
+   VHDL sources for configuring the FOBOS Control Boards. Requires Xilinx Vivado 2022.1.
    * `pynqctrl`
      Using a Digilent Inc PYNQ-Z1 or TUL PYNQ-Z2 as control board and either the FOBOS Shield or an oscilloscope for measurements.
    * `ip-repo` 
@@ -63,7 +63,7 @@ FOBOS Software
 
   * `foboslib` contains all common FOBOS functions.
   * `notebooks` contains Jupyter notebooks that run within Jupyter Lab on the SCA workstation.
-  * `examples` contains command line examples that run on the SCA workstation.
+  * `lwc_tools` contains tools to make the GMU LWC Hardware API compatible with FOBOS.
   * `firmware` contains software that runs on FOBOS Control.
 
 Documentation
@@ -76,7 +76,7 @@ Documentation
 License
 -------
 
-Copyright 2023 cryptographic Engineering Research Group (CERG)
+Copyright 2023 Cryptographic Engineering Research Group (CERG)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
