@@ -9,14 +9,14 @@ Please cite as:
 ```bibtex
 @inproceedings{fobos3,
 author = {Ferrufino, Eduardo and Beckwith, Luke and Abdulgadir, Abubakr and Kaps, Jens-Peter},
-title = {FOBOS 3: An Open-Source Platform for Side-Channel Analysis and Benchmarking},
+title = {{FOBOS} 3: An Open-Source Platform for Side-Channel Analysis and Benchmarking},
 year = {2023},
 isbn = {9798400702624},
 publisher = {Association for Computing Machinery},
 address = {New York, NY, USA},
 url = {https://doi.org/10.1145/3605769.3623987},
 doi = {10.1145/3605769.3623987},
-pages = {5–14},
+pages = {5--14},
 keywords = {hardware security, lightweight cryptography, side-channel analysis, benchmarking},
 location = {, Copenhagen, Denmark, },
 series = {ASHES '23}
@@ -76,7 +76,7 @@ Documentation
 License
 -------
 
-Copyright 2023 Cryptographic Engineering Research Group (CERG)
+Copyright 2024 Cryptographic Engineering Research Group (CERG)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
