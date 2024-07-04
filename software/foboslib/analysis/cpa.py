@@ -176,9 +176,13 @@ class CPA():
                 last_intersection.append((i+1)*stride)
                 
         intersection = last_intersection[-1]
-        
-        with open('intersections.txt', 'a') as f:
-            f.write(str(intersection)+',')
+        if fileName is not None:
+            f = open(fileName, 'w')
+            
+            f.write((str(intersection)+','))
+            f.close()
+        # with open('mtdFile.txt', 'a') as f:
+        #     f.write(str(intersection)+',')
         return intersection # Return the last intersection found
 
 
@@ -197,7 +201,7 @@ class CPA():
             
             # three lines above is commented originally
             maxKeyIndex, maxCorr, maxCorrTime = self.findCorrectKey(C)
-            corrFile = os.path.join(analysisDir, 'correlation' +f'{byteNum:02d}')
+            corrFile = os.path.join(analysisDir, 'correlation' + f'{byteNum:02d}')
             mtdFile = os.path.join(analysisDir, 'MTD' + f'{byteNum:02d}')
           
             print("subkey number = {}, subkey value = {}, correlation = {}, at sample = {}".format(byteNum, hex(maxKeyIndex), maxCorr, maxCorrTime))
@@ -214,7 +218,9 @@ class CPA():
                                 # plotSize=plotSize, plotFontSize=plotFontSize)
             correctKey.append(format(maxKeyIndex, '02x'))
             topKeysFile = os.path.join(analysisDir, 'topKeys-' + f'{byteNum:02d}' + '.json')
+            
             self.getTopNKeys(C, fileName=topKeysFile)
+            
         print('Highest correlation at key = {}'.format(' '.join(correctKey)))
         return C
 
