@@ -5,7 +5,6 @@
 
 import time
 import sys
-import multiprocessing as mp
 sys.path.append('../../../')
 import foboslib as fb
 # from foboslib.capture.ctrl.fb import fb
@@ -15,8 +14,6 @@ from pynq import Overlay
 # keep the next two lines for driver binding
 from .clkwizard import ClockWizard
 from .openadc2 import OpenADC2
-# I2C support
-from pynq.lib.iic import AxiIIC
 
 class PYNQCtrl():
     #status codes
@@ -60,7 +57,6 @@ class PYNQCtrl():
         self.input_buffer = None
         self.output_buffer = None
         self.inputSize = 0
-        self.iic = overlay.axi_iic_0
 
     def setDUTClk(self, clkFreq):
         if not (isinstance(clkFreq, int) and clkFreq >= 1000 and clkFreq <= 100000):
@@ -76,7 +72,7 @@ class PYNQCtrl():
         self.input_buffer.freebuffer()
         self.output_buffer.freebuffer()
         
-    def processDataDMA(self, data): ### renamed for testing
+    def processData(self, data): ### renamed for testing
         """
         Sends data to FOBOS hardware for processing, e.g. encryption
         data: The data to be processed. This is a hexadecimal string.
@@ -107,92 +103,6 @@ class PYNQCtrl():
         ### end use dma
 
         result = ''.join(['{:08x}'.format(self.output_buffer[i]) for i in range(0, int(self.outLen / 4))])
-        ##get result in correct format
-        result2 = ''
-        for i in range(len(result)):
-            if (i % 2 == 0 and i != 0):
-                result2 += ' '
-            result2 += result[i]       
-        return result2
-
-    def processData(self, data): ## I2C
-        """
-        Sends data to FOBOS hardware for processing, e.g. encryption
-        data: The data to be processed. This is a hexadecimal string.
-        returns: the result of processing, e.g. ciphertext
-        """
-        inputSize = int(len(data)/2)  # 2 nibbles per byte
-
-        rx_data=AxiIIC._ffi.new("unsigned char[]",self.outLen)
-        #print(f'inputSize={inputSize}')
-        #if self.inputSize != inputSize:
-        #    if self.input_buffer is not None:
-        #        #print('free buffer')
-        #        self.input_buffer.freebuffer()
-        #    #print('allocate buffer')
-        #    self.input_buffer = allocate(shape=(int(inputSize / 4),), dtype=np.uint32)
-        #    self.inputSize = inputSize
-
-        #put data in the buffer as 32bit integers
-        data = data.strip()
-
-        testVector = bytearray.fromhex(data)
-        testVector = list(testVector)
-        #testVector = [int(data[i:i+8],16) for i in range(0, len(data), 8)]
-        #for i in range(0, len(testVector)):
-        #    self.input_buffer[i] = testVector[i]
-
-        ### use dma
-        #self.dma.recvchannel.transfer(self.output_buffer) #configure dma to receive
-        #self.dma.sendchannel.transfer(self.input_buffer)  #configure dma to send 
-        ##print(f'in buf = {self.input_buffer}')
-        #self.dma.sendchannel.wait()
-        #self.dma.recvchannel.wait()
-        ### end use dma
-
-        ### use i2c
-        self.iic.wait()
-        #self.iic.send(0x40,testVector,inputSize,0)
-        process = mp.Process(target=self.iic.send, args=(0x40,testVector,inputSize,0))
-        process.start()
-        process.join(timeout=0.2)
-
-        if process.is_alive():
-            process.terminate()
-            process.join()
-            print(f"I2C transmit timed out for TV:{data}.")
-            self.iic.write(0x040,0xA) # reset I2C IP
-            self.forceReset() # reset DUT
-            self.releaseReset()
-            time.sleep(0.1)
-            print(f"I2C Status: {hex(self.iic.read(0x104))}.")
-            return 0
-        # print("i2c send done")
-        ### wait for response
-        time.sleep(0.1)
-        #while(self.dutcomm.read(PYNQCtrl.dutcomm_STATUS) & PYNQCtrl.DUT_WORKING):
-        #    time.sleep(0.1)
-        self.iic.wait()
-        #self.iic.receive(0x40,rx_data,self.outLen,0)
-        process = mp.Process(target=self.iic.receive, args=(0x40,rx_data,self.outLen,0))
-        process.start()
-        process.join(timeout=0.2)
-
-        if process.is_alive():
-            process.terminate()
-            process.join()
-            print(f"I2C receive timed out for TV:{data}")
-            self.iic.write(0x040,0xA) # reset I2C IP
-            self.forceReset() # reset DUT
-            self.releaseReset()
-            time.sleep(0.1)
-            print(f"I2C Status: {hex(self.iic.read(0x104))}.")
-            return 0
-        ### end use i2c
-        # print("i2c receive done")
-
-        self.output_buffer = list(rx_data)
-        result = ''.join(['{:02x}'.format(self.output_buffer[i]) for i in range(0, int(self.outLen))])
         ##get result in correct format
         result2 = ''
         for i in range(len(result)):
@@ -370,7 +280,3 @@ class PYNQCtrl():
             response = f'set DUT = {dut}'
             
         return status, response
-
-#class TimeoutException(Exception):   # Custom exception class
-#    pass
-
