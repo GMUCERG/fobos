@@ -57,7 +57,7 @@ class FobosTVGen():
             print(f'    Nonce Size (bytes) = {self.nonceLength}')
         print(f'    Ciphertext Size (bytes) = {self.expectedOutLen}')
         print(f'    Key Size (bytes)= {self.sdiLength}')
-        np.random.seed(0)
+        #np.random.seed()
         fDin = open(self.dinFile,'w')
         fPlain = open(self.plaintextFile,'w')
         if(self.adLength):

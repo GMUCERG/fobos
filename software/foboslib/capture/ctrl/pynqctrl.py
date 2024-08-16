@@ -450,7 +450,9 @@ class PYNQCtrl(FOBOSCtrl):
     
     def setDUT(self, dut):
         self.sendMsg(FOBOSCtrl.SET_DUT, dut)
-        status, _ = self.recvMsg()
+        #status, _ = self.recvMsg()
+        status, resposnseMsg = self.recvMsg()
+        self._printResponse('Setting DUT', status, resposnseMsg)
         return status
 
     def setSamplingFrequency(self, freqMHz):
@@ -518,10 +520,10 @@ class PYNQCtrl(FOBOSCtrl):
     def pwSetHwTrig(self, value):
         if value == 1:
             self.config += f'PWMGR_SET_HW_TRIG\n'
-            self.sendMsg(FOBOSCtrl.PWMGR_SET_HW_TRIG, "")
+            self.sendMsg(FOBOSCtrl.PWMGR_SET_HW_TRIG, 0)
         else:
             self.config += f'PWMGR_CLEAR_HW_TRIG\n'
-            self.sendMsg(FOBOSCtrl.PWMGR_CLEAR_HW_TRIG, "")
+            self.sendMsg(FOBOSCtrl.PWMGR_CLEAR_HW_TRIG, 0)
         
         
         status, response = self.recvMsg()
@@ -530,10 +532,10 @@ class PYNQCtrl(FOBOSCtrl):
     def pwSetSwTrig(self, value):
         if value == 1:
             self.config += f'PWMGR_SET_SW_TRIG\n'
-            self.sendMsg(FOBOSCtrl.PWMGR_SET_SW_TRIG, "")
+            self.sendMsg(FOBOSCtrl.PWMGR_SET_SW_TRIG, 0)
         else:
             self.config += f'PWMGR_CLEAR_SW_TRIG\n'
-            self.sendMsg(FOBOSCtrl.PWMGR_CLEAR_SW_TRIG, "")
+            self.sendMsg(FOBOSCtrl.PWMGR_CLEAR_SW_TRIG, 0)
             
         status, response = self.recvMsg()
         return response    
@@ -541,21 +543,21 @@ class PYNQCtrl(FOBOSCtrl):
 
     def pwReset(self):
         self.config += f'PWMGR_RESET\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_RESET, "")
+        self.sendMsg(FOBOSCtrl.PWMGR_RESET, 0)
 
         status, response = self.recvMsg()
         return status
     
     def pwClearMeasurements(self):
         self.config += f'PWMGR_CLEAR_MEASUREMENTS\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_CLEAR_MEASUREMENTS, "")
+        self.sendMsg(FOBOSCtrl.PWMGR_CLEAR_MEASUREMENTS, 0)
 
         status, response = self.recvMsg()
         return status
     
     def pwCheckHwTrigStatus(self):
         self.config += f'PWMGR_STAT_HW_TRIG\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_STAT_HW_TRIG, "")
+        self.sendMsg(FOBOSCtrl.PWMGR_STAT_HW_TRIG, 0)
 
         status, response = self.recvMsg()
         trigstat = int(response.split("=")[-1].replace(" ",""))
@@ -563,7 +565,7 @@ class PYNQCtrl(FOBOSCtrl):
     
     def pwCheckSwTrigStatus(self):
         self.config += f'PWMGR_STAT_SW_TRIG\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_STAT_SW_TRIG, "")
+        self.sendMsg(FOBOSCtrl.PWMGR_STAT_SW_TRIG, 0)
 
         status, response = self.recvMsg()
         trigstat = int(response.split("=")[-1].replace(" ",""))
@@ -571,7 +573,7 @@ class PYNQCtrl(FOBOSCtrl):
     
     def pwCheckOverflow(self):
         self.config += f'PWMGR_CHECK_OVERFLOW\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_CHECK_OVERFLOW, "")
+        self.sendMsg(FOBOSCtrl.PWMGR_CHECK_OVERFLOW, 0)
 
         status, response = self.recvMsg()
         overflowstat = int(response.split("=")[-1].replace(" ",""))
@@ -579,7 +581,7 @@ class PYNQCtrl(FOBOSCtrl):
 
     def pwCheckBusy(self):
         self.config += f'PWMGR_CHECK_BUSY\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_CHECK_BUSY, "")
+        self.sendMsg(FOBOSCtrl.PWMGR_CHECK_BUSY, 0)
 
         status, response = self.recvMsg()
         busy = int(response.split("=")[-1].replace(" ",""))
@@ -587,7 +589,7 @@ class PYNQCtrl(FOBOSCtrl):
     
     def pwGetMeasCount(self):
         self.config += f'PWMGR_GET_COUNT\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_GET_COUNT, "")
+        self.sendMsg(FOBOSCtrl.PWMGR_GET_COUNT, 0)
         
         status, response = self.recvMsg()
         curr = int(response.split("=")[-1].replace(" ",""))
@@ -595,7 +597,7 @@ class PYNQCtrl(FOBOSCtrl):
     
     def getDutCycles(self):
         self.config += f'FOBOSCtrl_GET_DUT_CYCLES\n'
-        self.sendMsg(FOBOSCtrl.FOBOSCtrl_GET_DUT_CYCLES, "")
+        self.sendMsg(FOBOSCtrl.FOBOSCtrl_GET_DUT_CYCLES, 0 )
         
         status, response = self.recvMsg()
         curr = int(response.split("=")[-1].replace(" ",""))
@@ -618,26 +620,26 @@ class PYNQCtrl(FOBOSCtrl):
             return -1
         
         self.config += f'PWMGR_SET_VAR_VOLT = {volt}\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_SET_VAR_VOLT, volt)
+        self.sendMsg(FOBOSCtrl.PWMGR_SET_VAR_VOLT, int(volt*100))
         status, _ = self.recvMsg()
         
         if (status != "0"):
             self.config += f'PWMGR_SET_VAR_ON\n'
-            self.sendMsg(FOBOSCtrl.PWMGR_SET_VAR_ON, "")
+            self.sendMsg(FOBOSCtrl.PWMGR_SET_VAR_ON, 0)
             status, response = self.recvMsg()
             
         return status
          
     def pwSetVarOff(self):
         self.config += f'PWMGR_SET_VAR_OFF\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_SET_VAR_OFF, "")
+        self.sendMsg(FOBOSCtrl.PWMGR_SET_VAR_OFF, 0)
         
         status, response = self.recvMsg()
         return status
         
     def pwGetGainVar(self):
         self.config += f'PWMGR_GET_GAIN_VAR\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_GET_GAIN_VAR, "")
+        self.sendMsg(FOBOSCtrl.PWMGR_GET_GAIN_VAR, 0)
         
         status, response = self.recvMsg()
         gain = int(response.split("=")[-1].replace(" ",""))
@@ -645,7 +647,7 @@ class PYNQCtrl(FOBOSCtrl):
     
     def pwGetVoltVar(self):
         self.config += f'PWMGR_GET_VOLT_VAR\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_GET_VOLT_VAR, "")
+        self.sendMsg(FOBOSCtrl.PWMGR_GET_VOLT_VAR, 0)
         
         status, response = self.recvMsg()
         volt = float(response.split("=")[-1].replace(" ",""))
@@ -653,7 +655,7 @@ class PYNQCtrl(FOBOSCtrl):
 
     def pwGetCurrVar(self):
         self.config += f'PWMGR_GET_CURR_VAR\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_GET_CURR_VAR, "")
+        self.sendMsg(FOBOSCtrl.PWMGR_GET_CURR_VAR, 0)
         
         status, response = self.recvMsg()
         curr = float(response.split("=")[-1].replace(" ",""))
@@ -661,7 +663,7 @@ class PYNQCtrl(FOBOSCtrl):
     
     def pwGetMaxVoltVar(self):
         self.config += f'PWMGR_MAX_VOLT_VAR\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_MAX_VOLT_VAR, "")
+        self.sendMsg(FOBOSCtrl.PWMGR_MAX_VOLT_VAR, 0)
         
         status, response = self.recvMsg()
         volt = float(response.split("=")[-1].replace(" ",""))
@@ -669,7 +671,7 @@ class PYNQCtrl(FOBOSCtrl):
    
     def pwGetAvgVoltVar(self):
         self.config += f'PWMGR_AVG_VOLT_VAR\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_AVG_VOLT_VAR, "")
+        self.sendMsg(FOBOSCtrl.PWMGR_AVG_VOLT_VAR, 0)
         
         status, response = self.recvMsg()
         volt = float(response.split("=")[-1].replace(" ",""))
@@ -677,7 +679,7 @@ class PYNQCtrl(FOBOSCtrl):
 
     def pwGetMaxCurrVar(self):
         self.config += f'PWMGR_MAX_CURR_VAR\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_MAX_CURR_VAR, "")
+        self.sendMsg(FOBOSCtrl.PWMGR_MAX_CURR_VAR, 0)
         
         status, response = self.recvMsg()
         curr = float(response.split("=")[-1].replace(" ",""))
@@ -685,7 +687,7 @@ class PYNQCtrl(FOBOSCtrl):
    
     def pwGetAvgCurrVar(self):
         self.config += f'PWMGR_AVG_CURR_VAR\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_AVG_CURR_VAR, "")
+        self.sendMsg(FOBOSCtrl.PWMGR_AVG_CURR_VAR, 0)
         
         status, response = self.recvMsg()
         curr = float(response.split("=")[-1].replace(" ",""))
@@ -704,7 +706,7 @@ class PYNQCtrl(FOBOSCtrl):
 
     def pwGetGain5v(self):
         self.config += f'PWMGR_GET_GAIN_5V\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_GET_GAIN_5V, "")
+        self.sendMsg(FOBOSCtrl.PWMGR_GET_GAIN_5V, 0)
 
         status, response = self.recvMsg()
         gain = int(response.split("=")[-1].replace(" ",""))
@@ -712,7 +714,7 @@ class PYNQCtrl(FOBOSCtrl):
     
     def pwGetVolt5v(self):
         self.config += f'PWMGR_GET_VOLT_5V\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_GET_VOLT_5V, "")
+        self.sendMsg(FOBOSCtrl.PWMGR_GET_VOLT_5V, 0)
         
         status, response = self.recvMsg()
         volt = float(response.split("=")[-1].replace(" ",""))
@@ -720,7 +722,7 @@ class PYNQCtrl(FOBOSCtrl):
 
     def pwGetCurr5v(self):
         self.config += f'PWMGR_GET_CURR_5V\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_GET_CURR_5V, "")
+        self.sendMsg(FOBOSCtrl.PWMGR_GET_CURR_5V, 0)
         
         status, response = self.recvMsg()
         curr = float(response.split("=")[-1].replace(" ",""))
@@ -728,7 +730,7 @@ class PYNQCtrl(FOBOSCtrl):
     
     def pwGetMaxVolt5v(self):
         self.config += f'PWMGR_MAX_VOLT_5V\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_MAX_VOLT_5V, "")
+        self.sendMsg(FOBOSCtrl.PWMGR_MAX_VOLT_5V, 0)
         
         status, response = self.recvMsg()
         volt = float(response.split("=")[-1].replace(" ",""))
@@ -736,7 +738,7 @@ class PYNQCtrl(FOBOSCtrl):
    
     def pwGetAvgVolt5v(self):
         self.config += f'PWMGR_AVG_VOLT_5V\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_AVG_VOLT_5V, "")
+        self.sendMsg(FOBOSCtrl.PWMGR_AVG_VOLT_5V, 0)
         
         status, response = self.recvMsg()
         volt = float(response.split("=")[-1].replace(" ",""))
@@ -744,7 +746,7 @@ class PYNQCtrl(FOBOSCtrl):
 
     def pwGetMaxCurr5v(self):
         self.config += f'PWMGR_MAX_CURR_5V\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_MAX_CURR_5V, "")
+        self.sendMsg(FOBOSCtrl.PWMGR_MAX_CURR_5V, 0)
         
         status, response = self.recvMsg()
         curr = float(response.split("=")[-1].replace(" ",""))
@@ -752,7 +754,7 @@ class PYNQCtrl(FOBOSCtrl):
    
     def pwGetAvgCurr5v(self):
         self.config += f'PWMGR_AVG_CURR_5V\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_AVG_CURR_5V, "")
+        self.sendMsg(FOBOSCtrl.PWMGR_AVG_CURR_5V, 0)
         
         status, response = self.recvMsg()
         curr = float(response.split("=")[-1].replace(" ",""))
@@ -770,7 +772,7 @@ class PYNQCtrl(FOBOSCtrl):
 
     def pwGetGain3v3(self):
         self.config += f'PWMGR_GET_GAIN_3V3\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_GET_GAIN_3V3, "")
+        self.sendMsg(FOBOSCtrl.PWMGR_GET_GAIN_3V3, 0)
         
         status, response = self.recvMsg()
         gain = int(response.split("=")[-1].replace(" ",""))
@@ -778,7 +780,7 @@ class PYNQCtrl(FOBOSCtrl):
     
     def pwGetVolt3v3(self):
         self.config += f'PWMGR_GET_VOLT_3V3\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_GET_VOLT_3V3, "")
+        self.sendMsg(FOBOSCtrl.PWMGR_GET_VOLT_3V3, 0)
         
         status, response = self.recvMsg()
         volt = float(response.split("=")[-1].replace(" ",""))
@@ -786,7 +788,7 @@ class PYNQCtrl(FOBOSCtrl):
 
     def pwGetCurr3v3(self):
         self.config += f'PWMGR_GET_CURR_3V3\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_GET_CURR_3V3, "")
+        self.sendMsg(FOBOSCtrl.PWMGR_GET_CURR_3V3, 0)
         
         status, response = self.recvMsg()
         curr = float(response.split("=")[-1].replace(" ",""))
@@ -794,7 +796,7 @@ class PYNQCtrl(FOBOSCtrl):
     
     def pwGetMaxVolt3v3(self):
         self.config += f'PWMGR_MAX_VOLT_3V3\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_MAX_VOLT_3V3, "")
+        self.sendMsg(FOBOSCtrl.PWMGR_MAX_VOLT_3V3, 0)
         
         status, response = self.recvMsg()
         volt = float(response.split("=")[-1].replace(" ",""))
@@ -802,7 +804,7 @@ class PYNQCtrl(FOBOSCtrl):
    
     def pwGetAvgVolt3v3(self):
         self.config += f'PWMGR_AVG_VOLT_3V3\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_AVG_VOLT_3V3, "")
+        self.sendMsg(FOBOSCtrl.PWMGR_AVG_VOLT_3V3, 0)
         
         status, response = self.recvMsg()
         volt = float(response.split("=")[-1].replace(" ",""))
@@ -810,7 +812,7 @@ class PYNQCtrl(FOBOSCtrl):
 
     def pwGetMaxCurr3v3(self):
         self.config += f'PWMGR_MAX_CURR_5V\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_MAX_CURR_5V, "")
+        self.sendMsg(FOBOSCtrl.PWMGR_MAX_CURR_5V, 0)
         
         status, response = self.recvMsg()
         curr = float(response.split("=")[-1].replace(" ",""))
@@ -818,7 +820,7 @@ class PYNQCtrl(FOBOSCtrl):
    
     def pwGetAvgCurr3v3(self):
         self.config += f'PWMGR_AVG_CURR_3V3\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_AVG_CURR_3V3, "")
+        self.sendMsg(FOBOSCtrl.PWMGR_AVG_CURR_3V3, 0)
         
         status, response = self.recvMsg()
         curr = float(response.split("=")[-1].replace(" ",""))
@@ -826,7 +828,7 @@ class PYNQCtrl(FOBOSCtrl):
 
     def pwOutVarSet(self, volt):
         self.config += f'PWMGR_SET_VAR_VOLT = {volt}\n'
-        self.sendMsg(FOBOSCtrl.PWMGR_SET_VAR_VOLT, volt)
+        self.sendMsg(FOBOSCtrl.PWMGR_SET_VAR_VOLT, int(volt*100))
         status, _ = self.recvMsg()
         return status
     

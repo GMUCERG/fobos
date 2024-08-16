@@ -21,7 +21,7 @@ _setup_pynq_z1_rev2:
 _setup_pynq_z2_rev1:
 	$(eval LINE=$(shell grep -m 1 -n pynq_z2_rev1 build_proj.tcl | cut -d: -f 1))
 	$(eval LLINE=$(shell echo $$(($(LINE)+10))))
-	@echo "Enabeling Pynq Z1 Rev 1"
+	@echo "Enabeling Pynq Z2 Rev 1"
 	@sed "$(LINE),$(LLINE) s/-value \"0\"/-value \"1\"/" build_proj.tcl > build.tcl
 
 _create_project:
