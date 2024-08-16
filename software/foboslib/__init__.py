@@ -99,8 +99,11 @@ INTERFACE_8BIT      = 0x01
 DEFAULT             = 0x00
 NEXYS3              = 0x00
 NEXYS4              = 0x00
+FBDA7               = 0x00
 CW305               = 0x01
-SUPPORTED_DUTS      = [DEFAULT, NEXYS3, NEXYS4, CW305]
+MTC                 = 0x02
+CW308               = 0x03
+SUPPORTED_DUTS      = [DEFAULT, NEXYS3, NEXYS4, FBDA7, CW305, MTC, CW308]
 
 ## limits
 MAX_OUT_LEN           = 65532

@@ -232,7 +232,7 @@ class PowerDriver(DefaultIP):
             return -1
         value = value * self.xadc_multiplier
         if self.enCalibration:
-            coeffs = self.GetCalibration("5V", "VOLT", self.readGainVar()) 
+            coeffs = self.GetCalibration("5V", "VOLT", self.readGain5v()) 
             value = value + coeffs[0]*value**3 + coeffs[1]*value**2 + coeffs[2]*value + coeffs[3]   
         return value
 
@@ -242,7 +242,7 @@ class PowerDriver(DefaultIP):
             return -1
         value = value * self.xadc_multiplier
         if self.enCalibration:
-            coeffs = self.GetCalibration("3V3", "VOLT", self.readGainVar()) 
+            coeffs = self.GetCalibration("3V3", "VOLT", self.readGain3v3()) 
             value = value + coeffs[0]*value**3 + coeffs[1]*value**2 + coeffs[2]*value + coeffs[3]   
         return value
 

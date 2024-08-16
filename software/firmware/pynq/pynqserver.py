@@ -136,7 +136,7 @@ class server():
                     param = ""
                     return opcode, param
         if opcode in [fb.PROCESS, fb.PROCESS_GET_TRACE]:
-            print(f'tv len = {len(param)}')
+            #print(f'tv len = {len(param)}')
             param = param.rstrip()
         else:
             if not isinstance(param, int):
@@ -219,8 +219,18 @@ class server():
                 tvLen = len(param)
                 if tvLen != 0 and tvLen % 4 == 0: 
                     self.logger.debug(f'action = PROCESS. param = {param}')
-                    self.fobosAcq.arm()
-                    result = self.ctrl.processData(param)
+                    retry=1
+                    while(retry):
+                        self.fobosAcq.arm()
+                        result = self.ctrl.processData(param)
+                        if(result):
+                            retry=0
+                        else:
+                            retry=retry+1
+                            self.fobosAcq.stop()
+                            self.fobosAcq.start()
+                        if retry > 4 :
+                            retry=0
                     trace = self.fobosAcq.getTrace()
                     response = (result, trace,)
                     # response = result
@@ -355,13 +365,14 @@ class server():
             elif opcode == fb.PWMGR_AVG_CURR_VAR:
                 curr = self.powerManager.MeasAvgCurrVar()
                 response = f"Get var gain = {curr}"
-            elif opcode == fb.fb_GET_DUT_CYCLES:
+            elif opcode == fb.FOBOSCtrl_GET_DUT_CYCLES:
                 cc = self.ctrl.getWorkCount()
                 response = f"Get work count = {cc}"
             ### Untested:
             elif opcode == fb.PWMGR_SET_GAIN_3V3:
-                val = self.powerManager.Gain3v3Set(param)
                 response = f"set 3v3 gain = {param}"
+                print(response)
+                self.powerManager.Gain3v3Set(param)
             elif opcode == fb.PWMGR_GET_GAIN_3V3:
                 val = self.powerManager.Gain3v3Get()
                 response = f"set 3v3 gain = {val}"        
@@ -417,7 +428,7 @@ class server():
                 val = self.powerManager.OutVarOff()
                 response = f"Out var off"
             elif opcode == fb.PWMGR_SET_VAR_VOLT:
-                val = self.powerManager.OutVarSet(float(param))
+                val = self.powerManager.OutVarSet(float(param/100))
                 response = f"set = {param}"
             else:
                 status = fb.ERR_NOT_IMPLEMENTED

@@ -161,5 +161,5 @@ class FOBOSCtrl:
         ERR_ADC_GAIN_INVALID           : 'ADC gain invalid. Valid range is [0 60]',
         ERR_SAMPLES_PER_TRACE_INVALID  : f'Samples per traces invalid. Valid range is [{MIN_SAMPLES_PER_TRACE} {MAX_SAMPLES_PER_TRACE}] and must be divisble by 4',
         ERR_NOT_IMPLEMENTED            : 'opcode not implemented',
-        ERR_DUT_NOT_SUPPORTED          : 'DUT not supported. Allowed values are 0 and 1'
+        ERR_DUT_NOT_SUPPORTED          : 'DUT not supported. Allowed values are 0, 1, 2, and 3'
     }

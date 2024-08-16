@@ -128,6 +128,12 @@ class OpenADCScope2():
     def disableTestMode(self):
         self.adc.set_test_en(0)
 
+    def start(self):
+        self.dma.recvchannel.start()
+
+    def stop(self):
+        self.dma.recvchannel.stop()
+
     def arm(self):
         if self.samples_per_trace is None:
             raise Exception("ADC samples per trace not set. Cannot arm.") 
