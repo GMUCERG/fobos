@@ -97,93 +97,133 @@ class CPA():
         return maxKeyIndex, maxCorr, maxCorrTime
 
     
-
-
-    def plotMTDGraph(self, correctTime, correctKeyIndex, measuredPower,
-                     hypotheticalPower, numTraces=None, stride=1,
-                     fileName=None, show='no'):
-        if numTraces is None:
-            numTraces = measuredPower.shape[0]
-        numKeys = hypotheticalPower.shape[1]
-        dataToPlot = np.empty((numKeys, numTraces / stride))
-        interestingPower = measuredPower[:, correctTime].reshape(measuredPower.shape[0], 1)
-        index = 0
-        for i in range(0, numTraces, stride):
-            if i % 100 == 0:
-                print("MDT step={}".format(i))
-            C = self.correlation_pearson(interestingPower[0:i, :], hypotheticalPower[0:i, :])
-            # print(C.shape)
-            dataToPlot[:, index] = C.reshape(numKeys)
-            index += 1
-        import matplotlib.pyplot as plt
-        plt.clf()
-        plt.margins(0)
-        for i in range(dataToPlot.shape[0]):
-            row = dataToPlot[i, :]
-            plt.plot(row, '#aaaaaa', linewidth=0.5)
-        plt.plot(dataToPlot[correctKeyIndex, :], 'k', linewidth=0.5)
-        if stride != 1:
-            plt.xlabel("Trace No. ({} traces)".format(stride))
-        else:
-            plt.xlabel("Trace No.")
-        plt.ylabel("Correlation (Pearson's r)")
-        if fileName is not None:
-            plt.savefig(fileName)
-        if show == 'yes':
-            plt.show()
-
-
-    
-
-    def plotMTDGraph2Test(self, correctTime, correctKeyIndex, measuredPower,
-                  hypotheticalPower, numTraces=None, stride=1,
-                  fileName=None, show='no'):
-        print('  NOT  Plotting MTD graph.')
+    def plotMTDGraph2(self, correctTime, correctKeyIndex, measuredPower,
+                      hypotheticalPower, numTraces=None, stride=1,
+                      fileName=None, show='no', plotSize=(10,8), plotFontSize=18):
+        print('    Plotting MTD graph.')
         if numTraces is None:
             numTraces = measuredPower.shape[0]
         numKeys = hypotheticalPower.shape[1]
         corrData = np.zeros((numKeys, int(numTraces / stride)))
         interestingPower = measuredPower[:, correctTime].reshape(measuredPower.shape[0], 1)
         index = 0
-        
-        last_intersection = []  # Empty list for intersections 
-        
         for i in range(stride, numTraces, stride):
-            # Pearson correlation coefficient
+            # if i % 100 == 0:
+            # print("    Plotting MDT. step={}".format(i))
             C = self.correlation_pearson(interestingPower[0:i, :], hypotheticalPower[0:i, :])
-            # Reshape correlation data and store in corrData array
+            # print(C.shape)
             corrData[:, index] = C.reshape(numKeys)
             index += 1
-        
-        # copy corrVals since corrData converts same data in memory to all 0s
-        corrVals= corrData[correctKeyIndex, : -1].copy()
-        
-        # Zero out the correct key in corrData to avoid problems
-        corrData[correctKeyIndex, :] = 0
-           
+        # get only highest and lowest values
+        # print(corrData.shape)
+        # print(corrData)
+        import matplotlib.pyplot as plt
+        fig = plt.figure()
+        fig.patch.set_facecolor('white')
+        plt.figure(figsize=plotSize)
+        plt.rcParams.update({'font.size':plotFontSize})
+        plt.clf()
+        plt.margins(0)
+        # plot this first
+        plt.plot(corrData[correctKeyIndex, :-1], 'r', linewidth=0.5) # remove last element(to fix a bug)
+        # remove the correct key
+        corrData[correctKeyIndex, :] = 0  # zero all elements in row so they are
+        # min nor max
+        # for i in range(dataToPlot.shape[0]):
+        #     row = dataToPlot[i,:]
+        #     plt.plot(row, '#aaaaaa', linewidth = 0.5)
         highVals = np.nanmax(corrData, axis=0)
         lowVals = np.nanmin(corrData, axis=0)
+        # print(highVals.shape)
+        # print(highVals)
+        plt.plot(highVals[:-1], 'b', linewidth=0.5)
+        plt.plot(lowVals[:-1], 'b', linewidth=0.5)
+
+        if stride != 1:
+            plt.xlabel("Trace No. x {}".format(stride))
+        else:
+            plt.xlabel("Trace No.")
+        plt.ylabel("Correlation (Pearson's r)")
+        if fileName is not None:
+            plt.savefig(fileName,facecolor=fig.get_facecolor())
+        if show == 'yes':
+            plt.show()
+        plt.close('all')
+
+           
+    def plotMTDGraph2Combined(self, correctTime, correctKeyIndex, measuredPower,
+                              hypotheticalPower, numTraces=None, stride=1,
+                              fileName=None, show='yes', plotSize=(10,8), plotFontSize=18, MTDlistname=None):
+        print('Plotting MTD graph.')
+    
+        if numTraces is None:
+            numTraces = measuredPower.shape[0]
+        numKeys = hypotheticalPower.shape[1]
+        corrData = np.zeros((numKeys, int(numTraces / stride)))
+        interestingPower = measuredPower[:, correctTime].reshape(measuredPower.shape[0], 1)
+        index = 0
+    
+        last_intersection = []  # List for intersections 
+    
+        for i in range(stride, numTraces, stride):
+            C = self.correlation_pearson(interestingPower[0:i, :], hypotheticalPower[0:i, :])
+            corrData[:, index] = C.reshape(numKeys)
+            index += 1
+            
+        import matplotlib.pyplot as plt
+        fig = plt.figure()
+        fig.patch.set_facecolor('white')
+        plt.figure(figsize=plotSize)
+        plt.rcParams.update({'font.size': plotFontSize})
+        plt.clf()
+        plt.margins(0)
+    
+        # Plot all correlation data with light gray lines
+        for i in range(corrData.shape[0]):
+            row = corrData[i, :]
+            plt.plot(row, '#aaaaaa', linewidth=0.5)
         
-        # loop through points of red line and see if intersections with blue or green
-        for i in range(len(corrData[correctKeyIndex, :-1]) - 1):
-            # Check red line intersect blue line (high vals)  # Check red line intersect green line (low vals)
-            # print(i, corrVals[i+1], highVals[i+1], lowVals[i+1])
+        # Plot the correct key with a red line
+        plt.plot(corrData[correctKeyIndex, :-1], 'r', linewidth=0.5)
+        
+        corrVals = corrData[correctKeyIndex, :-1].copy()
+        corrData[correctKeyIndex, :] = 0  # Zero out correct key to avoid problems
+    
+        highVals = np.nanmax(corrData, axis=0)
+        lowVals = np.nanmin(corrData, axis=0)
+    
+        plt.plot(highVals[:-1], 'b', linewidth=0.5)
+        plt.plot(lowVals[:-1], 'b', linewidth=0.5)
+    
+        if stride != 1:
+            plt.xlabel("Trace No. x {}".format(stride))
+        else:
+            plt.xlabel("Trace No.")
+        plt.ylabel("Correlation (Pearson's r)")
+    
+        if fileName is not None:
+            plt.savefig(fileName, facecolor=fig.get_facecolor())
+        if show == 'yes':
+            plt.show()
+        plt.close('all')
+    
+        # Check for intersections
+        for i in range(len(corrVals) - 1):
             if (corrVals[i+1] > highVals[i+1] and corrVals[i] < highVals[i]) or \
                (corrVals[i+1] < lowVals[i+1] and corrVals[i] > lowVals[i]):
-               # print("Intersection found", i, corrVals[i+1], highVals[i+1], lowVals[i+1])
-                
-                # Collects last intersection as the trace x stride 
-                last_intersection.append((i+1)*stride)
-                
-        intersection = last_intersection[-1]
-        if fileName is not None:
-            f = open(fileName, 'w')
-            
-            f.write((str(intersection)+','))
-            f.close()
-        # with open('mtdFile.txt', 'a') as f:
-        #     f.write(str(intersection)+',')
-        return intersection # Return the last intersection found
+                last_intersection.append((i+1) * stride)
+        
+        intersection = last_intersection[-1] if last_intersection else None
+    
+        # if fileName is not None:
+        #     with open(fileName, 'a') as f:
+        #         f.write((str(intersection) + ','))
+        
+        # with open('mtdIntersection.csv', 'a') as f:
+        #     f.write(str(intersection) + ',')
+        
+        return intersection
+
 
 
     
@@ -193,6 +233,8 @@ class CPA():
         # print(measuredPower.shape)
         print("Running CPA attack. Please wait ...")
         correctKey = []
+        mtdFile = os.path.join(analysisDir, 'MTDIntersection.csv')#+ f'{byteNum:02d}')
+
         for byteNum in range(numKeys):
             C =  self.correlation_pearson(measuredPower[0:numTraces,:], hypotheticalPower[byteNum][0:numTraces,:])
             # print("C=")
@@ -202,20 +244,22 @@ class CPA():
             # three lines above is commented originally
             maxKeyIndex, maxCorr, maxCorrTime = self.findCorrectKey(C)
             corrFile = os.path.join(analysisDir, 'correlation' + f'{byteNum:02d}')
-            mtdFile = os.path.join(analysisDir, 'MTD' + f'{byteNum:02d}')
+            mtdGraph = os.path.join(analysisDir, 'MTD' + f'{byteNum:02d}')
           
             print("subkey number = {}, subkey value = {}, correlation = {}, at sample = {}".format(byteNum, hex(maxKeyIndex), maxCorr, maxCorrTime))
             if plot: #do this, if plot mtd do this
                 self.plotCorr(C, maxKeyIndex, fileName=corrFile, plotSize=plotSize,
                               plotFontSize=plotFontSize)
-                # self.plotMTDGraph2Test(maxCorrTime, maxKeyIndex, measuredPower,
-                #                 hypotheticalPower[byteNum],
-                #                 stride=MTDStride, fileName=mtdFile, show='no',
-                #                 plotSize=plotSize, plotFontSize=plotFontSize)
-                self.plotMTDGraph2Test(maxCorrTime, maxKeyIndex, measuredPower,
-                                hypotheticalPower[byteNum],
-                                stride=MTDStride, fileName=mtdFile, show='no')
-                                # plotSize=plotSize, plotFontSize=plotFontSize)
+              
+                intersection = self.plotMTDGraph2Combined(maxCorrTime, maxKeyIndex, measuredPower,
+                                                      hypotheticalPower[byteNum],
+                                                      stride=MTDStride, fileName=mtdGraph, show='yes',
+                                                      plotSize=plotSize, plotFontSize=plotFontSize)
+            
+                with open(mtdFile, 'a') as f:
+                    f.write(f'{intersection},')
+                    
+               
             correctKey.append(format(maxKeyIndex, '02x'))
             topKeysFile = os.path.join(analysisDir, 'topKeys-' + f'{byteNum:02d}' + '.json')
             
@@ -270,7 +314,7 @@ class CPA():
             c = corrVal[i]
             k = keyIndex[i]
             #Changed from hex to int
-            l.append({'key' : int(k) , 'correlation_absolute' : c, 'time' : int(t)})
+            l.append({'key' : hex(k) , 'correlation_absolute' : c, 'time' : int(t)})
         if fileName is not None:
             f = open(fileName, 'w')
             # print(l)
