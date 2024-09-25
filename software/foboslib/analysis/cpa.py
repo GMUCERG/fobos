@@ -254,7 +254,7 @@ class CPA():
               
                 intersection = self.plotMTDGraph2Combined(maxCorrTime, maxKeyIndex, measuredPower,
                                                       hypotheticalPower[byteNum],
-                                                      stride=MTDStride, fileName=mtdGraph, show='yes',
+                                                      stride=MTDStride, fileName=mtdGraph, show='no',
                                                       plotSize=plotSize, plotFontSize=plotFontSize)
             
                 with open(mtdFile, 'a') as f:
