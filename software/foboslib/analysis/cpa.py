@@ -41,7 +41,7 @@ class CPA():
         corrMatrix = np.empty((modeledData.shape[1], measuredData.shape[1]))
         #Dumps matrix with dimensions: (number of model data columns) X (number of measured data columns) into zeros matrix
         
-        print("shape of Measured data: {}".format(np.shape(measuredData)))
+        #print("shape of Measured data: {}".format(np.shape(measuredData)))
         
         for i in range(modeledData.shape[1]):
             # for num of columns in modeled data:
@@ -153,7 +153,7 @@ class CPA():
            
     def plotMTDGraph2Combined(self, correctTime, correctKeyIndex, measuredPower,
                               hypotheticalPower, numTraces=None, stride=1,
-                              fileName=None, show='yes', plotSize=(10,8), plotFontSize=18, MTDlistname=None):
+                              fileName=None, show='no', plotSize=(10,8), plotFontSize=18, MTDlistname=None):
         print('Plotting MTD graph.')
     
         if numTraces is None:
