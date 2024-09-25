@@ -212,7 +212,8 @@ class CPA():
             if (corrVals[i+1] > highVals[i+1] and corrVals[i] < highVals[i]) or \
                (corrVals[i+1] < lowVals[i+1] and corrVals[i] > lowVals[i]):
                 last_intersection.append((i+1) * stride)
-        
+
+        #handle no intersection conditional
         intersection = last_intersection[-1] if last_intersection else None
     
         # if fileName is not None:
