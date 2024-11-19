@@ -38,6 +38,10 @@ SET_DUT = 23
 PROCESS = 100
 PROCESS_GET_TRACE = 101
 
+CMD_LOCK                 = 300
+CMD_UNLOCK               = 301
+CMD_LOCK_STATUS          = 302
+
 # Power Manager Commands
 PWMGR_SET_GAIN_VAR = 24
 PWMGR_GET_GAIN_VAR = 25
