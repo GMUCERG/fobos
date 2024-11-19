@@ -38,7 +38,7 @@ class HardwareManager():
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.socket.connect((ip, port))
         except Exception as  e:
-            print(e)
+            # print(e)
             raise SystemExit('Could not connect to control board')
 
     def _printResponse(self, opeartion, status, responseMsg):
@@ -137,10 +137,10 @@ def main():
 
     hw = HardwareManager(admin_ip=ADMIN_IP, admin_port=ADMIN_PORT)
 
-    res = hw.lock(uid=2)
+    res = hw.lock(uid=3)
     print(f'res={res}')
     time.sleep(1)
-    res = hw.unlock(uid=3)
+    res = hw.unlock(uid=2)
     print(f'res={res}')
     res = hw.lock_status()
     print(f'res={res}')
