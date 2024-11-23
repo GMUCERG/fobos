@@ -4,6 +4,7 @@ import logging
 import socket
 import time
 import pickle
+import json
 from pathlib import Path
 # from config.pynq_conf import FOBOS_HOME, IP
 from pynq_drivers.config.pynq_conf import IP, PORT, FOBOS_HOME
@@ -54,6 +55,12 @@ class Fobosadmin():
                 self.logger.info("Recieved close command. Exitting ...")
                 break
             status = self._handle_request()
+
+    def _write_lock_file(self, uid, lock_time):
+        lock_file = open('/tmp/fobos_lock', 'w')
+        lock_dict = {'uid': uid, 'lock_time': lock_time}
+        lock_file.write(json.dumps(lock_dict))
+        lock_file.close()
             
     def _handle_request(self):
         rcv_status, opcode, param = self.comm.recv_msg()
@@ -109,18 +116,20 @@ class Fobosadmin():
         else:
             res = False
         print(f'_lock: res={res}')
+        self._write_lock_file(self.current_uid, self.lock_time)
         return res, self.current_uid, self.lock_time
 
     def _unlock(self, uid):
-        print(f'_lock: curruid={self.current_uid}, uid={uid}')
-        if self.current_uid==uid:
+        print(f'_unlock: curruid={self.current_uid}, uid={uid}')
+        if self.current_uid==uid or self.current_uid==0:
             self.current_uid = 0
             self.lock_time = 0
             res = True
         else:
             res = False
         
-        print(f'_lock: res={res}')
+        print(f'_unlock: res={res}')
+        self._write_lock_file(self.current_uid, self.lock_time)
         return res, self.current_uid, self.lock_time
 
 def main():

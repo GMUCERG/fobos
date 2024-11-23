@@ -1,8 +1,10 @@
 import time
 import json
-from hardware_mgr import HardwareManager
+from foboslib.capture.ctrl.hardware_mgr import HardwareManager
 
-CONFIG_FILE = "../../../../config/host_config.json"
+# CONFIG_FILE = "../../../../config/host_config.json"
+CONFIG_FILE = "/home/bakry/projects/GMU/fobos-proj/fobos-dev1/fobos/config/host_config.json"
+
 class Host:
     def __init__(self):
         self.config_file = CONFIG_FILE
@@ -53,7 +55,44 @@ class Host:
                 # print(f"{i+1} - name = {name} ip={ip} dut={dut}\n\tcurrent_user={uid}\t\tlock_time={lock_time}\t {online_status}")
             else:
                 print(f"{i+1} - name = {name}\t ip={ip}\t dut={dut}\t")
+    
+    def get_instance_by_name(self, inst_name):
+        insts = self.config['instances']
+        for inst in insts:
+            if inst['name'] == inst_name:
+                return inst
+        
+        return None
 
+    def instance_status(self, inst_name):
+        inst = self.get_instance_by_name(inst_name)
+        print(f'getting instance {inst} status')
+        inst_name = inst['name']
+        inst_ip = inst['ip']
+
+        hw = HardwareManager(admin_ip=inst_ip, admin_port=9996)
+        res = hw.lock_status()
+        return res
+
+    def lock_instance(self, inst_name, uid):
+        inst = self.get_instance_by_name(inst_name)
+        print(f'locking instance {inst}')
+        inst_name = inst['name']
+        inst_ip = inst['ip']
+
+        hw = HardwareManager(admin_ip=inst_ip, admin_port=9996)
+        res = hw.lock(uid=uid)
+        return res
+
+    def unlock_instance(self, inst_name, uid):
+        inst = self.get_instance_by_name(inst_name)
+        print(f'locking instance {inst}')
+        inst_name = inst['name']
+        inst_ip = inst['ip']
+
+        hw = HardwareManager(admin_ip=inst_ip, admin_port=9996)
+        res = hw.unlock(uid=uid)
+        return res
 
 def main():
     host = Host()
@@ -64,7 +103,14 @@ def main():
     # insts = host.get_instances()
     # print(insts)
     # print(' ====')
-    host.show_instances(get_status=True)
+    # host.show_instances(get_status=True)
+    # inst = host.get_instance_by_name('pynq1')
+    res = host.instance_status('pynq1')
+    print(res)
+    # print(inst)
+    # res = host.lock_instance('pynq1', uid=2)
+    # print(res)
+    # host.unlock_instance('pynq1', uid=1)
 
 if __name__=='__main__':
     main()
