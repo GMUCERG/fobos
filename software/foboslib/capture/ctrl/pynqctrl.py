@@ -51,11 +51,11 @@ class PYNQCtrl(FOBOSCtrl):
             port where PYNQ server is listening.
         """
         # get hardware
-        self.hm = HardwareManager()
-        if self.hm.lock():
-            print('Acquired hardware lock')
-        else:
-            raise SystemExit('Hardware is in use by another user, please try again later. Exiting')
+        # self.hm = HardwareManager()
+        # if self.hm.lock():
+        #     print('Acquired hardware lock')
+        # else:
+        #     raise SystemExit('Hardware is in use by another user, please try again later. Exiting')
 
         self.magic = '20200225'
         self.outLen = 0
@@ -69,14 +69,16 @@ class PYNQCtrl(FOBOSCtrl):
         # self.ERROR = bytearray([0x01, 0x00, 0x00, 0x00])
         # self.TIMEOUT = bytearray([0x02, 0x00, 0x00, 0x00])
         self.model = "PYNQ-Z1"
+        print(f'inti : connecting {ip}, {port}')
         try:
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             # self.socket.setblocking(0)
+            print(f'connecting {ip}, {port}')
             self.socket.connect((ip, port))
-        except Exception as  e:
+        except Exception as e:
             print(e)
             # release hw
-            self.hm.unlock()
+            # self.hm.unlock()
             raise SystemExit('Could not connect to control board')
         self.config = "# Acquisition parameters:\n"
 
@@ -91,6 +93,14 @@ class PYNQCtrl(FOBOSCtrl):
         self.sendMsg(opcode=opcode, param=param)
         status, resposnseMsg = self.recvMsg()
         self._printResponse(userMsg, status, resposnseMsg)
+        if status != 0:
+            raise SystemExit()
+        return status
+    
+    def set_uid(self, uid):
+        self.sendMsg(opcode=FOBOSCtrl.CMD_SET_UID, param=uid)
+        status, resposnseMsg = self.recvMsg()
+        self._printResponse("setting identity", status, resposnseMsg)
         if status != 0:
             raise SystemExit()
         return status
@@ -436,7 +446,7 @@ class PYNQCtrl(FOBOSCtrl):
         # print(response)
         self.socket.close()
         #release lock
-        self.hm.unlock()
+        # self.hm.unlock()
         return status, response
 
     def setDUTInterface(self, interface):

@@ -6,6 +6,7 @@ import time
 import pickle
 from pathlib import Path
 import numpy as np
+import json
 from pynq import Overlay
 from pynq import allocate
 from pynq import Clocks
@@ -52,6 +53,7 @@ class server():
         if os.path.isfile(EXIT_FILE):
             os.remove(EXIT_FILE)
         self.interface = fb.INTERFACE_4BIT
+        self.valid_user = 0
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         for i in range(MAX_START_RETRIES):
             try:
@@ -154,6 +156,7 @@ class server():
         return False
     
     def acceptConnection(self):
+        self.valid_user = False
         self.socket.settimeout(SOCKET_TIMEOUT)
         while True:
             if self.closeRequested():
@@ -176,6 +179,7 @@ class server():
 
             while True:
                 opcode, param = self.recvMsg()
+                print(f'run :opcode = {opcode}, param = {param}')
                 self.touchStatusFile()
                 self.logger.debug(f'msg received : opcode={opcode}, param = {param}')
                 if int(opcode) == fb.DISCONNECT:
@@ -185,25 +189,45 @@ class server():
                     self.clt.close()
                     self.logger.info(f'Client done. Connection closed')
                     break
+                elif int(opcode) == fb.CMD_SET_UID:
+                    status, response = self._set_uid(param)
+                    self.sendResponse(0, pickle.dumps(response))
+                    if status != fb.SUCCESS:
+                        self.clt.close()
                 elif int(opcode) == -1:
                     self.sendResponse(1, pickle.dumps("Illegal message received. Ignored."))
                     self.logger.error(f'Illegal message received.')
                     continue
                 elif int(opcode) == -2:
                     self.logger.error("Cannot receive message due to socket error. Closing connection")
-                status, response = self.doOperation(int(opcode), param)
-                status = self.sendResponse(status, pickle.dumps(response))
-                if status == -1:
-                    self.logger.error('Could not send respose to client. Closing connection')
-                    self.clt.close()
-                    break
+                else:
+                    status, response = self.doOperation(int(opcode), param)
+                    status = self.sendResponse(status, pickle.dumps(response))
+                    if status == -1:
+                        self.logger.error('Could not send respose to client. Closing connection')
+                        self.clt.close()
+                        break
 
     def touchStatusFile(self):
         Path(STATUS_FILE).touch()
 
+    def _set_uid(self, uid):
+        with open('/tmp/fobos_lock', 'r') as config_file:
+            config = json.loads(config_file.read())
+        
+        print(config)
+        cur_uid = config['uid']
+        print(f'current uid = {cur_uid}')
+        if uid == cur_uid:
+            self.valid_user = True
+            return fb.SUCCESS, 'set_uid successful'
+        else:
+            return 1, 'set_uid failed'
+
     def doOperation(self, opcode, param):
         status = 0
         response = ''
+        print(f'opcode = {opcode}, param = {param}')
         try:
             if opcode == fb.PROCESS:
                 tvLen = len(param)

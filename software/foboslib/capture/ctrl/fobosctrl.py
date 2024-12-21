@@ -61,6 +61,8 @@ class FOBOSCtrl:
 
     PROCESS = 100
     PROCESS_GET_TRACE = 101
+    CMD_SET_UID = 102
+
 
     # Power Manager Commands
     PWMGR_SET_GAIN_VAR = 24
