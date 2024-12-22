@@ -1,6 +1,7 @@
 import time
 import json
 from foboslib.capture.ctrl.hardware_mgr import HardwareManager
+from foboslib.capture.ctrl.pynqctrl import PYNQCtrl
 
 # CONFIG_FILE = "../../../../config/host_config.json"
 CONFIG_FILE = "/home/bakry/projects/GMU/fobos-proj/fobos-dev1/fobos/config/host_config.json"
@@ -93,6 +94,39 @@ class Host:
         hw = HardwareManager(admin_ip=inst_ip, admin_port=9996)
         res = hw.unlock(uid=uid)
         return res
+    
+    def connect(self, instance_name, uid):
+        print(f'connecting to {instance_name} ...')
+        inst = self.get_instance_by_name(instance_name)
+        print(f'instance found = {inst}')
+        if inst==None:
+            print(f'Instance not found. Check host configuration file')
+            return
+        
+        err, _, current_uid, lock_time = self.instance_status(instance_name)
+        print(f'instnce status = {err, uid, lock_time}')
+        if err:
+            print('Error checking intance status. Check if it is online')
+            return
+        
+        if current_uid != 0 and current_uid != uid:
+            print(f'Instantance already used by uid: {current_uid} since {lock_time}')
+            return
+        
+        err, lock_granted, current_uid, lock_time = self.lock_instance(instance_name, uid=uid)
+        print(f'lock granted = {lock_granted}')
+        if err:
+            print(f'error with locking instance')
+            return
+        
+        if not lock_granted:
+            print(f'Error: lock refuesd, curruent_uid = {current_uid}, lock_time= {lock_time}')
+            return    
+
+        print('lock granted!')
+        inst_ip = inst['ip']
+        ctrl = PYNQCtrl(inst_ip, 9995)
+        return ctrl
 
 def main():
     host = Host()
