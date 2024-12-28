@@ -121,12 +121,20 @@ class Host:
         
         if not lock_granted:
             print(f'Error: lock refuesd, curruent_uid = {current_uid}, lock_time= {lock_time}')
-            return    
+            return
 
         print('lock granted!')
         inst_ip = inst['ip']
         ctrl = PYNQCtrl(inst_ip, 9995)
+        ctrl.set_instance_name(instance_name)
         return ctrl
+    
+    def disconnect(self, ctrl, uid):
+        inst_name = ctrl.get_instance_name()
+        ctrl.disconnect()
+        self.unlock_instance(inst_name, uid)
+        print(f'instance {inst_name} disconnected!')
+
 
 def main():
     host = Host()

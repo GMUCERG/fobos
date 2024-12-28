@@ -64,6 +64,7 @@ class PYNQCtrl(FOBOSCtrl):
         self.OPCODE_SIZE = 4
         self.timeToReset = 0
         self.RECV_TIMEOUT = 1
+        self._instance_name = None
         # error codes
         # self.OK = bytearray([0x00, 0x00, 0x00, 0x00])
         # self.ERROR = bytearray([0x01, 0x00, 0x00, 0x00])
@@ -81,6 +82,12 @@ class PYNQCtrl(FOBOSCtrl):
             # self.hm.unlock()
             raise SystemExit('Could not connect to control board')
         self.config = "# Acquisition parameters:\n"
+
+    def set_instance_name(self, name):
+        self._instance_name = name
+
+    def get_instance_name(self):
+        return self._instance_name
 
     def _printResponse(self, opeartion, status, responseMsg):
         print(f'{opeartion}')
