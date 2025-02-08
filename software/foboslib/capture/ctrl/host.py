@@ -1,7 +1,11 @@
+import os
 import time
 import json
+import pwd
 from foboslib.capture.ctrl.hardware_mgr import HardwareManager
 from foboslib.capture.ctrl.pynqctrl import PYNQCtrl
+from foboslib.capture.dut.jtag_target import Jtag_target
+from foboslib.capture.dut.cw305_target import Cw305_target
 
 # CONFIG_FILE = "../../../../config/host_config.json"
 CONFIG_FILE = "/home/bakry/projects/GMU/fobos-proj/fobos-dev1/fobos/config/host_config.json"
@@ -10,6 +14,15 @@ class Host:
     def __init__(self):
         self.config_file = CONFIG_FILE
         self.config = self.read_config()
+        self.uid = os.getuid()
+
+        import pwd
+
+    def get_username(self, uid):
+        try:
+            return pwd.getpwuid(uid).pw_name
+        except KeyError:
+            return None
 
     def get_name(self):
         return self.config['hostname']
@@ -41,21 +54,24 @@ class Host:
                 else:
                     online_status =f'\t\033[91mOffline\033[0m'
 
-                if uid==0: uid = 'None'
+                if uid==0:
+                    user_name = 'None'
+                else:
+                    user_name = self.get_username(uid)
                 if lock_time ==0:
                     lock_time = 'None'
                 else:
                     lock_time = time.ctime(lock_time)
                 print(f"{'name: ' + name:<12}{'ip: ' + ip:<20}", end='')
                 # print(f"{'ip: ' + ip:<20}", end='')
-                print(f"{'dut: ' + dut:<15}", end='')
-                print(f"{'current_user: ' + str(uid):<20}", end='')
+                # print(f"{'dut: ' + dut:<15}", end='')
+                print(f"{'current_user: ' + user_name:<20}", end='')
                 print(f"{'lock_time: ' + lock_time:<30}", end='')
                 print(f"{online_status:<25}")
 
                 # print(f"{i+1} - name = {name} ip={ip} dut={dut}\n\tcurrent_user={uid}\t\tlock_time={lock_time}\t {online_status}")
             else:
-                print(f"{i+1} - name = {name}\t ip={ip}\t dut={dut}\t")
+                print(f"{i+1} - name = {name}\t ip={ip}\t")
     
     def get_instance_by_name(self, inst_name):
         insts = self.config['instances']
@@ -75,45 +91,47 @@ class Host:
         res = hw.lock_status()
         return res
 
-    def lock_instance(self, inst_name, uid):
+    def lock_instance(self, inst_name):
         inst = self.get_instance_by_name(inst_name)
         print(f'locking instance {inst}')
         inst_name = inst['name']
         inst_ip = inst['ip']
 
         hw = HardwareManager(admin_ip=inst_ip, admin_port=9996)
-        res = hw.lock(uid=uid)
+        res = hw.lock(self.uid)
         return res
 
-    def unlock_instance(self, inst_name, uid):
+    def unlock_instance(self, inst_name):
         inst = self.get_instance_by_name(inst_name)
-        print(f'locking instance {inst}')
+        print(f'unlocking instance {inst}')
         inst_name = inst['name']
         inst_ip = inst['ip']
 
         hw = HardwareManager(admin_ip=inst_ip, admin_port=9996)
-        res = hw.unlock(uid=uid)
+        res = hw.unlock(self.uid)
         return res
     
-    def connect(self, instance_name, uid):
+    def connect(self, instance_name):
         print(f'connecting to {instance_name} ...')
         inst = self.get_instance_by_name(instance_name)
         print(f'instance found = {inst}')
+        target_info = inst['dut']
+        print(f'target_info = {target_info}')
         if inst==None:
             print(f'Instance not found. Check host configuration file')
             return
         
         err, _, current_uid, lock_time = self.instance_status(instance_name)
-        print(f'instnce status = {err, uid, lock_time}')
+        print(f'instnce status = {err, current_uid, lock_time}')
         if err:
             print('Error checking intance status. Check if it is online')
             return
         
-        if current_uid != 0 and current_uid != uid:
+        if current_uid != 0 and current_uid != self.uid:
             print(f'Instantance already used by uid: {current_uid} since {lock_time}')
             return
         
-        err, lock_granted, current_uid, lock_time = self.lock_instance(instance_name, uid=uid)
+        err, lock_granted, current_uid, lock_time = self.lock_instance(instance_name)
         print(f'lock granted = {lock_granted}')
         if err:
             print(f'error with locking instance')
@@ -127,14 +145,31 @@ class Host:
         inst_ip = inst['ip']
         ctrl = PYNQCtrl(inst_ip, 9995)
         ctrl.set_instance_name(instance_name)
-        return ctrl
+        print('getting target handle')
+        target = self._get_dut(target_info)
+
+        return ctrl, target
     
-    def disconnect(self, ctrl, uid):
+    def disconnect(self, ctrl):
         inst_name = ctrl.get_instance_name()
         ctrl.disconnect()
-        self.unlock_instance(inst_name, uid)
+        self.unlock_instance(inst_name)
         print(f'instance {inst_name} disconnected!')
 
+    def _get_dut(self, dut_info):
+        dut_type = dut_info['type']
+        
+        jtag_target_type = dut_info['jtag_target_type']
+        jtag_target_name = dut_info['jtag_target_name']
+        jtag_device_name = dut_info['jtag_device_name']
+
+        print(f"dut_type : {dut_type}")
+        print(f"jtag_target_type = {jtag_target_type}")
+        print(f"jtag_target_name = {jtag_target_name}")
+        print(f"jtag_device_name = {jtag_device_name}")
+
+        dut = Jtag_target(jtag_device_name, jtag_target_type, jtag_target_name)
+        return dut
 
 def main():
     host = Host()
@@ -145,14 +180,19 @@ def main():
     # insts = host.get_instances()
     # print(insts)
     # print(' ====')
-    # host.show_instances(get_status=True)
+    # host.show_instances(get_status=False)
     # inst = host.get_instance_by_name('pynq1')
-    res = host.instance_status('pynq1')
-    print(res)
+    # res = host.instance_status('pynq1')
+    # print(res)
     # print(inst)
     # res = host.lock_instance('pynq1', uid=2)
     # print(res)
     # host.unlock_instance('pynq1', uid=1)
+    bit_file = "/home/bakry/projects/GMU/fobos-proj/fobos-dev1/fobos/projects/aes/vivado/aes-128/aes-128.runs/impl_1/half_duplex_dut.bit"
+    dut_info = {'type': 'xilinx_jtag', 'jtag_target_type': '/xilinx_tcf', 'jtag_target_name': '/Xilinx/13724327082e01', 'jtag_device_name': 'xc7a100t_0'}
+    dut = host._get_dut(dut_info)
+    print(dut)
+    dut.program(bit_file=bit_file)
 
 if __name__=='__main__':
     main()

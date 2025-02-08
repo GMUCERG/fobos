@@ -48,3 +48,4 @@ projects/
 *.hwh
 *.vdi
 software/notebooks/basic/fobosworkspace
+**/tmp/
