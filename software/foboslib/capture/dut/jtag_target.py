@@ -48,7 +48,7 @@ class Jtag_target(Target):
             # print("programming DUT. Please wait ...")
             script_location = os.path.dirname(os.path.realpath(__file__))
             print(script_location)
-            cmd = ['vivado', '-mode', 'batch', '-source']
+            cmd = ['vivado', '-nojournal', '-nolog', '-mode', 'batch', '-source']
             cmd += [os.path.join(script_location,  'prog_fpga.tcl')]
             cmd += ['-tclargs', self.jtag_device_name]
             cmd += ['-tclargs', self.jtag_target_type]

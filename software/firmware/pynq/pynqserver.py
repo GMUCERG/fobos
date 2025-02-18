@@ -112,7 +112,8 @@ class server():
         while True:
             try:
                 msg = self.clt.recv(RCV_BYTES)
-            except:
+            except Exception as e:      # works on python 3.x
+                self.logger.error('recvMsg error: %s', repr(e))
                 self.logger.error('Error while receiving message')
                 opcode = -2
                 return opcode, param

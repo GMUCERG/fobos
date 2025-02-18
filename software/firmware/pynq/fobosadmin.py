@@ -26,8 +26,10 @@ RCV_ERR_INVALID_MSG_DATA = 3
 
 class Fobosadmin():
     def __init__(self, ip, port):
+        print('admin')
+        print(os.environ)
         print(f'FOBOS_HOME={FOBOS_HOME}')
-        logging.basicConfig(filename=LOG_FILE, filemode='w', level=logging.DEBUG,
+        logging.basicConfig(filename=LOG_FILE, filemode='w', level=logging.INFO,
                             format='%(asctime)s %(name)s - %(levelname)s - %(message)s')
         self.logger = logging.getLogger('FOBOS admin')
         self.logger.info("Fobos admin starting ...")
@@ -134,6 +136,7 @@ class Fobosadmin():
 
 def main():
     admin = Fobosadmin(IP, ADMIN_PORT)
+    # time.sleep(5)
     admin.run()
 
 if __name__=='__main__':

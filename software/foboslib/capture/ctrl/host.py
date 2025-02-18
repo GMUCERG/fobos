@@ -114,15 +114,15 @@ class Host:
     def connect(self, instance_name):
         print(f'connecting to {instance_name} ...')
         inst = self.get_instance_by_name(instance_name)
-        print(f'instance found = {inst}')
+        # print(f'instance found = {inst}')
         target_info = inst['dut']
-        print(f'target_info = {target_info}')
+        # print(f'target_info = {target_info}')
         if inst==None:
             print(f'Instance not found. Check host configuration file')
             return
         
         err, _, current_uid, lock_time = self.instance_status(instance_name)
-        print(f'instnce status = {err, current_uid, lock_time}')
+        # print(f'instnce status = {err, current_uid, lock_time}')
         if err:
             print('Error checking intance status. Check if it is online')
             return
@@ -141,11 +141,11 @@ class Host:
             print(f'Error: lock refuesd, curruent_uid = {current_uid}, lock_time= {lock_time}')
             return
 
-        print('lock granted!')
+        # print('lock granted!')
         inst_ip = inst['ip']
         ctrl = PYNQCtrl(inst_ip, 9995)
         ctrl.set_instance_name(instance_name)
-        print('getting target handle')
+        # print('getting target handle')
         target = self._get_dut(target_info)
 
         return ctrl, target
@@ -159,16 +159,26 @@ class Host:
     def _get_dut(self, dut_info):
         dut_type = dut_info['type']
         
-        jtag_target_type = dut_info['jtag_target_type']
-        jtag_target_name = dut_info['jtag_target_name']
-        jtag_device_name = dut_info['jtag_device_name']
+        if dut_type=='xilinx_jtag':
+            jtag_target_type = dut_info['jtag_target_type']
+            jtag_target_name = dut_info['jtag_target_name']
+            jtag_device_name = dut_info['jtag_device_name']
+            print(f"dut_type : {dut_type}")
+            print(f"jtag_target_type = {jtag_target_type}")
+            print(f"jtag_target_name = {jtag_target_name}")
+            print(f"jtag_device_name = {jtag_device_name}")
 
-        print(f"dut_type : {dut_type}")
-        print(f"jtag_target_type = {jtag_target_type}")
-        print(f"jtag_target_name = {jtag_target_name}")
-        print(f"jtag_device_name = {jtag_device_name}")
+            dut = Jtag_target(jtag_device_name, jtag_target_type, jtag_target_name)
+        elif dut_type== 'cw305':
+            usb_serial_number = dut_info['usb_serial_number']
 
-        dut = Jtag_target(jtag_device_name, jtag_target_type, jtag_target_name)
+            print(f"dut_type : {dut_type}")
+            print(f"usb_serial_number = {usb_serial_number}")
+            dut = Cw305_target(usb_serial_number)
+
+        else:
+            print('DUT type not supported')
+        
         return dut
 
 def main():

@@ -5,6 +5,15 @@
             "name" : "pynq1",
             "ip" : "192.168.10.99",
             "max_time_for_one_trace" : "2",
+           "dut":{
+                "type" : "cw305",
+                "usb_serial_number" : "50203120355448513230353238313038"
+            }
+        },
+        {
+            "name" : "pynq2",
+            "ip" : "192.168.10.100",
+            "max_time_for_one_trace" : "2",
             "dut":{
                 "type" : "xilinx_jtag",
                 "jtag_target_type" : "/xilinx_tcf",
@@ -12,15 +21,6 @@
                 "jtag_device_name" : "xc7a100t_0"
             }
 
-        },
-        {
-            "name" : "pynq2",
-            "ip" : "192.168.10.100",
-            "max_time_for_one_trace" : "2",
-            "dut":{
-                "type" : "cw305",
-                "usb_serial_number" : "50203120355448513230353238313038"
-            }
         }
     ]
 }
