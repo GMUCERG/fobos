@@ -203,7 +203,7 @@ class PYNQCtrl(FOBOSCtrl):
         Returns: int
             Status
         """
-        self.sendMsg(opcode=FOBOSCtrl.TRIG_WAIT, param=trigWait)
+        self.sendMsg(opcode=FOBOSCtrl.TRG_WAIT, param=trigWait)
         status, resposnseMsg = self.recvMsg()
         self._printResponse('Setting trigger wait', status, resposnseMsg)
         if status != 0:
