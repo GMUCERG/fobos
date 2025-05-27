@@ -159,16 +159,18 @@ class CPA():
         if numTraces is None:
             numTraces = measuredPower.shape[0]
         numKeys = hypotheticalPower.shape[1]
-        corrData = np.zeros((numKeys, int(numTraces / stride)))
+        corrData = np.zeros((numKeys, int(numTraces / stride)-1))
         interestingPower = measuredPower[:, correctTime].reshape(measuredPower.shape[0], 1)
         index = 0
-    
+
+        #handle case if there are no intersections for return value if there are not enough traces
         last_intersection = []  # List for intersections 
     
         for i in range(stride, numTraces, stride):
             C = self.correlation_pearson(interestingPower[0:i, :], hypotheticalPower[0:i, :])
             corrData[:, index] = C.reshape(numKeys)
             index += 1
+        #print shape of corrData with corrData.shape
             
         import matplotlib.pyplot as plt
         fig = plt.figure()
@@ -184,16 +186,16 @@ class CPA():
             plt.plot(row, '#aaaaaa', linewidth=0.5)
         
         # Plot the correct key with a red line
-        plt.plot(corrData[correctKeyIndex, :-1], 'r', linewidth=0.5)
+        plt.plot(corrData[correctKeyIndex, : ], 'r', linewidth=0.5)
         
-        corrVals = corrData[correctKeyIndex, :-1].copy()
+        corrVals = corrData[correctKeyIndex, :].copy()
         corrData[correctKeyIndex, :] = 0  # Zero out correct key to avoid problems
     
         highVals = np.nanmax(corrData, axis=0)
         lowVals = np.nanmin(corrData, axis=0)
     
-        plt.plot(highVals[:-1], 'b', linewidth=0.5)
-        plt.plot(lowVals[:-1], 'b', linewidth=0.5)
+        plt.plot(highVals[:], 'b', linewidth=0.5)
+        plt.plot(lowVals[:], 'b', linewidth=0.5)
     
         if stride != 1:
             plt.xlabel("Trace No. x {}".format(stride))
@@ -222,52 +224,120 @@ class CPA():
         
         # with open('mtdIntersection.csv', 'a') as f:
         #     f.write(str(intersection) + ',')
-        
-        return intersection
+
+        #handle no intersection case if there is no intersection due to small number of traces defined in data_aquisiton
+        return intersection if intersection is not None else "No intersections found"
 
 
 
     
+    # def doCPA(self, measuredPower, hypotheticalPower, numTraces,
+    #           analysisDir, MTDStride, numKeys=16, plot=True, plotSize=(10,8),
+    #           plotFontSize=18):
+    #     # print(measuredPower.shape)
+    #     print("Running CPA attack. Please wait ...")
+    #     correctKey = []
+    #     #create mtdFile when called and dont write to old 
+    #     mtdFile = os.path.join(analysisDir, 'MTDIntersection.csv')#+ f'{byteNum:02d}')
+        
+    #     #starts csv file with an empty string, inserts 1 empty cell in first block on the left
+    #     with open(mtdFile, 'w') as f:
+    #         f.write(f'{""},')
+
+    #     for byteNum in range(numKeys):
+    #         C =  self.correlation_pearson(measuredPower[0:numTraces,:], hypotheticalPower[byteNum][0:numTraces,:])
+    #         # print("C=")
+    #         # print(C.shape)
+    #         # self.printHexMatrix(C, dtype='float')
+            
+    #         # three lines above is commented originally
+    #         maxKeyIndex, maxCorr, maxCorrTime = self.findCorrectKey(C)
+    #         corrFile = os.path.join(analysisDir, 'correlation' + f'{byteNum:02d}')
+    #         mtdGraph = os.path.join(analysisDir, 'MTD' + f'{byteNum:02d}')
+          
+    #         print("subkey number = {}, subkey value = {}, correlation = {}, at sample = {}".format(byteNum, hex(maxKeyIndex), maxCorr, maxCorrTime))
+    #         if plot: #do this, if plot mtd do this
+    #             self.plotCorr(C, maxKeyIndex, fileName=corrFile, plotSize=plotSize,
+    #                           plotFontSize=plotFontSize)
+              
+    #             intersection = self.plotMTDGraph2Combined(maxCorrTime, maxKeyIndex, measuredPower,
+    #                                                   hypotheticalPower[byteNum],
+    #                                                   stride=MTDStride, fileName=mtdGraph, show='no',
+    #                                                   plotSize=plotSize, plotFontSize=plotFontSize)
+            
+    #             with open(mtdFile, 'a') as f:
+    #                 f.write(f'{intersection},')
+    #             #keep appending string intersection values with comma , once loop is exited, then write into MTDintersection.csv
+                    
+               
+    #         correctKey.append(format(maxKeyIndex, '02x'))
+    #         topKeysFile = os.path.join(analysisDir, 'topKeys-' + f'{byteNum:02d}' + '.json')
+            
+    #         self.getTopNKeys(C, fileName=topKeysFile)
+            
+    #     # print('Highest correlation at key = {}'.format(' '.join(correctKey)))
+    #     done = 'Highest correlation at key = {}'.format(' '.join(correctKey))
+    #     # return C #write C into correlations.npy instead of matrix i.e. "01 23 45"
+    #     print(done)
+
+
     def doCPA(self, measuredPower, hypotheticalPower, numTraces,
               analysisDir, MTDStride, numKeys=16, plot=True, plotSize=(10,8),
               plotFontSize=18):
-        # print(measuredPower.shape)
         print("Running CPA attack. Please wait ...")
         correctKey = []
-        mtdFile = os.path.join(analysisDir, 'MTDIntersection.csv')#+ f'{byteNum:02d}')
-
+        maxCorrValues = []  # List to store maxCorr values
+    
+        mtdFile = os.path.join(analysisDir, 'MTDIntersection.csv')
+        
+        with open(mtdFile, 'w') as f:
+            # f.write(f'{""},')
+            f.write(','.join(str(i) for i in range(numKeys)) + '\n')
+        #Before the loop initialization, declare empty strign
+        #in loop append to string with comma 
+        # End of loop  - slice to the second to last character [ :-1]
+        # Now do with open and just write the string one time into MTDintersection file
+        
         for byteNum in range(numKeys):
-            C =  self.correlation_pearson(measuredPower[0:numTraces,:], hypotheticalPower[byteNum][0:numTraces,:])
-            # print("C=")
-            # print(C.shape)
-            # self.printHexMatrix(C, dtype='float')
+            C = self.correlation_pearson(measuredPower[0:numTraces,:], hypotheticalPower[byteNum][0:numTraces,:])
             
-            # three lines above is commented originally
             maxKeyIndex, maxCorr, maxCorrTime = self.findCorrectKey(C)
+            maxCorrValues.append(maxCorr)  # Store maxCorr value
+    
             corrFile = os.path.join(analysisDir, 'correlation' + f'{byteNum:02d}')
             mtdGraph = os.path.join(analysisDir, 'MTD' + f'{byteNum:02d}')
           
             print("subkey number = {}, subkey value = {}, correlation = {}, at sample = {}".format(byteNum, hex(maxKeyIndex), maxCorr, maxCorrTime))
-            if plot: #do this, if plot mtd do this
+            if plot:
                 self.plotCorr(C, maxKeyIndex, fileName=corrFile, plotSize=plotSize,
                               plotFontSize=plotFontSize)
               
                 intersection = self.plotMTDGraph2Combined(maxCorrTime, maxKeyIndex, measuredPower,
-                                                      hypotheticalPower[byteNum],
-                                                      stride=MTDStride, fileName=mtdGraph, show='no',
-                                                      plotSize=plotSize, plotFontSize=plotFontSize)
+                                                          hypotheticalPower[byteNum],
+                                                          stride=MTDStride, fileName=mtdGraph, show='no',
+                                                          plotSize=plotSize, plotFontSize=plotFontSize)
             
                 with open(mtdFile, 'a') as f:
+                    #f.write(f'{intersection},')
+                    # if write_headers:
+                    
                     f.write(f'{intersection},')
                     
-               
+    # put number of each subkeys above row before intersections in MTDIntersection.CSV. Index starting at 0: Dependent on (numkeys - 1) 
             correctKey.append(format(maxKeyIndex, '02x'))
+            
             topKeysFile = os.path.join(analysisDir, 'topKeys-' + f'{byteNum:02d}' + '.json')
             
             self.getTopNKeys(C, fileName=topKeysFile)
             
-        print('Highest correlation at key = {}'.format(' '.join(correctKey)))
-        return C
+        done = 'Highest correlation at key = {}'.format(' '.join(correctKey))
+        print(done)
+        
+        
+        # Save maxCorr values to a .npy file
+        maxCorrFile = os.path.join(analysisDir, 'maxCorrValues.npy')
+        np.save(maxCorrFile, np.array(maxCorrValues))
+        return correctKey
 
     def printHexMatrix(self, A, printAll=False, dtype='int'):
         import sys
