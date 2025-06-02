@@ -7,8 +7,7 @@ from foboslib.capture.ctrl.pynqctrl import PYNQCtrl
 from foboslib.capture.dut.jtag_target import Jtag_target
 from foboslib.capture.dut.cw305_target import Cw305_target
 
-# CONFIG_FILE = "../../../../config/host_config.json"
-CONFIG_FILE = "/home/bakry/projects/GMU/fobos-proj/fobos-dev1/fobos/config/host_config.json"
+CONFIG_FILE = "foboslib/capture/ctrl/config/host_config.json"
 
 class Host:
     def __init__(self):
@@ -62,11 +61,11 @@ class Host:
                     lock_time = 'None'
                 else:
                     lock_time = time.ctime(lock_time)
-                print(f"{'name: ' + name:<12}{'ip: ' + ip:<20}", end='')
+                print(f"{'name: ' + name:<16}{'ip: ' + ip:<20}", end='')
                 # print(f"{'ip: ' + ip:<20}", end='')
                 # print(f"{'dut: ' + dut:<15}", end='')
-                print(f"{'current_user: ' + user_name:<20}", end='')
-                print(f"{'lock_time: ' + lock_time:<30}", end='')
+                print(f"{'current_user: ' + user_name:<23}", end='')
+                print(f"{'lock_time: ' + lock_time:<35}", end='')
                 print(f"{online_status:<25}")
 
                 # print(f"{i+1} - name = {name} ip={ip} dut={dut}\n\tcurrent_user={uid}\t\tlock_time={lock_time}\t {online_status}")
@@ -160,15 +159,18 @@ class Host:
         dut_type = dut_info['type']
         
         if dut_type=='xilinx_jtag':
-            jtag_target_type = dut_info['jtag_target_type']
-            jtag_target_name = dut_info['jtag_target_name']
-            jtag_device_name = dut_info['jtag_device_name']
+            jtag_cable = dut_info['jtag_cable']
+            jtag_position = dut_info['jtag_position']
+            if 'jtag_serial_number' in dut_info:
+                jtag_serial_number = dut_info['jtag_serial_number']
+            else:
+                jtag_serial_number = "0"
             print(f"dut_type : {dut_type}")
-            print(f"jtag_target_type = {jtag_target_type}")
-            print(f"jtag_target_name = {jtag_target_name}")
-            print(f"jtag_device_name = {jtag_device_name}")
+            print(f"jtag_cable = {jtag_cable}")
+            print(f"jtag_position = {jtag_position}")
+            print(f"jtag_serial_number = {jtag_serial_number}")
 
-            dut = Jtag_target(jtag_device_name, jtag_target_type, jtag_target_name)
+            dut = Jtag_target(jtag_cable, jtag_position, jtag_serial_number)
         elif dut_type== 'cw305':
             usb_serial_number = dut_info['usb_serial_number']
 

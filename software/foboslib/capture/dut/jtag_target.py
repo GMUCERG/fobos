@@ -1,7 +1,7 @@
 
 #############################################################################
 #                                                                           #
-#   Copyright 2021 CERG                                                     #
+#   Copyright 2025 CERG                                                     #
 #                                                                           #
 #   Licensed under the Apache License, Version 2.0 (the "License");         #
 #   you may not use this file except in compliance with the License.        #
@@ -19,6 +19,7 @@
 # DUT utilities 
 # This can be used to program Xilinx FPGAs using jtag
 # Requiremet : This requires Vivado (tested using Vivado 2021.1)
+# Requirement: This requires xc3sprog to be installed. apt install xc3sprog
 import os
 import sys
 import subprocess
@@ -26,34 +27,25 @@ from .target import Target
 
 class Jtag_target(Target):
 
-    def __init__(self, jtag_device_name, jtag_target_type, jtag_target_name):
+    def __init__(self, jtag_cable, jtag_position, jtag_serial_number):
         self._type = 'Xilinx_jtag'
-        # self._device_id = device_id # here device id is the device name in Vivado Hardware Manager, e.g, 
-        self.jtag_target_type = jtag_target_type
-        self.jtag_target_name = jtag_target_name
-        self.jtag_device_name = jtag_device_name
-
-        # Serail number can be found using : lsusb -d 2b3e:c305 -v  | grep iSerial | awk '{print $3}'
-
+         
+        self.jtag_cable = jtag_cable
+        self.jtag_position = jtag_position
+        self.jtag_serial_number = jtag_serial_number
+        
     def program(self, bit_file):
         """
-        Uses Vivado tcl to program e.g
-        vivado -mode batch -source prog_fpga.tcl
-            -tclargs "xc7a100t_0" 
-            -tclargs "/xilinx_tcf" 
-            -tclargs "/Xilinx/13724327082e01" 
-            -tclargs "path/to/bitfile.bit"
+        Uses xc3sprog to program
         """
         if os.path.isfile(bit_file) == True:
             # print("programming DUT. Please wait ...")
             script_location = os.path.dirname(os.path.realpath(__file__))
             print(script_location)
-            cmd = ['vivado', '-nojournal', '-nolog', '-mode', 'batch', '-source']
-            cmd += [os.path.join(script_location,  'prog_fpga.tcl')]
-            cmd += ['-tclargs', self.jtag_device_name]
-            cmd += ['-tclargs', self.jtag_target_type]
-            cmd += ['-tclargs', self.jtag_target_name]
-            cmd += ['-tclargs', bit_file]
+            cmd = ['xc3sprog', '-c', self.jtag_cable,  '-p', self.jtag_position, '-v']
+            if self.jtag_serial_number != "0":
+                cmd += ['-s', self.jtag_serial_number]
+            cmd += [bit_file+':w']
             subprocess.run(cmd)
             print("Jtag DUT programming done!")
         else:

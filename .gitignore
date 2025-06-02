@@ -49,3 +49,4 @@ projects/
 *.vdi
 software/notebooks/basic/fobosworkspace
 **/tmp/
+software/foboslib/capture/ctrl/config/host_config.json
