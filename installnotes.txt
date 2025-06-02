@@ -3,7 +3,7 @@ sudo apt  install curl
 
 not running
 sudo pip3 install -r requirements.txt
-as it fails
+as it fails and not needed!
 
 at the end of jubpyterhub_config.py add
 
@@ -15,6 +15,8 @@ c.JupyterHub.ssl_key = '/etc/apache2/ssl/__cecnet_vsnet_gmu_edu.key'
 c.JupyterHub.port = 8888
 c.Authenticator.allow_all = True
 
+always needed
+sudo /opt/jupyterhub/bin/python3 -m pip install pyusb
 
 sudo /opt/conda/bin/conda create --prefix /opt/conda/envs/python python=3.12 ipykernel
 

@@ -6,6 +6,7 @@ from foboslib.capture.ctrl.hardware_mgr import HardwareManager
 from foboslib.capture.ctrl.pynqctrl import PYNQCtrl
 from foboslib.capture.dut.jtag_target import Jtag_target
 from foboslib.capture.dut.cw305_target import Cw305_target
+from foboslib.capture.dut.digilent_target import Digilent_target
 
 CONFIG_FILE = "foboslib/capture/ctrl/config/host_config.json"
 
@@ -178,6 +179,12 @@ class Host:
             print(f"usb_serial_number = {usb_serial_number}")
             dut = Cw305_target(usb_serial_number)
 
+        elif dut_type== 'digilent':
+            device_ID = dut_info['deviceID']
+            jtag_ID = dut_info['jtagID']
+            print(f"dut_type : {dut_type}")
+            print(f"deviceID : {device_ID}")
+            dut = Digilent_target(device_ID, jtag_ID)
         else:
             print('DUT type not supported')
         
