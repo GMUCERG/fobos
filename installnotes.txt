@@ -1,0 +1,33 @@
+
+sudo apt  install curl
+
+not running
+sudo pip3 install -r requirements.txt
+as it fails
+
+at the end of jubpyterhub_config.py add
+
+c.Spawner.notebook_dir = '~/notebooks/'
+c.Spawner.default_url = '/lab'
+c.Authenticator.admin_users = {'jkaps'}
+c.JupyterHub.ssl_cert = '/etc/apache2/ssl/__vsnet_gmu_edu_cert.cer'
+c.JupyterHub.ssl_key = '/etc/apache2/ssl/__cecnet_vsnet_gmu_edu.key'
+c.JupyterHub.port = 8888
+c.Authenticator.allow_all = True
+
+
+sudo /opt/conda/bin/conda create --prefix /opt/conda/envs/python python=3.12 ipykernel
+
+after cloning chipwhisperer
+
+sudo cp chipwhisperer/50-newae.rules /etc/udev/rules.d/
+
+now show the warning
+
+then the remaining sudo commands for it.
+
+sudo ln -s /opt/chipwhisperer/software/chipwhisperer/ /opt/jupyterhub/lib/python3.12/site-packages/
+
+Add section on xc3sprog for xilinx programming cable and nexys4
+
+
