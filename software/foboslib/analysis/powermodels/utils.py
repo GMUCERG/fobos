@@ -16,6 +16,7 @@ def loadHypoPower(fileName):
             break
         except Exception as e:
             print(e)
+            break
 
     return hypotheticalPower
     

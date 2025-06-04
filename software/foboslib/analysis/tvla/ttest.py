@@ -20,7 +20,7 @@ import numpy as np
 import os
 import argparse
 import matplotlib.pyplot as plt
-#from console_progressbar import ProgressBar  # produces error
+from console_progressbar import ProgressBar  # produces error
 
 class Ttest():
 
