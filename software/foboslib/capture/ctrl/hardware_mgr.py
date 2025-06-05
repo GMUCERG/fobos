@@ -25,7 +25,7 @@ class HardwareManager():
         self.MSG_LEN_SIZE = 10
         self.STATUS_SIZE = 4
         self.OPCODE_SIZE = 4
-        self.PARAM_SIZE = 4
+        self.PARAM_SIZE = 5
         self.RECV_TIMEOUT = 1
         self.RCV_BYTES = 512
 
@@ -53,10 +53,13 @@ class HardwareManager():
         responseMsg = (0, 0)
         try:
             self._connect(self.admin_ip, self.admin_port)
+            #print(f'Connected to :{self.admin_ip}')
             self.sendMsg(opcode=opcode, param=param)
+            #print(f'Message sent:{opcode}, {param}')
             status, responseMsg = self.recvMsg()
-            # cmd_name = cmd.cmd_data[opcode]['name']
-            # self._printResponse(f'Command {cmd_name} done!', status, resposnseMsg)
+            #cmd_name = cmd.cmd_data[opcode]['name']
+            #print(f'Response for command:{cmd_name}, {statue}, {responseMsg}')
+            #self._printResponse(f'Command {cmd_name} done!', status, resposnseMsg)
             # if status != 0:
                 # raise SystemExit()
             err = False
@@ -79,7 +82,7 @@ class HardwareManager():
             # print(f'msg={msg}')
             self.socket.send(msg)
         except Exception as e:
-            print('ERROR!!!!!!!!!!!!!')
+            print('Send Message ERROR!!!!!!!!!!!!!')
             print(f'e={e}')
             raise SystemExit
 
@@ -99,7 +102,7 @@ class HardwareManager():
                     break
             except Exception as e:
                 status = -1
-                print('ERROR!!!!!!!!!!!!!')
+                print('Receive Message ERROR!!!!!!!!!!!!!')
                 print(f'e={e}')
                 response = ""
                 break
@@ -109,6 +112,7 @@ class HardwareManager():
     def lock(self, uid):
         # status, response = self._perform_command(cmd.CMD_LOCK, param=uid)
         err, status, response = self._perform_command(fb.CMD_LOCK, param=uid)
+        #print(f'lock: uid={uid}, status={status}, error={err}')
         current_uid, lock_time = response
         # print(f'lock: status={status}, response={response}')
         if status==0:
