@@ -10,7 +10,7 @@ from pathlib import Path
 #import numpy as np
 MSG_LEN_SIZE    = 10
 OPCODE_SIZE     = 4
-PARAM_SIZE      = 4
+PARAM_SIZE      = 5
 STATUS_SIZE     = 4
 RCV_BYTES       = 512
 SOCKET_TIMEOUT  = 10 # seconds
@@ -67,6 +67,7 @@ class Comm_handler():
                 msg = self.clt.recv(RCV_BYTES)
             except:
                 rcv_status = RCV_ERR_NETWORK_ERR
+                print("error receiving message")
                 break
             if new_msg:
                 new_msg = False
