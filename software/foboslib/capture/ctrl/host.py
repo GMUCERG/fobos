@@ -5,7 +5,7 @@ import pwd
 from foboslib.capture.ctrl.hardware_mgr import HardwareManager
 from foboslib.capture.ctrl.pynqctrl import PYNQCtrl
 from foboslib.capture.dut.jtag_target import Jtag_target
-#from foboslib.capture.dut.cw305_target import Cw305_target
+from foboslib.capture.dut.cw305_target import Cw305_target
 from foboslib.capture.dut.digilent_target import Digilent_target
 
 CONFIG_FILE = "foboslib/capture/ctrl/config/host_config.json"

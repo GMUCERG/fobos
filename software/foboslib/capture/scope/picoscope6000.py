@@ -1,6 +1,6 @@
 #############################################################################
 #                                                                           #
-#   Copyright 2019-2023 CERG                                                #
+#   Copyright 2019-2025 CERG                                                #
 #                                                                           #
 #   Licensed under the Apache License, Version 2.0 (the "License");         #
 #   you may not use this file except in compliance with the License.        #
@@ -29,7 +29,7 @@ class Picoscope():
     def __init__(self, 
                  sampleResolution=8, 
                  preTriggerSamples=0,
-                 postTriggerSamples=1000):
+                 postTriggerSamples=1000, extclockFreq='OFF'):
         """
         Open oscilloscope
         """
@@ -62,9 +62,46 @@ class Picoscope():
         #    self.chandle,
         #    ctypes.byref(self.maxADC))
         #assert_pico_ok(self.status["maximumValue"])
+        #chandle = ctypes.c_int16()
+        self.maxADC.value = 32512
+        
+        if extclockFreq == 'OFF':
+            clkFrq = 0
+        elif extclockFreq == 5:
+            clkFrq = 1
+        elif extclockFreq == 10:
+            clkFrq = 2
+        elif extclockFreq == 20:
+            clkFrq = 3
+        elif extclockFreq == 25:
+            clkFrq = 4   
+            
+        #Freq = ps.PS6000_EXTERNAL_FREQUENCY[clkFrq]   
+        
+        self.status["ext_clk"] = ps.ps6000SetExternalClock(self.chandle, clkFrq, 1)
+        assert_pico_ok(self.status["ext_clk"])
+        
+    #def setExtClk(self, extclockFreq):  
+        #set external clk
+    #    if extclockFreq == 'OFF':
+    #        clkFrq = 0
+    #    elif extclockFreq == 5:
+    #        clkFrq = 1
+    #    elif extclockFreq == 10:
+    #        clkFrq = 2
+    #    elif extclockFreq == 20:
+    #        clkFrq = 3
+    #    elif extclockFreq == 25:
+    #        clkFrq = 4   
+            
+        #Freq = ps.PS6000_EXTERNAL_FREQUENCY[clkFrq]   
+        
+     #   self.status["ext_clk"] = ps.ps6000SetExternalClock(self.chandle, clkFrq, 1)
+     #   assert_pico_ok(self.status["ext_clk"])
+
 
     def setChannel(self, channelName='CHANNEL_A',
-                   coupling='DC_1M', rangemv='1V'):
+                   coupling='DC_1M', rangemv='5V', bandwidth='BW_FULL'):
         """
         Configure volatge range and coupling for a channel.
         parameters:
@@ -90,6 +127,12 @@ class Picoscope():
             raise Exception("Scope channel supported. Please select one of CHANNEL_A,  CHANNEL_B, CHANNEL_C, or CHANNEL_D")
 
         channel = ps.PS6000_CHANNEL[chan]
+      
+        
+        #string1 = ctypes.c_int8_t()
+        #print(channel)   #printing channel values
+        #print(ps.ps6000GetUnitInfo(self.chandle, string1, 10, 10, 4))
+        #print('scope.setTrigger: channel name not supported: use (CHANNEL_A, CHANNEL_B, CHANNEL_C, CHANNEL_D, or EXTERNAL)')
         # enabled = 1
         if coupling == 'AC':
             coup = "PS6000_AC"
@@ -99,6 +142,7 @@ class Picoscope():
             coup = "PS6000_DC_50R"
         else:
             raise Exception("Scope coupling supported. Please select one of AC, DC_1M, or DC_50R")
+            
         couplingType = ps.PS6000_COUPLING[coup]
         ##set range
         if rangemv == '50mV':
@@ -123,8 +167,21 @@ class Picoscope():
             raise Exception("Scope voltage range supported. Supported ranges:" +
                     "\t50mV, 100mV, 200mV, 500mV, 1V, 2V, 5V, 10V, 20V.")
 
-
         chRange = ps.PS6000_RANGE[srange]
+        
+        #set bandwidth limit
+        if bandwidth == 'BW_FULL':
+            s_bandwidth = 'PS6000_BW_FULL'
+        elif bandwidth == 'BW_20MHZ':
+            s_bandwidth = 'PS6000_BW_20MHZ'
+        elif bandwidth == 'BW_25MHZ':
+            s_bandwidth = 'PS6000_BW_25MHZ'
+        else:
+            raise Exception("Bandwidth range NOT supported.")
+            
+        BW = ps.PS6000_BANDWIDTH_LIMITER[s_bandwidth]
+        #print("bandwidth :", BW)
+        
         # analogue offset = 0 V
         # bandwidth limiter = PS6000_BW_FULL
         self.status[channelName] = ps.ps6000SetChannel(
@@ -132,8 +189,8 @@ class Picoscope():
                                     1, 
                                     couplingType, 
                                     chRange, 
-                                    0,
-                                    0)
+                                    0,BW) 
+        
         if channelName == 'CHANNEL_A':
             self.chARange = chRange
             self.chAEnabled = True
@@ -141,6 +198,7 @@ class Picoscope():
             self.chBRange = chRange
             self.chBEnabled = True
         if channelName == 'CHANNEL_C':
+            #self.chCRange = ps.PS6000_RANGE['PS6000_5V']
             self.chCRange = chRange
             self.chCEnabled = True
         else:
@@ -149,6 +207,8 @@ class Picoscope():
 
         self.setChannelDataBuffer(channelName)
         assert_pico_ok(self.status[channelName])
+        
+       
 
     def disableAllChannel(self):
 
@@ -199,10 +259,11 @@ class Picoscope():
             chRange = self.chBRange
         elif channelName == 'CHANNEL_C':
             chan = 'PS6000_CHANNEL_C'
-            chRange = self.chBRange
+            #chRange = ps.PS6000_RANGE['PS6000_5V']
+            chRange = self.chCRange
         elif channelName == 'CHANNEL_D':
             chan = 'PS6000_CHANNEL_D'
-            chRange = self.chBRange
+            chRange = self.chDRange
         elif channelName == 'EXTERNAL':
             chan = 'PS6000_TRIGGER_AUX'
             chRange = ps.PS6000_RANGE['PS6000_5V']
@@ -212,6 +273,13 @@ class Picoscope():
         source = ps.PS6000_CHANNEL[chan]
 
         threshold = int(mV2adc(thresholdmv, chRange, self.maxADC))
+        #print("threshold :",end="")
+        #print(threshold)
+        #print(self.maxADC.value)
+        #print(chRange)
+        print("ADC value ", end="")
+        print(threshold)
+        
         # direction = PS5000A_RISING = 2
         # delay = 0 s
         # auto Trigger = 1000 ms
@@ -228,8 +296,19 @@ class Picoscope():
                                                             0,  # delay
                                                             autoTriggerDelay # auto trigger ms
                                                             )
-        assert_pico_ok(self.status["trigger"])
-
+        #assert_pico_ok(self.status["trigger"])
+       
+        
+        #----------Added for testing (2023)---------------------------------------------------------------------------------
+        triggerEnable = ctypes.c_int16()
+        pulseWidthQualifierEnabled = ctypes.c_int16()
+        self.status["IsTriggerOrPulseWidthQualifierEnabled"] = ps.ps6000IsTriggerOrPulseWidthQualifierEnabled(self.chandle,
+                                                       ctypes.byref(triggerEnable), ctypes.byref(pulseWidthQualifierEnabled))
+        assert_pico_ok(self.status["IsTriggerOrPulseWidthQualifierEnabled"])
+        #print(triggerEnable.value)
+        #print(pulseWidthQualifierEnabled.value)
+    
+      
     def setSamplingInterval(self, samplingIntervalns):
         """
         Calculate timebase (n) to satisfy maxSampiling interval (minSamplingFreq)
@@ -240,7 +319,7 @@ class Picoscope():
         if samplingIntervalns < 6.4:
             self.timebase = int(math.log((samplingIntervalns *10),2)-1)
         elif samplingIntervalns>= 6.4 and samplingIntervalns < 5000000000:
-            self.timebase = int((samplingIntervalns *10) / 64 + 4)
+             self.timebase = int((samplingIntervalns *10) / 64 + 4)
 
         print('Calculated timebase = {}'.format(self.timebase))
 
@@ -256,7 +335,29 @@ class Picoscope():
             ctypes.byref(self.returnedMaxSamples), 0)
         print('Actual Sampling Interval ns: {}'.format(self.timeIntervalns))
         print('Max Samples: {}'.format(self.returnedMaxSamples))
+                             
         assert_pico_ok(self.status["getTimebase2"])
+        
+        #self.status = {}
+        # Open 6000 series PicoScope
+        # Returns handle to chandle for use in future API functions
+        #status["openunit"] = ps.ps6000OpenUnit(ctypes.byref(chandle), None)
+        #assert_pico_ok(status1["openunit"])
+
+        #----------Added for testing (2023)--------------------------------------------------------------------------------------------
+        # Get Info from scope
+        string1 = (ctypes.c_char * 40)()
+        stringLength = ctypes.c_int16(40)
+        requiredSize = ctypes.c_int16(40)
+        info = ps.PICO_INFO["PICO_VARIANT_INFO"]
+        self.status["getInfo"] = ps.ps6000GetUnitInfo(self.chandle, ctypes.byref(string1),stringLength, ctypes.byref(requiredSize), info)
+        assert_pico_ok(self.status["getInfo"])
+        print(self.status)
+
+        print("Model number ", end="")
+        print(string1.value)
+        
+        
 
     def setChannelDataBuffer(self, channelName):
         if channelName == 'CHANNEL_A':
@@ -386,6 +487,7 @@ def main():
     scope.arm()
     trace = scope.readTrace()
 
+    
     plt.plot(trace)
     plt.show()
     scope.closeConnection()
