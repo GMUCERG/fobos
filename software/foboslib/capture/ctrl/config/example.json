@@ -1,0 +1,44 @@
+{
+    "hostname" : "SCAWorksation",
+    "instances" : [
+        {
+            "name" : "FBDCy10",
+            "ip" : "192.168.10.83",
+            "max_time_for_one_trace" : "2",
+            "dut":{
+                "type" : "altera_jtag",
+                "jtag_position" : "1"
+            }
+
+        },
+        {
+            "name" : "cw305",
+            "ip" : "192.168.10.98",
+            "max_time_for_one_trace" : "2",
+            "dut":{
+                "type" : "cw305",
+                "usb_serial_number" : "50203120355448513230323231333035"
+            }
+        },        
+        {
+            "name" : "cw305pico",
+            "ip" : "192.168.10.84",
+            "max_time_for_one_trace" : "2",
+            "dut":{
+                "type" : "cw305",
+                "usb_serial_number" : "4420312043304a383330313238313036"
+            }
+        },
+        {
+            "name" : "FBDA7",
+            "ip" : "192.168.10.83",
+            "max_time_for_one_trace" : "2",
+            "dut":{
+                "type" : "xilinx_jtag",
+                "jtag_cable" : "xpc",
+                "jtag_position" : "0"
+            }
+
+        }
+    ]
+}

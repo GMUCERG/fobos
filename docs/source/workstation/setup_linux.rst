@@ -8,8 +8,8 @@ Below, we describe how to setup FOBOS 3.0 software and test that everything is w
 
 Requirements
 ------------
-#. A PC with Ubuntu 22.04 installed.
-#. FOBOS 3.0 ``fobos-v3.0.tgz`` file.
+#. A PC with Ubuntu 24.04 installed.
+#. FOBOS 3.1 ``fobos-v3.1.tgz`` file.
 #. You must have ``sudo`` rights.
 
 Setup Network Sharing (Optional)
@@ -31,7 +31,7 @@ Create the file ``etc/netplan/20-instruments.yaml`` with the following contents 
 
 Then apply these changes with ``sudo netplan apply``.
 
-Edit the file ``/etc/sysclt.conf`` and uncomment ``net.ipv4.ip_forward=1`` to allow forwarding of packets between interfaces. Now apply these changes with 
+Edit the file ``/etc/sysctl.conf`` and uncomment ``net.ipv4.ip_forward=1`` to allow forwarding of packets between interfaces. Now apply these changes with 
 
    .. code-block:: bash
    
@@ -71,6 +71,7 @@ Note: The following installation procedure was tested on Linux Ubuntu 22.04.
        sudo apt-get install python3-pip
        sudo apt install make 
 
+..
 #. Enter the fobos directory and install the few necessary Python packages:
 
    .. code-block:: bash
@@ -131,6 +132,18 @@ These installation instructions are based on
 
         c.Spawner.notebook_dir = '~/notebooks/'     
         c.Spawner.default_url = '/lab'              
+        c.Authenticator.admin_users = {'your_username'}
+        c.Authenticator.allow_all = True
+
+    You can use the following settings to enable SSL and set the port number under which 
+    this Jupyterlab installation should be reachable.
+
+    .. code-block:: python
+
+        c.JupyterHub.port = 8000
+        c.JupyterHub.ssl_cert = '/etc/apache2/ssl/mycert.cer'
+        c.JupyterHub.ssl_key = '/etc/apache2/ssl/mycert.key'
+
 
 **Configure Systemd to automatically start JupyterHub**
 
@@ -231,7 +244,7 @@ We will use ``conda`` to manage the Python environments.
     .. code-block:: bash
 
         sudo mkdir /opt/conda/envs/
-        sudo /opt/conda/bin/conda create --prefix /opt/conda/envs/python python=3.10 ipykernel
+        sudo /opt/conda/bin/conda create --prefix /opt/conda/envs/python python=3.12 ipykernel
         sudo /opt/conda/envs/python/bin/python -m ipykernel install --prefix=/opt/jupyterhub/ --name 'python' --display-name "Python (default)"
 
 FOBOS Software Installation
@@ -295,7 +308,7 @@ Install DUT Support
 
     .. code-block:: bash
 
-        sudo cp chipwhisperer/hardware/50-newae.rules /etc/udev/rules.d/
+        sudo cp chipwhisperer/50-newae.rules /etc/udev/rules.d/
         sudo udevadm control --reload-rules
         sudo usermod -aG dialout $USER
         sudo usermod -aG plugdev $USER
@@ -318,7 +331,7 @@ Install DUT Support
 
     .. code-block:: bash
 
-        sudo ln -s /opt/chipwhisperer/software/chipwhisperer/ /opt/jupyterhub/lib/python3.10/site-packages/
+        sudo ln -s /opt/chipwhisperer/software/chipwhisperer/ /opt/jupyterhub/lib/python3.12/site-packages/
     
     Install the additional software packages that ChipWhisperer needs
 

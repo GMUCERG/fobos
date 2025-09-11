@@ -7,6 +7,7 @@ from foboslib.capture.ctrl.pynqctrl import PYNQCtrl
 from foboslib.capture.dut.jtag_target import Jtag_target
 from foboslib.capture.dut.cw305_target import Cw305_target
 from foboslib.capture.dut.digilent_target import Digilent_target
+from foboslib.capture.dut.altera_target import Altera_target
 
 CONFIG_FILE = "foboslib/capture/ctrl/config/host_config.json"
 
@@ -178,6 +179,15 @@ class Host:
             print(f"dut_type : {dut_type}")
             print(f"usb_serial_number = {usb_serial_number}")
             dut = Cw305_target(usb_serial_number)
+
+        elif dut_type== 'altera_jtag':
+            if 'jtag_position' in dut_info:
+                jtag_position = dut_info['jtag_position']
+            else:
+                jtag_position = "0"
+            print(f"dut_type : {dut_type}")
+            print(f"jtag_position = {jtag_position}")
+            dut = Altera_target(jtag_position)
 
         elif dut_type== 'digilent':
             device_ID = dut_info['deviceID']

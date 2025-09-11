@@ -19,6 +19,7 @@ FOBOS supports the following boards as DUT:
    :maxdepth: 1
    
    fbd-a7
+   fdb-cy10
    nexys3
    cw305
 
