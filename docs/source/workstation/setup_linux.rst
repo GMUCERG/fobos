@@ -389,7 +389,22 @@ Clone the Pico SDK into this directory and install it.
     cd picosdk-python-wrappers
     sudo /opt/jupyterhub/bin/python3 -m pip install .
 
-
-
-
 Now the SCA Workstation should be ready.
+
+
+Updating JupyterLab
+-------------------
+
+After running FOBOS for a few weeks, you might get a message within the JupyterLab webpage 
+that updates are available for JupyterLab.
+
+IF you want to update JupyterLab to the most recent version, schedule a time when no user is 
+using it. Then issue the following commands. 
+
+.. code-block:: bash
+
+    sudo systemctl stop jupyterhub.service
+    sudo /opt/jupyterhub/bin/python3 -m pip install --upgrade jupyterlab
+    sudo systemctl start jupyterhub.service
+
+
